@@ -4,11 +4,11 @@ format: html
 editor: visual
 ---
 
-## Diapo 1 : Introduction au machine learning
+## PAGE DE GARDE : Introduction au machine learning
 
 Images : logo du CEFIL
 
-## Diapo 2 : c'est quoi le machine learning ?
+## Diapo 1 : c'est quoi le machine learning ?
 
 En Français, ça veut dire apprentissage automatique. Mettre le schéma avec le machine learning à l'intérieur de l'intelligence artificielle (et le deep learning à l'intérieur).
 
@@ -22,4 +22,16 @@ Avec l'intelligence artificielle, on donne à la machine une grande quantité de
 
 le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
 
-## Diapo 3 : les 3 types de ML
+## Diapo 3 : deux grands types de ML
+
+1.  l'apprentissage supervisé
+
+2.  l'apprentissage non supervisé
+
+L'apprentissage automatique supervisé a pour objectif de trouver le meilleur algorithme avec les meilleurs paramètres permettant de prédire une variable quantitative ou qualitative à partir de variables quantitatives ou qualitatives. La variable à prédire s'appelle "l'étiquette" ou la "target", et on la note Y.
+
+En apprentissage automatique non supervisé, il n'y a pas d'étiquettes (pas de Y à prédire), donc l'objectif est d'identifier les individus qui se ressemblent et faire des groupes.
+
+On ne verra dans ce TD que l'apprentissage supervisé.
+
+Diapo 4 :
