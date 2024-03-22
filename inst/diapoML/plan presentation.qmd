@@ -4,6 +4,11 @@ format: html
 editor: visual
 ---
 
+```{r}
+library(kableExtra)
+library(dplyr)
+```
+
 ## PAGE DE GARDE : Introduction au machine learning
 
 Images : logo du CEFIL
@@ -22,7 +27,7 @@ Avec l'intelligence artificielle, on donne à la machine une grande quantité de
 
 le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
 
-## Diapo 3 : deux grands types de ML
+## Diapo 2 : deux grands types de ML
 
 1.  l'apprentissage supervisé
 
@@ -34,4 +39,51 @@ En apprentissage automatique non supervisé, il n'y a pas d'étiquettes (pas de 
 
 On ne verra dans ce TD que l'apprentissage supervisé.
 
-Diapo 4 :
+## Diapo 3 : but de l'apprentissage supervisé
+
+Y = f(X1, X2, ......, Xn)
+
+Le but est de trouver la fonction f (ou l'algorithme) qui prédit le mieux Y à partir des variables X1 jusqu'à Xn.
+
+Attention : ici on parle bien de prédiction. La meilleure fonction sera celle qui sera capable de mieux prédire, c'est à dire d'être appliquée sur des données qu'elle n'a jamais vue.
+
+Dans la diapo suivante, on va voir la différence entre les estimations et les prédictions.
+
+## Diapo 4 : estimations VS prédictions
+
+Les estimations d'un modèle (par exemple la regression linéaire) sont les valeurs calculées (estimées) sur les individus ayant servis à construire le modèle.
+
+Par exemple, supposons que j'ai le prix et la surface de5 logements. Je peux estimer les deux paramètres de la droite de regression linéaire par MCO. A partir de ces paramètres, je produis des estimations.
+
+```{r}
+locations <- data.frame(prix = c(1000,800,600,1000,800),surface = c(50,30,25,60,35))
+row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
+reg <- lm(locations$prix ~ locations$surface)
+locations$prix_estime <- predict(reg)
+kbl(locations,format = "html",
+    caption = "Estimations des prix")
+```
+
+```{r}
+reg$coefficients
+```
+
+Les prévisions, c'est quand j'utilise le modèle que j'ai construit (avec les 5 logements) pour calculer le prix sur de nouvelles données (qui n'ont pas servi à construire le modèle).
+
+```{r}
+locations <- data.frame(surface = c(50,30,110))
+row.names(locations) <- c("logement6","logement7","logement8")
+
+
+
+locations <- locations %>% 
+  mutate(prevision = reg$coefficients[1] + reg$coefficients[2]*surface)
+kbl(locations,format = "html",caption="Prévisions")
+
+```
+
+## Diapo 5 : Complexité du modèle et estimations
+
+Plus un modèle est complexe, mieux il estime. On l'a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. On voit notamment que le R2 (coefficient de détermination) se rapproche de plus en plus de 1.
+
+On dit qu'il colle aux données,
