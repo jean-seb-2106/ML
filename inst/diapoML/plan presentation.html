@@ -160,7 +160,8 @@ Attaching package: 'dplyr'</code></pre>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(locations) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"logement1"</span>,<span class="st">"logement2"</span>,<span class="st">"logement3"</span>,<span class="st">"logement4"</span>,<span class="st">"logement5"</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(locations<span class="sc">$</span>prix <span class="sc">~</span> locations<span class="sc">$</span>surface)</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>locations<span class="sc">$</span>prix_estime <span class="ot">&lt;-</span> <span class="fu">predict</span>(reg)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(locations,<span class="at">format =</span> <span class="st">"html"</span>,<span class="at">caption =</span> <span class="st">"Estimations des prix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">kbl</span>(locations,<span class="at">format =</span> <span class="st">"html"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Estimations des prix"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <table data-quarto-postprocess="true" class="table table-sm table-striped small">
@@ -218,7 +219,7 @@ Attaching package: 'dplyr'</code></pre>
         416.47059          10.58824 </code></pre>
 </div>
 </div>
-<p>J’utilise le modèle que j’ai construit (avec les 5 logements) pour prévoir sur de nouvelles données (qui n’ont pas servi à construire le modèle).</p>
+<p>Les prévisions, c’est quand j’utilise le modèle que j’ai construit (avec les 5 logements) pour calculer le prix sur de nouvelles données (qui n’ont pas servi à construire le modèle).</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>locations <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">surface =</span> <span class="fu">c</span>(<span class="dv">50</span>,<span class="dv">30</span>,<span class="dv">110</span>))</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">row.names</span>(locations) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"logement6"</span>,<span class="st">"logement7"</span>,<span class="st">"logement8"</span>)</span>
@@ -262,6 +263,11 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 </div>
 </div>
+</section>
+<section id="diapo-5-complexité-du-modèle-et-estimations" class="level2">
+<h2 class="anchored" data-anchor-id="diapo-5-complexité-du-modèle-et-estimations">Diapo 5 : Complexité du modèle et estimations</h2>
+<p>Plus un modèle est complexe, mieux il estime. On l’a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. On voit notamment que le R2 (coefficient de détermination) se rapproche de plus en plus de 1.</p>
+<p>On dit qu’il colle aux données,</p>
 </section>
 
 </main>
