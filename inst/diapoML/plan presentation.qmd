@@ -1,7 +1,12 @@
 ---
 title: "Introduction au machine Learning"
-format: html
+format: 
+  html:
+    code-fold: true
+    df-print: paged
 editor: visual
+bibliography: biblioML.bib
+biblio-style: plainnat
 ---
 
 ```{r}
@@ -15,52 +20,63 @@ Images : logo du CEFIL
 
 ## Diapo 1 : c'est quoi le machine learning ?
 
-En Français, ça veut dire apprentissage automatique. Mettre le schéma avec le machine learning à l'intérieur de l'intelligence artificielle (et le deep learning à l'intérieur).
+En Français, ça veut dire apprentissage automatique.
 
 ![](IA_ML.png)
 
-l'intelligence artificielle définie par Yann le Cun : l'intelligence artificielle est la capacité pour une machine d'assurer des taches généralement assurée par les animaux ou les humains : percevoir, raisonner, agit.
+L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des taches généralement assurée par les animaux ou les humains : percevoir, raisonner, agit.*
 
 Il y a "la bonne vieille intelligence artificielle" en français, celle pour laquelle un expert explicite toutes les règles qui sont ensuite traduites en langue informatique. Il faut l'expert à côté de l'informaticien qui code, pour lui donner toutes les règles.
 
 Avec l'intelligence artificielle, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
 
-le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
+Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
 
-## Diapo 2 : deux grands types de ML
+## Diapo 2 : apprentissage supervisé vs non supervisé
 
-1.  l'apprentissage supervisé
+Trois principales manières pour la machine d'apprendre, avec ou sans étiquette dans les données qu'on lui fournit :
 
-2.  l'apprentissage non supervisé
+1.  l'apprentissage supervisé (avec étiquette)
 
-L'apprentissage automatique supervisé a pour objectif de trouver le meilleur algorithme avec les meilleurs paramètres permettant de prédire une variable quantitative ou qualitative à partir de variables quantitatives ou qualitatives. La variable à prédire s'appelle "l'étiquette" ou la "target", et on la note Y.
+2.  l'apprentissage non supervisé (sans étiquette)
 
-En apprentissage automatique non supervisé, il n'y a pas d'étiquettes (pas de Y à prédire), donc l'objectif est d'identifier les individus qui se ressemblent et faire des groupes.
+3.  l'apprentissage par essai/erreur
+
+En apprentissage automatique supervisé, on cherche donc à trouver le meilleur algorithme avec les meilleurs paramètres permettant de prédire une variable **quantitative** ou **qualitative** à partir de variables quantitatives ou qualitatives. La variable à prédire s'appelle la variable cible. On parle encore d'étiquette ou de target, et on la note Y. Les variables explicatives sont parfois appelées les **features**.
+
+En apprentissage automatique non supervisé, il n'y a pas d'étiquettes (pas de Y à prédire), donc l'objectif est d'identifier les individus qui se ressemblent le plus et faire des groupes les plus homogènes possibles.
 
 On ne verra dans ce TD que l'apprentissage supervisé.
 
-## Diapo 3 : but de l'apprentissage supervisé
+## Diapo 3 : apprentissage supervisé
 
-Y = f(X1, X2, ......, Xn)
+$$
+Y = f(X_1, X_2, ...,X_n)
+$$
 
-Le but est de trouver la fonction f (ou l'algorithme) qui prédit le mieux Y à partir des variables X1 jusqu'à Xn.
+Le but est de trouver la fonction f (ou l'algorithme) qui va le mieux **prédire** Y à partir des variables $X_1$ jusqu'à $X_n$
 
-Attention : ici on parle bien de prédiction. La meilleure fonction sera celle qui sera capable de mieux prédire, c'est à dire d'être appliquée sur des données qu'elle n'a jamais vue.
+Attention : ici on parle bien de **prédiction**. La meilleure fonction sera celle qui sera capable de mieux prédire, c'est à dire d'être appliquée sur des données qu'elle n'a jamais vue.
 
 Dans la diapo suivante, on va voir la différence entre les estimations et les prédictions.
 
 ## Diapo 4 : estimations VS prédictions
 
-Les estimations d'un modèle (par exemple la regression linéaire) sont les valeurs calculées (estimées) sur les individus ayant servis à construire le modèle.
+Les estimations d'un modèle (par exemple la regression linéaire) sont les valeurs de Y calculées (estimées) à partir des X sur les individus ayant servis à construire le modèle.
 
-Par exemple, supposons que j'ai le prix et la surface de5 logements. Je peux estimer les deux paramètres de la droite de regression linéaire par MCO. A partir de ces paramètres, je produis des estimations.
+Par exemple, supposons que j'ai le prix (Y) et la surface (X1) de 5 logements. Je peux estimer les deux paramètres de la droite de regression linéaire par MCO, celle qui passe au plus près des points. A partir de ces paramètres, je produis des estimations.
+
+$$
+Y = 416,5 + 10,6 X
+$$
 
 ```{r}
 locations <- data.frame(prix = c(1000,800,600,1000,800),surface = c(50,30,25,60,35))
 row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
 reg <- lm(locations$prix ~ locations$surface)
 locations$prix_estime <- predict(reg)
-kbl(locations,format = "html",
+kbl(locations,
+    format = "html",
     caption = "Estimations des prix")
 ```
 
@@ -70,8 +86,23 @@ reg$coefficients
 
 Les prévisions, c'est quand j'utilise le modèle que j'ai construit (avec les 5 logements) pour calculer le prix sur de nouvelles données (qui n'ont pas servi à construire le modèle).
 
+::: panel-tabset
+## Estimations
+
 ```{r}
-locations <- data.frame(surface = c(50,30,110))
+locations <- data.frame(prix = c(1000,800,600,1000,800),surface = c(50,30,25,60,35))
+row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
+reg <- lm(locations$prix ~ locations$surface)
+locations$prix_estime <- predict(reg)
+kbl(locations,
+    format = "html",
+    caption = "Estimations des prix")
+```
+
+## Prévisions
+
+```{r}
+locations <- data.frame(surface = c(45,30,110))
 row.names(locations) <- c("logement6","logement7","logement8")
 
 
@@ -81,9 +112,10 @@ locations <- locations %>%
 kbl(locations,format = "html",caption="Prévisions")
 
 ```
+:::
 
 ## Diapo 5 : Complexité du modèle et estimations
 
 Plus un modèle est complexe, mieux il estime. On l'a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. On voit notamment que le R2 (coefficient de détermination) se rapproche de plus en plus de 1.
 
-On dit qu'il colle aux données,
+On dit qu'il colle de plus en plus aux données.
