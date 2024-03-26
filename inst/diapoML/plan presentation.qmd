@@ -16,7 +16,7 @@ library(dplyr)
 
 ## PAGE DE GARDE : Introduction au machine learning
 
-Images : logo du CEFIL
+![](logo_cefil_new.jpg){fig-align="left"}
 
 ## Diapo 1 : c'est quoi le machine learning ?
 
@@ -116,6 +116,26 @@ kbl(locations,format = "html",caption="Prévisions")
 
 ## Diapo 5 : Complexité du modèle et estimations
 
-Plus un modèle est complexe, mieux il estime. On l'a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. On voit notamment que le R2 (coefficient de détermination) se rapproche de plus en plus de 1.
+Plus un modèle est complexe, mieux il estime. On l'a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. Le R2 (coefficient de détermination) se rapproche de plus en plus de 1. On dit qu'il colle de plus en plus aux données. Mais si le modèle est trop simple, il ne prédit pas correctement : on dit qu'il sous-apprend.
 
-On dit qu'il colle de plus en plus aux données.
+On verra plus loin avec l'arbre de regression (ou de classification) : plus l'arbre est profond, plus le modèle est complexe.
+
+::: panel-tabset
+## Modèle en sous-Apprentissage
+
+![](sous_apprentissage.png)
+
+## Modèle en sur-apprentissage
+
+![](sur-apprentissage.png)
+
+## Bon modèle
+
+![](apprentissage_adapté.png)
+:::
+
+Cet exemple est tiré d'une formation OpenClassrooms [@classrooms1].
+
+## Diapo 6 : compromis biais-variance
+
+![](biais_variance.png)
