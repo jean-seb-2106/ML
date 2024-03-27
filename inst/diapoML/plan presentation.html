@@ -409,11 +409,16 @@ Y = 416,5 + 10,6 X
 </div>
 </div>
 </section>
+<section id="diapo-5-comment-le-modèle-apprend" class="level2">
+<h2 class="anchored" data-anchor-id="diapo-5-comment-le-modèle-apprend">Diapo 5 : Comment le modèle apprend ?</h2>
+<p>Dans tous les cas, peu importe le modèle, le but d’un algorithme de machine learning est de minimiser l’erreur d’estimation sur un jeu de données d’entraînement. Il s’agit d’un algorithme d’optimisation qui va minimiser une fonction de coût. Cette fonction de coût peut-être la moyenne quadratique (MSE).</p>
+</section>
 <section id="diapo-5-complexité-du-modèle-et-estimations" class="level2">
 <h2 class="anchored" data-anchor-id="diapo-5-complexité-du-modèle-et-estimations">Diapo 5 : Complexité du modèle et estimations</h2>
 <p>Plus un modèle est complexe, mieux il estime. On l’a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. Le R2 (coefficient de détermination) se rapproche de plus en plus de 1. On dit qu’il colle de plus en plus aux données. Mais si le modèle est trop simple, il ne prédit pas correctement : on dit qu’il sous-apprend.</p>
+<p>On verra plus loin avec l’arbre de regression (ou de classification) : plus l’arbre est profond, plus le modèle est complexe.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Sous-Apprentissage</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Sur-apprentissage</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Apprentissage équilibré</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-2-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-1" role="tab" aria-controls="tabset-2-1" aria-selected="true" href="">Modèle en sous-Apprentissage</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-2" role="tab" aria-controls="tabset-2-2" aria-selected="false" href="">Modèle en sur-apprentissage</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-2-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-2-3" role="tab" aria-controls="tabset-2-3" aria-selected="false" href="">Bon modèle</a></li></ul>
 <div class="tab-content">
 <div id="tabset-2-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-2-1-tab">
 <p><img src="sous_apprentissage.png" class="img-fluid"></p>
@@ -427,6 +432,10 @@ Y = 416,5 + 10,6 X
 </div>
 </div>
 <p>Cet exemple est tiré d’une formation OpenClassrooms <span class="citation" data-cites="classrooms1">(<a href="#ref-classrooms1" role="doc-biblioref">Azencott 2024</a>)</span>.</p>
+</section>
+<section id="diapo-6-compromis-biais-variance" class="level2">
+<h2 class="anchored" data-anchor-id="diapo-6-compromis-biais-variance">Diapo 6 : compromis biais-variance</h2>
+<p><img src="biais_variance.png" class="img-fluid"></p>
 
 </section>
 

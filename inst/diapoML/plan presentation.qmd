@@ -40,13 +40,13 @@ Trois principales manières pour la machine d'apprendre, avec ou sans étiquette
 
 2.  l'apprentissage non supervisé (sans étiquette)
 
-3.  l'apprentissage par essai/erreur
-
 En apprentissage automatique supervisé, on cherche donc à trouver le meilleur algorithme avec les meilleurs paramètres permettant de prédire une variable **quantitative** ou **qualitative** à partir de variables quantitatives ou qualitatives. La variable à prédire s'appelle la variable cible. On parle encore d'étiquette ou de target, et on la note Y. Les variables explicatives sont parfois appelées les **features**.
 
 En apprentissage automatique non supervisé, il n'y a pas d'étiquettes (pas de Y à prédire), donc l'objectif est d'identifier les individus qui se ressemblent le plus et faire des groupes les plus homogènes possibles.
 
 On ne verra dans ce TD que l'apprentissage supervisé.
+
+il existe aussi une apprentissage par essai/erreur (utilisé pour jouer à des jeux contre des être humains par exemple), mais pas au programme ici.
 
 ## Diapo 3 : apprentissage supervisé
 
@@ -114,7 +114,13 @@ kbl(locations,format = "html",caption="Prévisions")
 ```
 :::
 
-## Diapo 5 : Complexité du modèle et estimations
+## Diapo 5 : Comment le modèle apprend ?
+
+Dans tous les cas, peu importe le modèle, le but d'un algorithme de machine learning est de minimiser l'erreur d'estimation sur un jeu de données d'entraînement. L'algorithme doit minimiser une fonction de coût, qui peut-être la moyenne quadratique (MSE) dans le cadre d'une regression.
+
+C'est un alogorithme qui procède par itération successive, un peu comme l'algorithme de Héron utilisé pour estimer la racine carrée de 2. J'initialise une valeur (à 1 par exemple), et je minimise la fonction de coût qui est la valeur incrémentée au carré moins 2.
+
+## Diapo 6 : Complexité du modèle et estimations
 
 Plus un modèle est complexe, mieux il estime. On l'a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. Le R2 (coefficient de détermination) se rapproche de plus en plus de 1. On dit qu'il colle de plus en plus aux données. Mais si le modèle est trop simple, il ne prédit pas correctement : on dit qu'il sous-apprend.
 
@@ -136,6 +142,6 @@ On verra plus loin avec l'arbre de regression (ou de classification) : plus l'ar
 
 Cet exemple est tiré d'une formation OpenClassrooms [@classrooms1].
 
-## Diapo 6 : compromis biais-variance
+## Diapo 7 : compromis biais-variance
 
 ![](biais_variance.png)
