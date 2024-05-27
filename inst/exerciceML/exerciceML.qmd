@@ -6,9 +6,15 @@ editor: visual
 
 ## Classification supervisée
 
-### Question 1 : 
+Dans l'onglet "données"
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+### Combien d'individus dans la base de donnéees vins ? 
+
+### Quelle est la variable à prédire ? De quel type est-elle ?
+
+### Les modalités de la variable à prédire sont-elles équitablement réparties ?
+
+### Combien y a t il de variables prédictives ? De quel type sont-elles ?
 
 ## Regression supervisée
 
