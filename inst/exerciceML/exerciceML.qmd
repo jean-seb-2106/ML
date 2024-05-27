@@ -6,15 +6,23 @@ editor: visual
 
 ## Classification supervisée
 
-Dans l'onglet "données"
+*Dans l'onglet "données"*
 
-### Combien d'individus dans la base de donnéees vins ? 
+### Combien d'individus dans la base de donnéees brute vins ? 
 
 ### Quelle est la variable à prédire ? De quel type est-elle ?
 
 ### Les modalités de la variable à prédire sont-elles équitablement réparties ?
 
 ### Combien y a t il de variables prédictives ? De quel type sont-elles ?
+
+### Y a t il des données manquantes ?
+
+*Dans l'onglet "préparation"*
+
+### Pourquoi faut-il partitionner la base de données brute en 3 ? A quoi sert chacun des bases ?
+
+Conserver 70 % de la base brute pour l'entraînement.
 
 ## Regression supervisée
 
