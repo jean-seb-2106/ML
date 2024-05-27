@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.551">
+<meta name="generator" content="quarto-1.4.554">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -198,11 +198,11 @@ Attaching package: 'dplyr'</code></pre>
 <ol type="1">
 <li><p>l’apprentissage supervisé (avec étiquette)</p></li>
 <li><p>l’apprentissage non supervisé (sans étiquette)</p></li>
-<li><p>l’apprentissage par essai/erreur</p></li>
 </ol>
 <p>En apprentissage automatique supervisé, on cherche donc à trouver le meilleur algorithme avec les meilleurs paramètres permettant de prédire une variable <strong>quantitative</strong> ou <strong>qualitative</strong> à partir de variables quantitatives ou qualitatives. La variable à prédire s’appelle la variable cible. On parle encore d’étiquette ou de target, et on la note Y. Les variables explicatives sont parfois appelées les <strong>features</strong>.</p>
 <p>En apprentissage automatique non supervisé, il n’y a pas d’étiquettes (pas de Y à prédire), donc l’objectif est d’identifier les individus qui se ressemblent le plus et faire des groupes les plus homogènes possibles.</p>
 <p>On ne verra dans ce TD que l’apprentissage supervisé.</p>
+<p>il existe aussi une apprentissage par essai/erreur (utilisé pour jouer à des jeux contre des être humains par exemple), mais pas au programme ici.</p>
 </section>
 <section id="diapo-3-apprentissage-supervisé" class="level2">
 <h2 class="anchored" data-anchor-id="diapo-3-apprentissage-supervisé">Diapo 3 : apprentissage supervisé</h2>
@@ -411,10 +411,11 @@ Y = 416,5 + 10,6 X
 </section>
 <section id="diapo-5-comment-le-modèle-apprend" class="level2">
 <h2 class="anchored" data-anchor-id="diapo-5-comment-le-modèle-apprend">Diapo 5 : Comment le modèle apprend ?</h2>
-<p>Dans tous les cas, peu importe le modèle, le but d’un algorithme de machine learning est de minimiser l’erreur d’estimation sur un jeu de données d’entraînement. Il s’agit d’un algorithme d’optimisation qui va minimiser une fonction de coût. Cette fonction de coût peut-être la moyenne quadratique (MSE).</p>
+<p>Dans tous les cas, peu importe le modèle, le but d’un algorithme de machine learning est de minimiser l’erreur d’estimation sur un jeu de données d’entraînement. L’algorithme doit minimiser une fonction de coût, qui peut-être la moyenne quadratique (MSE) dans le cadre d’une regression.</p>
+<p>C’est un alogorithme qui procède par itération successive, un peu comme l’algorithme de Héron utilisé pour estimer la racine carrée de 2. J’initialise une valeur (à 1 par exemple), et je minimise la fonction de coût qui est la valeur incrémentée au carré moins 2.</p>
 </section>
-<section id="diapo-5-complexité-du-modèle-et-estimations" class="level2">
-<h2 class="anchored" data-anchor-id="diapo-5-complexité-du-modèle-et-estimations">Diapo 5 : Complexité du modèle et estimations</h2>
+<section id="diapo-6-complexité-du-modèle-et-estimations" class="level2">
+<h2 class="anchored" data-anchor-id="diapo-6-complexité-du-modèle-et-estimations">Diapo 6 : Complexité du modèle et estimations</h2>
 <p>Plus un modèle est complexe, mieux il estime. On l’a vu avec la regression linéaire : plus on rajoute de variables, mieux il estime. Le R2 (coefficient de détermination) se rapproche de plus en plus de 1. On dit qu’il colle de plus en plus aux données. Mais si le modèle est trop simple, il ne prédit pas correctement : on dit qu’il sous-apprend.</p>
 <p>On verra plus loin avec l’arbre de regression (ou de classification) : plus l’arbre est profond, plus le modèle est complexe.</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
@@ -433,8 +434,8 @@ Y = 416,5 + 10,6 X
 </div>
 <p>Cet exemple est tiré d’une formation OpenClassrooms <span class="citation" data-cites="classrooms1">(<a href="#ref-classrooms1" role="doc-biblioref">Azencott 2024</a>)</span>.</p>
 </section>
-<section id="diapo-6-compromis-biais-variance" class="level2">
-<h2 class="anchored" data-anchor-id="diapo-6-compromis-biais-variance">Diapo 6 : compromis biais-variance</h2>
+<section id="diapo-7-compromis-biais-variance" class="level2">
+<h2 class="anchored" data-anchor-id="diapo-7-compromis-biais-variance">Diapo 7 : compromis biais-variance</h2>
 <p><img src="biais_variance.png" class="img-fluid"></p>
 
 </section>
