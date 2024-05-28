@@ -10,13 +10,23 @@ editor: visual
 
 ### Combien d'individus dans la base de donnéees brute vins ?
 
+La base de données brute "vins" est constituées de 4898 individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.
+
 ### Quelle est la variable à prédire ? De quel type est-elle ?
+
+La variable à prédire est dichotomique (ou booléenne) : il s'agit de la variable "target", qui prend la valeur bon si le vin est bon et mauvais si le vin est mauvais.
 
 ### Les modalités de la variable à prédire ont-elles le même poids ?
 
+Non : parmi les 4898 références goûtés par des professionnels, 3 258 sont bons (66,5%) et 1 640 sont mauvais (33,5 %).
+
 ### Combien y a t il de variables prédictives ? De quel type sont-elles ?
 
+Il y a 11 variables quantitatives qui sont les compositions chimique du vin.
+
 ### Y a-t-il des données manquantes ?
+
+Aucune donnée manquante dans ce jeu de données : c'est très rare d'avoir une base de donnée brute aussi propre !
 
 *Etape 2 : Dans l'onglet "préparation" : conserver 70 % de la base brute pour l'entraînement.*
 
@@ -36,13 +46,13 @@ editor: visual
 
 ### Pourquoi parle-t-on ici d'estimation et pas de prédiction ?
 
-### A partir de quel seuil de probabilité défini par défaut, un vin est estimé comme bon ou mauvais ? 
+### A partir de quel seuil de probabilité défini par défaut, un vin est estimé comme bon ou mauvais ?
 
 ### Quel indicateur nous donne des informations sur la qualité du modèle ?
 
 *Etape 5 : Dans l'onglet "Validation", évaluer la performance du modèle retenu précédemment (modèle 1 : regression logistique sur la base centrée réduite).*
 
-### Combien d'individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ? 
+### Combien d'individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ?
 
 ### Pourquoi parle-t-on ici de prédictions et pas d'estimations ?
 
@@ -72,8 +82,25 @@ Sensibilité : 80 %
 
 Spécificité : 67 %
 
-Si vous privilégiez l'exactitude, quel modèle faut-il choisir ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?
+### Si vous privilégiez l'exactitude, quel modèle faut-il choisir ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?
 
-Etape 8 : Ajuster successivement les deux autres modèles (Forêt aléatoire et le KNN) sur la base d'entraînement et évaluer les performances du modèle.
+*Etape 8 : Ajuster la forêt aléatoire sur la base d'entraînement (dans l'onglet validation) et evaluer la performance du modèle.*
 
-## Regression supervisée
+### Combien d'arbres ont été construits par défaut par l'algorithme ? 
+
+De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?
+
+Les
+
+### Remplir le tableau avec les différents modèles :
+
+| Modèle retenu                        | Exactitude | Sensibilité | Spécificité |
+|------------------------------|--------------|--------------|--------------|
+| *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        |
+| *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        |
+| *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        |
+| *Modèle 4 : KNN*                     | 78 %       | 86 %        | 63 %        |
+
+: Performances des modèles
+
+## Partie 2 : Regression supervisée

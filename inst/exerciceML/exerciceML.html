@@ -62,23 +62,28 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="classification-supervisée" class="level2">
-<h2 class="anchored" data-anchor-id="classification-supervisée">Classification supervisée</h2>
+<section id="partie-1-classification-supervisée" class="level2">
+<h2 class="anchored" data-anchor-id="partie-1-classification-supervisée">Partie 1 : Classification supervisée</h2>
 <p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données sur les vins.</em></p>
 <section id="combien-dindividus-dans-la-base-de-donnéees-brute-vins" class="level3">
 <h3 class="anchored" data-anchor-id="combien-dindividus-dans-la-base-de-donnéees-brute-vins">Combien d’individus dans la base de donnéees brute vins ?</h3>
+<p>La base de données brute “vins” est constituées de 4898 individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.</p>
 </section>
 <section id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle" class="level3">
 <h3 class="anchored" data-anchor-id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle">Quelle est la variable à prédire ? De quel type est-elle ?</h3>
+<p>La variable à prédire est dichotomique (ou booléenne) : il s’agit de la variable “target”, qui prend la valeur bon si le vin est bon et mauvais si le vin est mauvais.</p>
 </section>
 <section id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids" class="level3">
 <h3 class="anchored" data-anchor-id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids">Les modalités de la variable à prédire ont-elles le même poids ?</h3>
+<p>Non : parmi les 4898 références goûtés par des professionnels, 3 258 sont bons (66,5%) et 1 640 sont mauvais (33,5 %).</p>
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles" class="level3">
 <h3 class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles">Combien y a t il de variables prédictives ? De quel type sont-elles ?</h3>
+<p>Il y a 11 variables quantitatives qui sont les compositions chimique du vin.</p>
 </section>
 <section id="y-a-t-il-des-données-manquantes" class="level3">
 <h3 class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes">Y a-t-il des données manquantes ?</h3>
+<p>Aucune donnée manquante dans ce jeu de données : c’est très rare d’avoir une base de donnée brute aussi propre !</p>
 <p><em>Etape 2 : Dans l’onglet “préparation” : conserver 70 % de la base brute pour l’entraînement.</em></p>
 </section>
 <section id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" class="level3">
@@ -116,9 +121,9 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="a-partir-de-la-table-de-confusion-retrouver-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité.-noter-ces-valeurs-pour-le-premier-modèle." class="level3">
 <h3 class="anchored" data-anchor-id="a-partir-de-la-table-de-confusion-retrouver-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité.-noter-ces-valeurs-pour-le-premier-modèle.">A partir de la table de confusion, retrouver les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité. Noter ces valeurs pour le premier modèle.</h3>
-<p>Exactitude : 76 %</p>
-<p>Sensibilité : 80 %</p>
-<p>Spécificité : 67 %</p>
+<p>Exactitude : 77 %</p>
+<p>Sensibilité : 90 %</p>
+<p>Spécificité : 52 %</p>
 <p><em>Etape 6 : Revenir sur l’onglet “modèle” : choisir l’arbre et ajuster votre modèle sur les données d’entraînement (modèle 2 sur la base centrée réduite).</em></p>
 </section>
 <section id="combien-de-variables-prédictives-sont-utilisées-par-larbre-de-regression-pour-faire-des-estimations-sur-la-base-dentraînement" class="level3">
@@ -130,14 +135,64 @@ ul.task-list li input[type="checkbox"] {
 <p><em>Etape 7 : Dans l’onglet “Validation”, évaluer les performances du modèle 2 sur la base centrée réduite.</em></p>
 </section>
 <section id="pour-ce-deuxième-modèle-quelles-sont-les-valeurs-des-3-indicateurs-suivants-exactitude-sensibilité-et-spécificité" class="level3">
-<h3 class="anchored" data-anchor-id="pour-ce-deuxième-modèle-quelles-sont-les-valeurs-des-3-indicateurs-suivants-exactitude-sensibilité-et-spécificité">Pour ce deuxième modèle, quelles sont les valeurs des 3 indicateurs suivants : exactitude, sensibilité et spécificité ?</h3>
+<h3 class="anchored" data-anchor-id="pour-ce-deuxième-modèle-quelles-sont-les-valeurs-des-3-indicateurs-suivants-exactitude-sensibilité-et-spécificité">Pour ce deuxième modèle, quelles sont les valeurs des 3&nbsp;indicateurs suivants : exactitude, sensibilité et spécificité ?</h3>
 <p>Exactitude : 76 %</p>
 <p>Sensibilité : 80 %</p>
 <p>Spécificité : 67 %</p>
 </section>
+<section id="si-vous-privilégiez-lexactitude-quel-modèle-faut-il-choisir-si-vous-privilégiez-la-spécificité-quel-modèle-faut-il-choisir" class="level3">
+<h3 class="anchored" data-anchor-id="si-vous-privilégiez-lexactitude-quel-modèle-faut-il-choisir-si-vous-privilégiez-la-spécificité-quel-modèle-faut-il-choisir">Si vous privilégiez l’exactitude, quel modèle faut-il choisir ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?</h3>
+<p><em>Etape 8 : Ajuster successivement les deux autres modèles (Forêt aléatoire et le KNN) sur la base d’entraînement et évaluer les performances du modèle.</em></p>
 </section>
-<section id="regression-supervisée" class="level2">
-<h2 class="anchored" data-anchor-id="regression-supervisée">Regression supervisée</h2>
+<section id="remplir-le-tableau-avec-les-différents-modèles" class="level3">
+<h3 class="anchored" data-anchor-id="remplir-le-tableau-avec-les-différents-modèles">Remplir le tableau avec les différents modèles :</h3>
+<table class="table">
+<caption>Performances des modèles</caption>
+<colgroup>
+<col style="width: 41%">
+<col style="width: 19%">
+<col style="width: 19%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modèle retenu</th>
+<th>Exactitude</th>
+<th>Sensibilité</th>
+<th>Spécificité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Modèle 1 : Regression logistique</em></td>
+<td>77 %</td>
+<td>90 %</td>
+<td>52 %</td>
+</tr>
+<tr class="even">
+<td><em>Modèle 2 : arbre de classification</em></td>
+<td>76 %</td>
+<td>80 %</td>
+<td>67 %</td>
+</tr>
+<tr class="odd">
+<td><em>Modèle 3 : forêt aléatoire</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>Modèle 4 : KNN</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="partie-2-regression-supervisée" class="level2">
+<h2 class="anchored" data-anchor-id="partie-2-regression-supervisée">Partie 2 : Regression supervisée</h2>
 </section>
 
 </main>
