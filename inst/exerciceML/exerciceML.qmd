@@ -6,23 +6,37 @@ editor: visual
 
 ## Classification supervisée
 
-*Dans l'onglet "données"*
+*Etape 1 : Dans l'onglet "données" : cliquer pour explorer la base de données sur les vins.*
 
-### Combien d'individus dans la base de donnéees brute vins ? 
+### Combien d'individus dans la base de donnéees brute vins ?
 
 ### Quelle est la variable à prédire ? De quel type est-elle ?
 
-### Les modalités de la variable à prédire sont-elles équitablement réparties ?
+### Les modalités de la variable à prédire ont-elles le même poids ?
 
 ### Combien y a t il de variables prédictives ? De quel type sont-elles ?
 
-### Y a t il des données manquantes ?
+### Y a-t-il des données manquantes ?
 
-*Dans l'onglet "préparation"*
+*Etape 2 : Dans l'onglet "préparation" : conserver 70 % de la base brute pour l'entraînement.*
 
-### Pourquoi faut-il partitionner la base de données brute en 3 ? A quoi sert chacun des bases ?
+### A quoi vont servir les bases d'entraînement et de validation ?
 
-Conserver 70 % de la base brute pour l'entraînement.
+### Quelle différence entre la base de validation et la base de test ?
+
+### Quel est le poids de chacune des modalités de la variable à prédire ? Comparer avec la répartition dans la base brute.
+
+### Les variables prédictives ont-elles les mêmes ordre de grandeur ?
+
+*Etape 3 : Dans l'onglet "préparation", appliquer la recette suivante sur la base d'entraînement : "centrer-réduire les quantitatives" (en anglais : step_normalize).*
+
+### Quelle loi suivent les variables quantitatives de la base d'entraînement transformée ?
+
+Etape 4 : Dans l'onglet "modèle", choisir la régression logistique et ajuster le modèle sur la base d'entraînement.
+
+Pourquoi s'agit-il d'estimations et pas de prédiction ?
+
+Le premier individu de la base d'entraînement est estimé comme étant "mauvais". Pourquoi
 
 ## Regression supervisée
 

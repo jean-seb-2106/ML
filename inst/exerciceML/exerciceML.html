@@ -98,25 +98,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="classification-supervisée" class="level2">
 <h2 class="anchored" data-anchor-id="classification-supervisée">Classification supervisée</h2>
-<p><em>Dans l’onglet “données”</em></p>
+<p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données sur les vins.</em></p>
 <section id="combien-dindividus-dans-la-base-de-donnéees-brute-vins" class="level3">
 <h3 class="anchored" data-anchor-id="combien-dindividus-dans-la-base-de-donnéees-brute-vins">Combien d’individus dans la base de donnéees brute vins ?</h3>
 </section>
 <section id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle" class="level3">
 <h3 class="anchored" data-anchor-id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle">Quelle est la variable à prédire ? De quel type est-elle ?</h3>
 </section>
-<section id="les-modalités-de-la-variable-à-prédire-sont-elles-équitablement-réparties" class="level3">
-<h3 class="anchored" data-anchor-id="les-modalités-de-la-variable-à-prédire-sont-elles-équitablement-réparties">Les modalités de la variable à prédire sont-elles équitablement réparties ?</h3>
+<section id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids" class="level3">
+<h3 class="anchored" data-anchor-id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids">Les modalités de la variable à prédire ont-elles le même poids ?</h3>
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles" class="level3">
 <h3 class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles">Combien y a t il de variables prédictives ? De quel type sont-elles ?</h3>
 </section>
 <section id="y-a-t-il-des-données-manquantes" class="level3">
-<h3 class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes">Y a t il des données manquantes ?</h3>
-<p><em>Dans l’onglet “préparation”</em></p>
+<h3 class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes">Y a-t-il des données manquantes ?</h3>
+<p><em>Etape 2 : Dans l’onglet “préparation” : conserver 70 % de la base brute pour l’entraînement.</em></p>
 </section>
-<section id="pourquoi-faut-il-partitionner-la-base-de-données-brute-en-3-a-quoi-sert-chacun-des-bases" class="level3">
-<h3 class="anchored" data-anchor-id="pourquoi-faut-il-partitionner-la-base-de-données-brute-en-3-a-quoi-sert-chacun-des-bases">Pourquoi faut-il partitionner la base de données brute en 3 ? A quoi sert chacun des bases ?</h3>
+<section id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" class="level3">
+<h3 class="anchored" data-anchor-id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation">A quoi vont servir les bases d’entraînement et de validation ?</h3>
+</section>
+<section id="quelle-différence-entre-la-base-de-validation-et-la-base-de-test" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-différence-entre-la-base-de-validation-et-la-base-de-test">Quelle différence entre la base de validation et la base de test ?</h3>
+</section>
+<section id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-comparer-avec-la-répartition-dans-la-base-brute." class="level3">
+<h3 class="anchored" data-anchor-id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-comparer-avec-la-répartition-dans-la-base-brute.">Quel est le poids de chacune des modalités de la variable à prédire ? Comparer avec la répartition dans la base brute.</h3>
+</section>
+<section id="les-variables-prédictives-ont-elles-les-mêmes-ordre-de-grandeur" class="level3">
+<h3 class="anchored" data-anchor-id="les-variables-prédictives-ont-elles-les-mêmes-ordre-de-grandeur">Les variables prédictives ont-elles les mêmes ordre de grandeur&nbsp;?</h3>
+<p><em>Etape 3 : Dans l’onglet “préparation”, appliquer la recette suivante sur la base d’entraînement : “centrer-réduire les quantitatives” (en anglais : step_normalize).</em></p>
+</section>
+<section id="quelle-loi-suivent-les-variables-quantitatives-de-la-base-dentraînement-transformée" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-loi-suivent-les-variables-quantitatives-de-la-base-dentraînement-transformée">Quelle loi suivent les variables quantitatives de la base d’entraînement transformée ?</h3>
+<p>Etape 4 : Dans l’onglet “modèle”, choisir la régression logistique et ajuster le modèle sur la base d’entraînement.</p>
+<p>Pourquoi s’agit-il d’estimations et pas de prédiction ?</p>
+<p>Le premier individu de la base d’entraînement est estimé comme étant “mauvais”. Pourquoi</p>
 </section>
 </section>
 <section id="regression-supervisée" class="level2">
