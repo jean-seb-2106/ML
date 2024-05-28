@@ -126,4 +126,13 @@ Etape 9 : *Ajuster le KNN (modèle des plus proches voisins) sur la base d'entra
 
 Non ! Le modèle final s'ajuste sur la base d'entraînement (70 % des données) et sur la base de validation (15 % des données).
 
+| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
+|-------------------------|------------|------------|------------|------------|
+| *Modèle 1 : Regression logistique*   | 99 %       | 100 %       | 98 %        | 1    |
+| *Modèle 2 : arbre de classification* | 99 %       | 100 %       | 94 %        | 0,98 |
+| *Modèle 3 : forêt aléatoire*         | 99 %       | 100 %       | 96 %        | 1    |
+| *Modèle 4 : KNN*                     | 99 %       | 99 %        | 98 %        | 1    |
+
+: Comparaison des performances des modèles sur la base de données Grandile.
+
 ## Partie 2 : Regression supervisée
