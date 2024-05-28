@@ -142,10 +142,18 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="si-vous-privilégiez-lexactitude-quel-modèle-faut-il-choisir-si-vous-privilégiez-la-spécificité-quel-modèle-faut-il-choisir" class="level3">
 <h3 class="anchored" data-anchor-id="si-vous-privilégiez-lexactitude-quel-modèle-faut-il-choisir-si-vous-privilégiez-la-spécificité-quel-modèle-faut-il-choisir">Si vous privilégiez l’exactitude, quel modèle faut-il choisir ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?</h3>
-<p><em>Etape 8 : Ajuster successivement les deux autres modèles (Forêt aléatoire et le KNN) sur la base d’entraînement et évaluer les performances du modèle.</em></p>
+<p><em>Etape 8 : Ajuster la forêt aléatoire sur la base d’entraînement (dans l’onglet validation) et evaluer la performance du modèle.</em></p>
 </section>
-<section id="remplir-le-tableau-avec-les-différents-modèles" class="level3">
-<h3 class="anchored" data-anchor-id="remplir-le-tableau-avec-les-différents-modèles">Remplir le tableau avec les différents modèles :</h3>
+<section id="combien-darbres-ont-été-construits-par-défaut-par-lalgorithme" class="level3">
+<h3 class="anchored" data-anchor-id="combien-darbres-ont-été-construits-par-défaut-par-lalgorithme">Combien d’arbres ont été construits par défaut par l’algorithme&nbsp;?</h3>
+<p>Par défaut, l’algorithme construit 500 arbres de classification.</p>
+</section>
+<section id="de-combien-de-variables-sont-constitués-chaque-arbre-de-classification-est-ce-que-ce-sont-à-chaque-fois-les-mêmes-variables" class="level3">
+<h3 class="anchored" data-anchor-id="de-combien-de-variables-sont-constitués-chaque-arbre-de-classification-est-ce-que-ce-sont-à-chaque-fois-les-mêmes-variables">De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?</h3>
+<p>Chaque arbre est constitué par défaut de 3 variables tirées aléatoirement. Il y a donc une partie aléatoire qui va faire varier les indicateurs.</p>
+</section>
+<section id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles" class="level3">
+<h3 class="anchored" data-anchor-id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles">Noter les indicateurs dans le tableau comparatif des modèles</h3>
 <table class="table">
 <caption>Performances des modèles</caption>
 <colgroup>
@@ -156,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 </colgroup>
 <thead>
 <tr class="header">
-<th>Modèle retenu</th>
+<th>Modèles</th>
 <th>Exactitude</th>
 <th>Sensibilité</th>
 <th>Spécificité</th>
@@ -177,9 +185,9 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td><em>Modèle 3 : forêt aléatoire</em></td>
-<td></td>
-<td></td>
-<td></td>
+<td>83 %</td>
+<td>90 %</td>
+<td>70 %</td>
 </tr>
 <tr class="even">
 <td><em>Modèle 4 : KNN</em></td>
@@ -189,6 +197,69 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 </tbody>
 </table>
+<p>Etape 9 : <em>Ajuster le KNN (modèle des plus proches voisins) sur la base d’entraînement (dans l’onglet validation) et evaluer la performance du modèle.</em></p>
+</section>
+<section id="quelle-valeur-par-défaut-de-k-a-été-retenue-dans-le-modèle-des-plus-proches-voisins" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-valeur-par-défaut-de-k-a-été-retenue-dans-le-modèle-des-plus-proches-voisins">Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?</h3>
+</section>
+<section id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles-1" class="level3">
+<h3 class="anchored" data-anchor-id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles-1">Noter les indicateurs dans le tableau comparatif des modèles</h3>
+<table class="table">
+<colgroup>
+<col style="width: 41%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modèle retenu</th>
+<th>Exactitude</th>
+<th>Sensibilité</th>
+<th>Spécificité</th>
+<th>AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Modèle 1 : Regression logistique</em></td>
+<td>77 %</td>
+<td>90 %</td>
+<td>52 %</td>
+<td>0,83</td>
+</tr>
+<tr class="even">
+<td><em>Modèle 2 : arbre de classification</em></td>
+<td>76 %</td>
+<td>80 %</td>
+<td>67 %</td>
+<td>0,77</td>
+</tr>
+<tr class="odd">
+<td><em>Modèle 3 : forêt aléatoire</em></td>
+<td>83 %</td>
+<td>90 %</td>
+<td>70 %</td>
+<td>0,89</td>
+</tr>
+<tr class="even">
+<td><em>Modèle 4 : KNN</em></td>
+<td>78 %</td>
+<td>86 %</td>
+<td>63 %</td>
+<td>0,82</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quel-modèle-est-le-plus-performant-selon-les-différents-indicateurs-de-performance-retenus" class="level3">
+<h3 class="anchored" data-anchor-id="quel-modèle-est-le-plus-performant-selon-les-différents-indicateurs-de-performance-retenus">Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?</h3>
+<p><em>Etape 10 : Sélectionner le modèle le plus performant que vous avez retenu précemment (dans l’onglet “modèle”), et dans l’onglet “généralisation”, ajuster le modèle.</em></p>
+</section>
+<section id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final" class="level3">
+<h3 class="anchored" data-anchor-id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final">La base de test a-t-elle été utilisée pour construire le modèle final ?</h3>
+<p>Non ! Le modèle final s’ajuste sur la base d’entraînement (70 % des données) et sur la base de validation (15 % des données).</p>
 </section>
 </section>
 <section id="partie-2-regression-supervisée" class="level2">

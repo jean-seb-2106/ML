@@ -86,21 +86,44 @@ Spécificité : 67 %
 
 *Etape 8 : Ajuster la forêt aléatoire sur la base d'entraînement (dans l'onglet validation) et evaluer la performance du modèle.*
 
-### Combien d'arbres ont été construits par défaut par l'algorithme ? 
+### Combien d'arbres ont été construits par défaut par l'algorithme ? 
 
-De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?
+Par défaut, l'algorithme construit 500 arbres de classification.
 
-Les
+### De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?
 
-### Remplir le tableau avec les différents modèles :
+Chaque arbre est constitué par défaut de 3 variables tirées aléatoirement. Il y a donc une partie aléatoire qui va faire varier les indicateurs.
 
-| Modèle retenu                        | Exactitude | Sensibilité | Spécificité |
+### Noter les indicateurs dans le tableau comparatif des modèles
+
+| Modèles                              | Exactitude | Sensibilité | Spécificité |
 |------------------------------|--------------|--------------|--------------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        |
 | *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        |
-| *Modèle 4 : KNN*                     | 78 %       | 86 %        | 63 %        |
+| *Modèle 4 : KNN*                     |            |             |             |
 
 : Performances des modèles
+
+Etape 9 : *Ajuster le KNN (modèle des plus proches voisins) sur la base d'entraînement (dans l'onglet validation) et evaluer la performance du modèle.*
+
+### Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?
+
+### Noter les indicateurs dans le tableau comparatif des modèles
+
+| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
+|------------------------------|-----------|-----------|-----------|---------|
+| *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
+| *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
+| *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        | 0,89 |
+| *Modèle 4 : KNN*                     | 78 %       | 86 %        | 63 %        | 0,82 |
+
+### Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?
+
+*Etape 10 : Sélectionner le modèle le plus performant que vous avez retenu précemment (dans l'onglet "modèle"), et dans l'onglet "généralisation", ajuster le modèle.*
+
+### La base de test a-t-elle été utilisée pour construire le modèle final ? 
+
+Non ! Le modèle final s'ajuste sur la base d'entraînement (70 % des données) et sur la base de validation (15 % des données).
 
 ## Partie 2 : Regression supervisée
