@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-## Classification supervisée
+## Partie 1 : Classification supervisée
 
 *Etape 1 : Dans l'onglet "données" : cliquer pour explorer la base de données sur les vins.*
 
@@ -32,25 +32,48 @@ editor: visual
 
 ### Quelle loi suivent les variables quantitatives de la base d'entraînement transformée ?
 
-Etape 4 : Dans l'onglet "modèle", choisir la régression logistique et ajuster le modèle sur la base d'entraînement.
+*Etape 4 : Dans l'onglet "modèle", choisir la régression logistique et ajuster le modèle sur la base d'entraînement.*
 
-Pourquoi s'agit-il d'estimations et pas de prédiction ?
+### Pourquoi parle-t-on ici d'estimation et pas de prédiction ?
 
-Le premier individu de la base d'entraînement est estimé comme étant "mauvais". Pourquoi
+### A partir de quel seuil de probabilité défini par défaut, un vin est estimé comme bon ou mauvais ? 
+
+### Quel indicateur nous donne des informations sur la qualité du modèle ?
+
+*Etape 5 : Dans l'onglet "Validation", évaluer la performance du modèle retenu précédemment (modèle 1 : regression logistique sur la base centrée réduite).*
+
+### Combien d'individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ? 
+
+### Pourquoi parle-t-on ici de prédictions et pas d'estimations ?
+
+### A partir de la table de confusion, retrouver les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité. Noter ces valeurs pour le premier modèle.
+
+Exactitude : 77 %
+
+Sensibilité : 90 %
+
+Spécificité : 52 %
+
+*Etape 6 : Revenir sur l'onglet "modèle" : choisir l'arbre et ajuster votre modèle sur les données d'entraînement (modèle 2 sur la base centrée réduite).*
+
+### Combien de variables prédictives sont utilisées par l'arbre de regression pour faire des estimations sur la base d'entraînement ?
+
+3 variables seulement sur les 11 variables disponibles : alcohol, free.sulfur.dioxide et volatile.acidity. Il s'agit des 3 variables les plus discriminantes selon l'algorithme CART.
+
+### Quelle variable a été choisie en premier pour séparer la population en deux ? Quel est la valeur seuil ?
+
+*Etape 7 : Dans l'onglet "Validation", évaluer les performances du modèle 2 sur la base centrée réduite.*
+
+### Pour ce deuxième modèle, quelles sont les valeurs des 3 indicateurs suivants : exactitude, sensibilité et spécificité ?
+
+Exactitude : 76 %
+
+Sensibilité : 80 %
+
+Spécificité : 67 %
+
+Si vous privilégiez l'exactitude, quel modèle faut-il choisir ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?
+
+Etape 8 : Ajuster successivement les deux autres modèles (Forêt aléatoire et le KNN) sur la base d'entraînement et évaluer les performances du modèle.
 
 ## Regression supervisée
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
