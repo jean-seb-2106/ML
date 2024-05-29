@@ -186,3 +186,19 @@ Non : tous les modèles ont des performances excellentes, grace aux variables re
 Dans ce cas, autant choisir un modèle économe en ressources informatiques. Le plus économe est la regression logistique, qui n'a besoin d'enregistrer que les paramètres associés à chaque variable pour généraliser.
 
 ## Partie 2 : Régression supervisée
+
+*Mise en situation 1 : vous cherchez à prévoir le niveau de pollution à Rennes à partir de donnnées sur les températures, nébulosité et le niveau de pollution de la veille. Le niveau de pollution se mesure par le taux d'ozone, les relevés de températures se font à plusieurs heures de la journée, tout comme la mesure de la nébulosité (durée d'ensoleillement). Dans la base de données ozone, vous disposez de plus d'un millier de relevés qui ont été effectués, à partir desquels vous devez élaborer le modèle de prévision le plus performant possible.*
+
+*Etape 1 : Dans l'onglet "données" : cliquer pour explorer la base de données ozone.*
+
+### Combien de relevés ont été effectués ?
+
+### Quelle variable est la variable à prédire ?
+
+### Combien y a t il de variables prédictives ? De quels types sont-elles ?
+
+### Y a t il des données manquantes dans la base brute ?
+
+*Etape 2 : Dans l'onglet "préparation" : conserver 70 % de la base brute pour l'entraînement.*
+
+Y a t il des données manquantes dans la base d'entraînement ?
