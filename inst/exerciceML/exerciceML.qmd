@@ -179,7 +179,7 @@ Non. Le modèle final s'ajuste sur la base d'entraînement (70 % des données) e
 
 ### Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?
 
-Non : tous les modèles ont des performances excellentes.
+Non : tous les modèles ont des performances excellentes, grace aux variables revenu_disponible et PCS.
 
 ### Quel autre critère peut entrer en jeu dans le choix d'un modèle avant de le généraliser ?
 
