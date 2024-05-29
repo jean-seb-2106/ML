@@ -6,21 +6,21 @@ editor: visual
 
 ## Partie 1 : Classification supervisée
 
-***Mise en situation 1 :** vous avez été embauché par le CIVB (comité interprofessionnel des vins de Bordeaux) pour mettre en place un algorithme qui permet de prévoir la qualité du vin en fonction de sa composition chimique. Vous disposez d'une base de données brute avec des références de vins de Bordeaux, chacune ayant été notée par des professionnel avec une note entre 1 et 10. A partir de 6, le vin est considéré comme bon, en dessous de 6, il est considéré comme mauvais.*
+***Mise en situation 1 :** vous avez été embauché par le CIVB (comité interprofessionnel des vins de Bordeaux) pour mettre en place un algorithme qui permet de prévoir la qualité du vin en fonction de sa composition chimique. Vous disposez d'une base de données brute avec des références de vins de Bordeaux, chacune ayant été évaluée par des professionnel avec une note entre 1 et 10. A partir de 6, le vin est considéré comme bon, en dessous de 6, il est considéré comme mauvais.*
 
 *Etape 1 : Dans l'onglet "données" : cliquer pour explorer la base de données sur les vins.*
 
 ### Combien d'individus dans la base de donnéees brute vins ?
 
-La base de données brute "vins" est constituées de 4898 individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.
+La base de données brute "vins" est constituées de 4 89  individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.
 
 ### Quelle est la variable à prédire ? De quel type est-elle ?
 
-La variable à prédire est dichotomique (ou booléenne) : il s'agit de la variable "target", qui prend la valeur bon si le vin est bon et mauvais si le vin est mauvais.
+La variable à prédire est dichotomique (ou booléenne) : il s'agit de la variable "target", qui prend la valeur "bon" si le vin est bon et mauvais si le vin est "mauvais".
 
 ### Les modalités de la variable à prédire ont-elles le même poids ?
 
-Non : parmi les 4898 références goûtés par des professionnels, 3 258 sont bons (66,5%) et 1 640 sont mauvais (33,5 %).
+Non : parmi les 4 898 références goûtés par des professionnels, 3 258 sont bons (66,5%) et 1 640 sont mauvais (33,5 %).
 
 ### Combien y a t il de variables prédictives ? De quel type sont-elles ?
 
@@ -34,21 +34,37 @@ Aucune donnée manquante dans ce jeu de données : c'est très rare d'avoir une 
 
 ### A quoi vont servir les bases d'entraînement et de validation ?
 
-### Quelle différence entre la base de validation et la base de test ?
+La base d'entraînement et la base de validation sont utilisés pendant la phase d'apprentissage : les modèles testés (regression logistique, arbre de classification, forêt..) sont ajustés sur la base d'entraînement (70% de la base brute dans notre exemple) et les performances de ces modèles sont mesurés à partir des prévisions de ces modèles sur la base de validation (15% de la base brute).
 
-### Quel est le poids de chacune des modalités de la variable à prédire ? Comparer avec la répartition dans la base brute.
+### A quoi sert la base de test ?
 
-### Les variables prédictives ont-elles les mêmes ordre de grandeur ?
+Les individus appartenant à la base de test ne vont pas du tout servir à choisir le modèle le plus performant : ce sont des données complètement extérieures, qui permettent de se mettre en condition réelle avant la généralisation (ou la mise en production) de l'algorithme retenu le plus performant.
+
+### Quel est le poids de chacune des modalités de la variable à prédire dans la base d'entraînement ? Comparer avec la répartition dans la base brute.
+
+Le poids de chacune des modalités est le même dans la base d'entraînement que dans la base brute, ce qui signifie que le tirage des individus a été contraint.
+
+### Les variables prédictives ont-elles toutes les mêmes ordres de grandeur ?
+
+Non, par exemple, la variable quantitative "total.sulfur.dioxide" a une moyenne de 138,0 alors que le "Ph" a une moyenne de 3,2.
 
 *Etape 3 : Dans l'onglet "préparation", appliquer la recette suivante sur la base d'entraînement : "centrer-réduire les quantitatives" (en anglais : step_normalize).*
 
-### Quelle loi suivent les variables quantitatives de la base d'entraînement transformée ?
+### Quels sont les effets de cette "recette" sur les variables prédictives de la base d'entraînement ?
+
+Les moyennes des variables quantitatives prédictives sont toutes très proches de 0 et les écart-types sont égaux à 1. Les variables ont maintenant les mêmes ordres de grandeur.
 
 *Etape 4 : Dans l'onglet "modèle", choisir la régression logistique et ajuster le modèle sur la base d'entraînement.*
 
-### Pourquoi parle-t-on ici d'estimation et pas de prédiction ?
+### Quelle est la différence entre une estimation et une prévision ?
+
+Les estimations sont calculés directement sur la base de donnée ayant servie à construire le modèle : dans notre exemple, il s'agit de la base d'entraînement. C'est à partir de ces estimations que sont construits des indicateurs de qualité du modèle comme l'AIC (ou le BIC). Mais les estimations ne permettent pas d'évaluer la capacité prédictive d'un modèle, autrement dit sa capacité à généraliser.
+
+Une prévision est calculé sur une base n'ayant pas du tout servi à construire le modèle : dans notre exemple, il s'agit de la base de validation. C'est à partir des prévisions qu'on peut évaluer la capacité prédictive d'un modèle.
 
 ### A partir de quel seuil de probabilité défini par défaut, un vin est estimé comme bon ou mauvais ?
+
+Par défaut, si la probabilité d'une modalité est supérieure à 0,5, c'est cette valeur qui est estimée. Ce seuil peut en théorie être modifié.
 
 ### Quel indicateur nous donne des informations sur la qualité du modèle ?
 
@@ -56,19 +72,39 @@ Aucune donnée manquante dans ce jeu de données : c'est très rare d'avoir une 
 
 ### Combien d'individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ?
 
-### Pourquoi parle-t-on ici de prédictions et pas d'estimations ?
+735 individus sont classés dans la table de confusion : elle a été établie à partir des prévisions sur la base de validation. Autrement dit, la regression logistique ajustée sur la base d'entraînement a servi à faire des prévisions sur la base de validation. Ces prévisions sont confrontées aux vraies valeurs, ce qui permet de les classer dans 4 catégories.
 
-### A partir de la table de confusion, retrouver les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité. Noter ces valeurs pour le premier modèle.
+### A partir de la table de confusion, recalculer les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité. 
 
-Exactitude : 77 %
+Exactitude :
 
-Sensibilité : 90 %
+$$(439 + 127)/735 = 77\% $$
 
-Spécificité : 52 %
+Sensibilité :
+
+$$
+439 / (439+50) = 90 \%
+$$
+
+Spécificité :
+
+$$
+(127) / (119 + 127) = 52 \%
+$$
+
+### 
+
+Compléter le tableau suivant avec les performances de ce première modèle.
+
+| Modèles                            | Exactitude | Sensibilité | Spécificité | AUC  |
+|--------------------|-----------|------------|------------|----------|
+| *Modèle 1 : Regression logistique* | 77 %       | 90 %        | 52 %        | 0,83 |
+
+: Performances de la regression logistique
 
 *Etape 6 : Revenir sur l'onglet "modèle" : choisir l'arbre et ajuster votre modèle sur les données d'entraînement (modèle 2 sur la base centrée réduite).*
 
-### Combien de variables prédictives sont utilisées par l'arbre de regression pour faire des estimations sur la base d'entraînement ?
+### Combien de variables prédictives sont utilisées par l'arbre de classification pour faire des estimations sur la base d'entraînement ?
 
 3 variables seulement sur les 11 variables disponibles : alcohol, free.sulfur.dioxide et volatile.acidity. Il s'agit des 3 variables les plus discriminantes selon l'algorithme CART.
 
@@ -76,45 +112,45 @@ Spécificité : 52 %
 
 *Etape 7 : Dans l'onglet "Validation", évaluer les performances du modèle 2 sur la base centrée réduite.*
 
-### Pour ce deuxième modèle, quelles sont les valeurs des 3 indicateurs suivants : exactitude, sensibilité et spécificité ?
+### Compléter le tableau suivant avec les performances de ce deuxi-me modèle.
 
-Exactitude : 76 %
+| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
+|---------------|---------------|-------------|---------------|---------------|
+| *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
+| *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 
-Sensibilité : 80 %
+### Si vous privilégiez l'exactitude, quel modèle est le plus performant ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?
 
-Spécificité : 67 %
-
-### Si vous privilégiez l'exactitude, quel modèle faut-il choisir ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?
+La regression logistique est plus performante au regard de l'exactitude. Mais si on privilégie la spécificité, autrement dit on ne veut pas que notre modèle dise qu'un vin est mauvais à tort, alors il vaut mieux utiliser l'arbre de classification.
 
 *Etape 8 : Ajuster la forêt aléatoire sur la base d'entraînement (dans l'onglet validation) et evaluer la performance du modèle.*
 
 ### Combien d'arbres ont été construits par défaut par l'algorithme ?
 
-Par défaut, l'algorithme construit 500 arbres de classification.
+Par défaut, l'algorithme construit 500 arbres de classification (Numbers of trees dans la sortie R).
 
 ### De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?
 
-Chaque arbre est constitué par défaut de 3 variables tirées aléatoirement. Il y a donc une partie aléatoire qui va faire varier les indicateurs.
+Chaque arbre est constitué par défaut de 3 variables tirées aléatoirement (Mtry = 3). Il y a donc une partie aléatoire qui va faire varier les indicateurs.
 
-### Noter les indicateurs dans le tableau comparatif des modèles
+### Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :
 
-| Modèles                              | Exactitude | Sensibilité | Spécificité |
-|---------------------------|---------------|---------------|---------------|
-| *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        |
-| *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        |
-| *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        |
-| *Modèle 4 : KNN*                     |            |             |             |
-
-: Performances des modèles
+| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
+|---------------|---------------|---------------|---------------|---------------|
+| *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
+| *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
+| *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        | 0,89 |
 
 Etape 9 : *Ajuster le KNN (modèle des plus proches voisins) sur la base d'entraînement (dans l'onglet validation) et evaluer la performance du modèle.*
 
 ### Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?
 
+Par défaut, la valeur retenue par l'algorithme est 5.
+
 ### Noter les indicateurs dans le tableau comparatif des modèles
 
 | Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
-|-----------------------|------------|------------|------------|------------|
+|-------------------|--------------|--------------|--------------|--------------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 | *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        | 0,89 |
@@ -122,16 +158,18 @@ Etape 9 : *Ajuster le KNN (modèle des plus proches voisins) sur la base d'entra
 
 ### Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?
 
+Selon tous les indicateurs de performance, la forêt aléatoire avec 500 arbres et 3 variables sélectionnées aléatoirement, appliquée sur la base de données centrée réduite est la plus performante. C'est donc ce modèle qu'on va utiliser pour généraliser.
+
 *Etape 10 : Sélectionner le modèle le plus performant que vous avez retenu précemment (dans l'onglet "modèle"), et dans l'onglet "généralisation", ajuster le modèle.*
 
 ### La base de test a-t-elle été utilisée pour construire le modèle final ?
 
-Non ! Le modèle final s'ajuste sur la base d'entraînement (70 % des données) et sur la base de validation (15 % des données).
+Non. Le modèle final s'ajuste sur la base d'entraînement (70 % des données) et sur la base de validation (15 % des données) : on intègre les individus de la base de validation pour améliorer la qualité de l'ajustement (plus on a d'individus, mieux le modèle apprend). On a donc retenu une méthode ensembliste (la forêt aléatoire) pour faire nos prédictions sur des données qui n'ont pas du tout servi à construire le modèle. Les performances sont similaires : nous voilà rassurés ! La mise en production devrait bien se passer.
 
-***Mise en situation 2 :** Vous êtes le gouverneur de Grandile, la plus grande île de l'archipel de Ceph'ile. Vous disposez d'une base de données avec des informations sur 5 418 ménages habitants à Grandile, et notamment vous savez si ce ménage est pauvre ou non. Vous voulez être en capacité de prédire si un nouveau ménage est pauvre à partir des informations socio-économiques que vous aurez collecté.*
+***Mise en situation 2 :** Vous êtes le gouverneur de Grandile, la plus grande île de l'archipel de Ceph'ile. Vous disposez d'une base de données avec des informations sur 5 418 ménages habitants à Grandile, et notamment vous savez si ce ménage est pauvre ou non. Vous voulez être en capacité de prédire si un nouveau ménage est pauvre à partir des informations socio-économiques que vous aurez collectées.*
 
 | Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
-|--------------------|-------------|-------------|-------------|-------------|
+|----------------|--------------|--------------|--------------|--------------|
 | *Modèle 1 : Regression logistique*   | 99 %       | 100 %       | 98 %        | 1    |
 | *Modèle 2 : arbre de classification* | 99 %       | 100 %       | 94 %        | 0,98 |
 | *Modèle 3 : forêt aléatoire*         | 99 %       | 100 %       | 98 %        | 1    |
@@ -141,6 +179,10 @@ Non ! Le modèle final s'ajuste sur la base d'entraînement (70 % des données) 
 
 ### Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?
 
+Non : tous les modèles ont des performances excellentes.
+
 ### Quel autre critère peut entrer en jeu dans le choix d'un modèle avant de le généraliser ?
+
+Dans ce cas, autant choisir un modèle économe en ressources informatiques. Le plus économe est la regression logistique, qui n'a besoin d'enregistrer que les paramètres associés à chaque variable pour généraliser.
 
 ## Partie 2 : Régression supervisée

@@ -34,6 +34,35 @@ ul.task-list li input[type="checkbox"] {
 <link href="exerciceML_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="exerciceML_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -64,18 +93,19 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="partie-1-classification-supervisée" class="level2">
 <h2 class="anchored" data-anchor-id="partie-1-classification-supervisée">Partie 1 : Classification supervisée</h2>
+<p><em><strong>Mise en situation 1 :</strong> vous avez été embauché par le CIVB (comité interprofessionnel des vins de Bordeaux) pour mettre en place un algorithme qui permet de prévoir la qualité du vin en fonction de sa composition chimique. Vous disposez d’une base de données brute avec des références de vins de Bordeaux, chacune ayant été évaluée par des professionnel avec une note entre 1 et 10. A partir de 6, le vin est considéré comme bon, en dessous de 6, il est considéré comme mauvais.</em></p>
 <p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données sur les vins.</em></p>
 <section id="combien-dindividus-dans-la-base-de-donnéees-brute-vins" class="level3">
 <h3 class="anchored" data-anchor-id="combien-dindividus-dans-la-base-de-donnéees-brute-vins">Combien d’individus dans la base de donnéees brute vins ?</h3>
-<p>La base de données brute “vins” est constituées de 4898 individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.</p>
+<p>La base de données brute “vins” est constituées de 4&nbsp;89&nbsp; individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.</p>
 </section>
 <section id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle" class="level3">
 <h3 class="anchored" data-anchor-id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle">Quelle est la variable à prédire ? De quel type est-elle ?</h3>
-<p>La variable à prédire est dichotomique (ou booléenne) : il s’agit de la variable “target”, qui prend la valeur bon si le vin est bon et mauvais si le vin est mauvais.</p>
+<p>La variable à prédire est dichotomique (ou booléenne) : il s’agit de la variable “target”, qui prend la valeur “bon” si le vin est bon et mauvais si le vin est “mauvais”.</p>
 </section>
 <section id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids" class="level3">
 <h3 class="anchored" data-anchor-id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids">Les modalités de la variable à prédire ont-elles le même poids ?</h3>
-<p>Non : parmi les 4898 références goûtés par des professionnels, 3 258 sont bons (66,5%) et 1 640 sont mauvais (33,5 %).</p>
+<p>Non : parmi les 4&nbsp;898 références goûtés par des professionnels, 3 258 sont bons (66,5%) et 1 640 sont mauvais (33,5 %).</p>
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles" class="level3">
 <h3 class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles">Combien y a t il de variables prédictives ? De quel type sont-elles ?</h3>
@@ -88,26 +118,34 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" class="level3">
 <h3 class="anchored" data-anchor-id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation">A quoi vont servir les bases d’entraînement et de validation ?</h3>
+<p>La base d’entraînement et la base de validation sont utilisés pendant la phase d’apprentissage : les modèles testés (regression logistique, arbre de classification, forêt..) sont ajustés sur la base d’entraînement (70% de la base brute dans notre exemple) et les performances de ces modèles sont mesurés à partir des prévisions de ces modèles sur la base de validation (15% de la base brute).</p>
 </section>
-<section id="quelle-différence-entre-la-base-de-validation-et-la-base-de-test" class="level3">
-<h3 class="anchored" data-anchor-id="quelle-différence-entre-la-base-de-validation-et-la-base-de-test">Quelle différence entre la base de validation et la base de test ?</h3>
+<section id="a-quoi-sert-la-base-de-test" class="level3">
+<h3 class="anchored" data-anchor-id="a-quoi-sert-la-base-de-test">A quoi sert la base de test ?</h3>
+<p>Les individus appartenant à la base de test ne vont pas du tout servir à choisir le modèle le plus performant : ce sont des données complètement extérieures, qui permettent de se mettre en condition réelle avant la généralisation (ou la mise en production) de l’algorithme retenu le plus performant.</p>
 </section>
-<section id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-comparer-avec-la-répartition-dans-la-base-brute." class="level3">
-<h3 class="anchored" data-anchor-id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-comparer-avec-la-répartition-dans-la-base-brute.">Quel est le poids de chacune des modalités de la variable à prédire ? Comparer avec la répartition dans la base brute.</h3>
+<section id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." class="level3">
+<h3 class="anchored" data-anchor-id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute.">Quel est le poids de chacune des modalités de la variable à prédire dans la base d’entraînement ? Comparer avec la répartition dans la base brute.</h3>
+<p>Le poids de chacune des modalités est le même dans la base d’entraînement que dans la base brute, ce qui signifie que le tirage des individus a été contraint.</p>
 </section>
-<section id="les-variables-prédictives-ont-elles-les-mêmes-ordre-de-grandeur" class="level3">
-<h3 class="anchored" data-anchor-id="les-variables-prédictives-ont-elles-les-mêmes-ordre-de-grandeur">Les variables prédictives ont-elles les mêmes ordre de grandeur&nbsp;?</h3>
+<section id="les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur" class="level3">
+<h3 class="anchored" data-anchor-id="les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur">Les variables prédictives ont-elles toutes les mêmes ordres de grandeur&nbsp;?</h3>
+<p>Non, par exemple, la variable quantitative “total.sulfur.dioxide” a une moyenne de 138,0 alors que le “Ph” a une moyenne de 3,2.</p>
 <p><em>Etape 3 : Dans l’onglet “préparation”, appliquer la recette suivante sur la base d’entraînement : “centrer-réduire les quantitatives” (en anglais : step_normalize).</em></p>
 </section>
-<section id="quelle-loi-suivent-les-variables-quantitatives-de-la-base-dentraînement-transformée" class="level3">
-<h3 class="anchored" data-anchor-id="quelle-loi-suivent-les-variables-quantitatives-de-la-base-dentraînement-transformée">Quelle loi suivent les variables quantitatives de la base d’entraînement transformée ?</h3>
+<section id="quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement" class="level3">
+<h3 class="anchored" data-anchor-id="quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement">Quels sont les effets de cette “recette” sur les variables prédictives de la base d’entraînement ?</h3>
+<p>Les moyennes des variables quantitatives prédictives sont toutes très proches de 0 et les écart-types sont égaux à 1. Les variables ont maintenant les mêmes ordres de grandeur.</p>
 <p><em>Etape 4 : Dans l’onglet “modèle”, choisir la régression logistique et ajuster le modèle sur la base d’entraînement.</em></p>
 </section>
-<section id="pourquoi-parle-t-on-ici-destimation-et-pas-de-prédiction" class="level3">
-<h3 class="anchored" data-anchor-id="pourquoi-parle-t-on-ici-destimation-et-pas-de-prédiction">Pourquoi parle-t-on ici d’estimation et pas de prédiction ?</h3>
+<section id="quelle-est-la-différence-entre-une-estimation-et-une-prévision" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-est-la-différence-entre-une-estimation-et-une-prévision">Quelle est la différence entre une estimation et une prévision ?</h3>
+<p>Les estimations sont calculés directement sur la base de donnée ayant servie à construire le modèle : dans notre exemple, il s’agit de la base d’entraînement. C’est à partir de ces estimations que sont construits des indicateurs de qualité du modèle comme l’AIC (ou le BIC). Mais les estimations ne permettent pas d’évaluer la capacité prédictive d’un modèle, autrement dit sa capacité à généraliser.</p>
+<p>Une prévision est calculé sur une base n’ayant pas du tout servi à construire le modèle : dans notre exemple, il s’agit de la base de validation. C’est à partir des prévisions qu’on peut évaluer la capacité prédictive d’un modèle.</p>
 </section>
 <section id="a-partir-de-quel-seuil-de-probabilité-défini-par-défaut-un-vin-est-estimé-comme-bon-ou-mauvais" class="level3">
 <h3 class="anchored" data-anchor-id="a-partir-de-quel-seuil-de-probabilité-défini-par-défaut-un-vin-est-estimé-comme-bon-ou-mauvais">A partir de quel seuil de probabilité défini par défaut, un vin est estimé comme bon ou mauvais ?</h3>
+<p>Par défaut, si la probabilité d’une modalité est supérieure à 0,5, c’est cette valeur qui est estimée. Ce seuil peut en théorie être modifié.</p>
 </section>
 <section id="quel-indicateur-nous-donne-des-informations-sur-la-qualité-du-modèle" class="level3">
 <h3 class="anchored" data-anchor-id="quel-indicateur-nous-donne-des-informations-sur-la-qualité-du-modèle">Quel indicateur nous donne des informations sur la qualité du modèle ?</h3>
@@ -115,15 +153,60 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="combien-dindividus-sont-classés-dans-la-table-de-confusion-a-quelle-base-ces-individus-appartiennent-ils" class="level3">
 <h3 class="anchored" data-anchor-id="combien-dindividus-sont-classés-dans-la-table-de-confusion-a-quelle-base-ces-individus-appartiennent-ils">Combien d’individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ?</h3>
+<p>735 individus sont classés dans la table de confusion : elle a été établie à partir des prévisions sur la base de validation. Autrement dit, la regression logistique ajustée sur la base d’entraînement a servi à faire des prévisions sur la base de validation. Ces prévisions sont confrontées aux vraies valeurs, ce qui permet de les classer dans 4 catégories.</p>
 </section>
-<section id="pourquoi-parle-t-on-ici-de-prédictions-et-pas-destimations" class="level3">
-<h3 class="anchored" data-anchor-id="pourquoi-parle-t-on-ici-de-prédictions-et-pas-destimations">Pourquoi parle-t-on ici de prédictions et pas d’estimations ?</h3>
-</section>
-<section id="a-partir-de-la-table-de-confusion-retrouver-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité.-noter-ces-valeurs-pour-le-premier-modèle." class="level3">
-<h3 class="anchored" data-anchor-id="a-partir-de-la-table-de-confusion-retrouver-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité.-noter-ces-valeurs-pour-le-premier-modèle.">A partir de la table de confusion, retrouver les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité. Noter ces valeurs pour le premier modèle.</h3>
-<p>Exactitude : 77 %</p>
+<section id="a-partir-de-la-table-de-confusion-recalculer-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité." class="level3">
+<h3 class="anchored" data-anchor-id="a-partir-de-la-table-de-confusion-recalculer-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité.">A partir de la table de confusion, recalculer les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité.</h3>
+<p>Exactitude :</p>
+<p><span class="math display">\[(439 + 127)/735 = 77\% \]</span></p>
 <p>Sensibilité : 90 %</p>
 <p>Spécificité : 52 %</p>
+</section>
+<section id="compléter-le-tableau-suivant-avec-les-performances-de-ce-première-modèle" class="level3">
+<h3 class="anchored" data-anchor-id="compléter-le-tableau-suivant-avec-les-performances-de-ce-première-modèle">Compléter le tableau suivant avec les performances de ce première modèle</h3>
+<table class="table">
+<caption>Performances des modèles</caption>
+<colgroup>
+<col style="width: 43%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modèles</th>
+<th>Exactitude</th>
+<th>Sensibilité</th>
+<th>Spécificité</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Modèle 1 : Regression logistique</em></td>
+<td>77 %</td>
+<td>90 %</td>
+<td>52 %</td>
+</tr>
+<tr class="even">
+<td><em>Modèle 2 : arbre de classification</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><em>Modèle 3 : forêt aléatoire</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><em>Modèle 4 : KNN</em></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 <p><em>Etape 6 : Revenir sur l’onglet “modèle” : choisir l’arbre et ajuster votre modèle sur les données d’entraînement (modèle 2 sur la base centrée réduite).</em></p>
 </section>
 <section id="combien-de-variables-prédictives-sont-utilisées-par-larbre-de-regression-pour-faire-des-estimations-sur-la-base-dentraînement" class="level3">
@@ -157,10 +240,10 @@ ul.task-list li input[type="checkbox"] {
 <table class="table">
 <caption>Performances des modèles</caption>
 <colgroup>
-<col style="width: 41%">
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 19%">
+<col style="width: 45%">
+<col style="width: 17%">
+<col style="width: 17%">
+<col style="width: 17%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -206,11 +289,11 @@ ul.task-list li input[type="checkbox"] {
 <h3 class="anchored" data-anchor-id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles-1">Noter les indicateurs dans le tableau comparatif des modèles</h3>
 <table class="table">
 <colgroup>
-<col style="width: 41%">
-<col style="width: 15%">
-<col style="width: 15%">
-<col style="width: 15%">
-<col style="width: 12%">
+<col style="width: 40%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 13%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -260,10 +343,66 @@ ul.task-list li input[type="checkbox"] {
 <section id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final" class="level3">
 <h3 class="anchored" data-anchor-id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final">La base de test a-t-elle été utilisée pour construire le modèle final ?</h3>
 <p>Non ! Le modèle final s’ajuste sur la base d’entraînement (70 % des données) et sur la base de validation (15 % des données).</p>
+<p><em><strong>Mise en situation 2 :</strong> Vous êtes le gouverneur de Grandile, la plus grande île de l’archipel de Ceph’ile. Vous disposez d’une base de données avec des informations sur 5&nbsp;418&nbsp;ménages habitants à Grandile, et notamment vous savez si ce ménage est pauvre ou non. Vous voulez être en capacité de prédire si un nouveau ménage est pauvre à partir des informations socio-économiques que vous aurez collecté.</em></p>
+<table class="table">
+<caption>Comparaison des performances des modèles sur la base de données Grandile (modèle ajusté sur 70% de la base brute, les indicateurs sont calculés à partir des prédictions sur la base de validation).</caption>
+<colgroup>
+<col style="width: 40%">
+<col style="width: 13%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Modèle retenu</th>
+<th>Exactitude</th>
+<th>Sensibilité</th>
+<th>Spécificité</th>
+<th>AUC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em>Modèle 1 : Regression logistique</em></td>
+<td>99 %</td>
+<td>100 %</td>
+<td>98 %</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><em>Modèle 2 : arbre de classification</em></td>
+<td>99 %</td>
+<td>100 %</td>
+<td>94 %</td>
+<td>0,98</td>
+</tr>
+<tr class="odd">
+<td><em>Modèle 3 : forêt aléatoire</em></td>
+<td>99 %</td>
+<td>100 %</td>
+<td>98 %</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td><em>Modèle 4 : KNN</em></td>
+<td>99 %</td>
+<td>99 %</td>
+<td>98 %</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="y-a-t-il-un-modèle-nettement-plus-performant-que-les-autres-pour-prédire-si-un-ménage-est-pauvre-à-grandile" class="level3">
+<h3 class="anchored" data-anchor-id="y-a-t-il-un-modèle-nettement-plus-performant-que-les-autres-pour-prédire-si-un-ménage-est-pauvre-à-grandile">Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?</h3>
+</section>
+<section id="quel-autre-critère-peut-entrer-en-jeu-dans-le-choix-dun-modèle-avant-de-le-généraliser" class="level3">
+<h3 class="anchored" data-anchor-id="quel-autre-critère-peut-entrer-en-jeu-dans-le-choix-dun-modèle-avant-de-le-généraliser">Quel autre critère peut entrer en jeu dans le choix d’un modèle avant de le généraliser ?</h3>
 </section>
 </section>
-<section id="partie-2-regression-supervisée" class="level2">
-<h2 class="anchored" data-anchor-id="partie-2-regression-supervisée">Partie 2 : Regression supervisée</h2>
+<section id="partie-2-régression-supervisée" class="level2">
+<h2 class="anchored" data-anchor-id="partie-2-régression-supervisée">Partie 2 : Régression supervisée</h2>
 </section>
 
 </main>
