@@ -1,5 +1,5 @@
 ---
-title: "Exercice Machine leanrning"
+title: "Exercice Machine learning"
 format: html
 editor: visual
 ---
@@ -74,7 +74,7 @@ Par défaut, si la probabilité d'une modalité est supérieure à 0,5, c'est ce
 
 735 individus sont classés dans la table de confusion : elle a été établie à partir des prévisions sur la base de validation. Autrement dit, la regression logistique ajustée sur la base d'entraînement a servi à faire des prévisions sur la base de validation. Ces prévisions sont confrontées aux vraies valeurs, ce qui permet de les classer dans 4 catégories.
 
-### A partir de la table de confusion, recalculer les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité. 
+### A partir de la table de confusion, recalculer les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité.
 
 Exactitude :
 
@@ -96,8 +96,8 @@ $$
 
 Compléter le tableau suivant avec les performances de ce première modèle.
 
-| Modèles                            | Exactitude | Sensibilité | Spécificité | AUC  |
-|--------------------|-----------|------------|------------|----------|
+| Modèle testé                       | Exactitude | Sensibilité | Spécificité | AUC  |
+|------------------|--------------|--------------|--------------|--------------|
 | *Modèle 1 : Regression logistique* | 77 %       | 90 %        | 52 %        | 0,83 |
 
 : Performances de la regression logistique
@@ -114,8 +114,8 @@ Compléter le tableau suivant avec les performances de ce première modèle.
 
 ### Compléter le tableau suivant avec les performances de ce deuxi-me modèle.
 
-| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
-|---------------|---------------|-------------|---------------|---------------|
+| Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
+|---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 
@@ -135,7 +135,7 @@ Chaque arbre est constitué par défaut de 3 variables tirées aléatoirement (M
 
 ### Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :
 
-| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
+| Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
 |---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
@@ -149,8 +149,8 @@ Par défaut, la valeur retenue par l'algorithme est 5.
 
 ### Noter les indicateurs dans le tableau comparatif des modèles
 
-| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
-|-------------------|--------------|--------------|--------------|--------------|
+| Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
+|---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 | *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        | 0,89 |
@@ -168,8 +168,8 @@ Non. Le modèle final s'ajuste sur la base d'entraînement (70 % des données) e
 
 ***Mise en situation 2 :** Vous êtes le gouverneur de Grandile, la plus grande île de l'archipel de Ceph'ile. Vous disposez d'une base de données avec des informations sur 5 418 ménages habitants à Grandile, et notamment vous savez si ce ménage est pauvre ou non. Vous voulez être en capacité de prédire si un nouveau ménage est pauvre à partir des informations socio-économiques que vous aurez collectées.*
 
-| Modèle retenu                        | Exactitude | Sensibilité | Spécificité | AUC  |
-|----------------|--------------|--------------|--------------|--------------|
+| Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
+|---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique*   | 99 %       | 100 %       | 98 %        | 1    |
 | *Modèle 2 : arbre de classification* | 99 %       | 100 %       | 94 %        | 0,98 |
 | *Modèle 3 : forêt aléatoire*         | 99 %       | 100 %       | 98 %        | 1    |
@@ -193,12 +193,120 @@ Dans ce cas, autant choisir un modèle économe en ressources informatiques. Le 
 
 ### Combien de relevés ont été effectués ?
 
-### Quelle variable est la variable à prédire ?
+1 366 relevés ont été effectués à Rennes, et constituent la base brute.
+
+### Quelle est la variable à prédire ? 
+
+C'est la variable target, qui correspond à la concentration maximum d'ozone.
 
 ### Combien y a t il de variables prédictives ? De quels types sont-elles ?
 
+Il y a 12 variables prédictives, qui sont toutes quantitatives.
+
 ### Y a t il des données manquantes dans la base brute ?
+
+Oui, 2 valeurs manquantes sur la variables Ne18.
 
 *Etape 2 : Dans l'onglet "préparation" : conserver 70 % de la base brute pour l'entraînement.*
 
-Y a t il des données manquantes dans la base d'entraînement ?
+### Y a t il des données manquantes dans la base d'entraînement ?
+
+Oui également : ça signifie qu'elles ont été tirées aléatoirement dans la base d'entraînement (elles ne sont donc pas dans les bases de validation et de test).
+
+*Etape 3 : Dans l'onglet "modèle", choisir la forêt aléatoire et ajuster le modèle sur la base d'entraînement.*
+
+### Regarder le message dans la console de R Studio. Que s'est-il passé ?
+
+La fonction qui fait tourner l'algorithme sur les forêts aléatoires ne peut pas tourner si il y a des valeurs manquantes. Il faut donc appliquer une transformation sur la base d'entraînement avant d'appliquer l'algorithme.
+
+### Que faire quand il y a des valeurs manquantes dans vos variables prédictives ? (plusieurs possibilités)
+
+On peut faire des imputations, avec différentes méthodes (si on ne veut vraiment pas perdre d'individus).
+
+On peut aussi supprimer des individus (des lignes), si on a un échantillon suffisamment important et si il n'y a pas trop de valeurs manquantes.
+
+*Etape 4 : Dans l'onglet préparation, choisir la recette "imputation avec la moyenne" que vous appliquez sur la base d'entraînement.*
+
+### Y a t il encore des données manquantes ? 
+
+Non : ce qui signifie que la méthode d'imputation a bien marché.
+
+*Etape 5 : Dans l'onglet modèle, choisir à nouveau la forêt aléatoire et ajuster le modèle sur la base d'entraînement.*
+
+### Combien d'arbres de regression ont été générés par cette méthode ? De combien de variables sont-ils constitués ?
+
+500 arbres, avec 3 variables tirées aléatoirement à chaque fois.
+
+### Calculer le RSS, le MSE et le RMSE à partir de l'estimation et de la vraie valeur observée des deux premiers individus du tableau seulement.
+
+Les valeurs ne sont pas forcément les mêmes pour les estimations parce qu'il y a deux niveaux d'aléatoires dans les forêts (tirage bootstrap des individus + tirage aléatoire des variables).
+
+$$
+RSS = (56-44,5)² + (41,2 - 27,5)²=319,94
+$$
+
+$$
+MSE = \frac{319,94}{2} = 159,97
+$$
+
+$$
+RMSE = \sqrt{159,97} = 12,6
+$$
+
+*Etape 6 : Dans l'onglet validation, évaluer les performances de ce premier modèle (forêt aléatoire) appliqué sur la base transformée (imputation des valeurs manquantes)*
+
+### Noter les indicateurs de performance de ce premier modèle dans le tableau comparatif ci-dessous :
+
+| Modèle testé                 |  RSS   | MSE | RMSE |  R²  |
+|------------------------------|:------:|:---:|:----:|:----:|
+| *Modèle 1 : Forêt aléatoire* | 39 362 | 192 | 13,9 | 0,71 |
+
+### Ce modèle a t il de bonnes capacités prédictives ? 
+
+Difficile à dire : on peut regarder le RMSE, qui nous dit qu'en moyenne, les prévisions s'éloignent de 13,9 des vraies valeurs. Le R² est assez proche de 1. Ce qui nous intéresse, c'est de savoir si ce modèle est le meilleur.
+
+*Etape 7 : Dans les onglets modèles et validation, ajuster les autres algorithmes sur la base d'entraînement, et évaluer leurs performances.*
+
+### Compléter le tableau ci-dessous avec les performances des autres modèles :
+
+| Modèle testé sur la base avec imputation par la moyenne |  RSS   | MSE | RMSE |  R²  |
+|---------------------|:--------:|:----------:|:----------:|:---------:|
+| *Modèle 1 : Forêt aléatoire*[^1]                        | 39 362 | 192 | 13,9 | 0,71 |
+| *Modèle 2 : Arbre de regression*                        | 56 900 | 278 | 16,7 | 0,59 |
+| *Modèle 3 : Régression linéaire*                        | 45 416 | 222 | 14,9 | 0,68 |
+| *Modèle 4 : KNN*                                        | 46 744 | 228 | 15,1 | 0,66 |
+
+[^1]: Les valeurs ne sont pas les mêmes.
+
+### Quel algorithme est le plus performant pour prédire ?
+
+C'est la forêt aléatoire qu regard de tous les indicateurs.
+
+*Etape 8 : dans l'onglet "généralisation", ajuster la forêt aléatoire sur la base d'entraînement et la base de validation.*
+
+### Le R² se rapproche de 1. Etait-ce prévisible ?
+
+Oui parce que plus un modèle a d'individus, mieux il apprend. Or ici, on a ajouté la base de validation pour ajuster notre algorithme.
+
+*Mise en situation 2 : En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d'information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours disposés à donner.*
+
+*A partir de la base de données grandile, votre mission est de choisir l'algorithme le plus performant pour prédire le revenu disponible d'un ménage à partir des autres informations socio-économiques.*
+
+### Compléter le tableau pour comparer les performances des algorithmes.
+
+| Modèle testé sur la base avec imputation par la moyenne |  RMSE   |  R²  |
+|---------------------------------------------------------|:-------:|:----:|
+| *Modèle 1 : Forêt aléatoire*[^2]                        |         |      |
+| *Modèle 2 : Arbre de regression*                        | 4 431,9 |      |
+| *Modèle 3 : Régression linéaire*                        | 3 552,4 | 0,97 |
+| *Modèle 4 : KNN*                                        |         |      |
+
+[^2]: Les valeurs ne sont pas les mêmes.
+
+### Quel algorithme est le plus performant ?
+
+La forêt aléatoire, comme d'habitude !
+
+### Ajuster ce modèle sur la base d'entraînement et de validation puis généraliser le sur des données qu'il n'a jamais vu (les données de test)
+
+le modèle marche encore mieux, puisque on a davantage d'individus.
