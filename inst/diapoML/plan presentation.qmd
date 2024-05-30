@@ -1,5 +1,5 @@
 ---
-title: "Introduction au machine Learning"
+title: "Module 6 : Introduction au machine Learning"
 format: 
   html:
     code-fold: true
@@ -20,17 +20,19 @@ library(dplyr)
 
 ## Diapo 1 : c'est quoi le machine learning ?
 
-En Français, ça veut dire apprentissage automatique.
+En Français, on parle d'apprentissage automatique : ça fait partie de l'intelligence artificielle.
 
 ![](IA_ML.png)
 
-L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des taches généralement assurée par les animaux ou les humains : percevoir, raisonner, agit.*
+L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.*
 
 Il y a "la bonne vieille intelligence artificielle" en français, celle pour laquelle un expert explicite toutes les règles qui sont ensuite traduites en langue informatique. Il faut l'expert à côté de l'informaticien qui code, pour lui donner toutes les règles.
 
 Avec l'intelligence artificielle, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
 
 Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
+
+Dans ce module d'introduction, on va voir le machine learning, et même juste un domaine de machine learning. 
 
 ## Diapo 2 : apprentissage supervisé vs non supervisé
 
