@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Exercice Machine leanrning</title>
+<title>Exercice Machine learning (avec correction)</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -74,7 +74,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Exercice Machine leanrning</h1>
+<h1 class="title">Exercice Machine learning (avec correction)</h1>
 </div>
 
 
@@ -158,27 +158,29 @@ window.Quarto = {
 <section id="a-partir-de-la-table-de-confusion-recalculer-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité." class="level3">
 <h3 class="anchored" data-anchor-id="a-partir-de-la-table-de-confusion-recalculer-les-valeurs-des-trois-indicateurs-suivants-exactitude-sensibilité-spécificité.">A partir de la table de confusion, recalculer les valeurs des trois indicateurs suivants : exactitude, sensibilité, spécificité.</h3>
 <p>Exactitude :</p>
-<p><span class="math display">\[(439 + 127)/735 = 77\% \]</span></p>
+<p><span class="math display">\[\frac{439 + 127}{735} = 77\% \]</span></p>
 <p>Sensibilité :</p>
 <p><span class="math display">\[
-439 / (439+50) = 90 \%
+\frac{439}{439 + 50} = 90 \%
 \]</span></p>
 <p>Spécificité :</p>
 <p><span class="math display">\[
-(127) / (119 + 127) = 52 \%
+\frac{127}{119 + 127} = 52 \%
 \]</span></p>
 </section>
 <section id="section" class="level3">
 <h3 class="anchored" data-anchor-id="section"></h3>
-<p>Compléter le tableau suivant avec les performances de ce première modèle.</p>
+</section>
+<section id="compléter-le-tableau-suivant-avec-les-performances-de-ce-première-modèle." class="level3">
+<h3 class="anchored" data-anchor-id="compléter-le-tableau-suivant-avec-les-performances-de-ce-première-modèle.">Compléter le tableau suivant avec les performances de ce première modèle.</h3>
 <table class="table">
 <caption>Performances de la regression logistique</caption>
 <colgroup>
-<col style="width: 24%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -433,37 +435,57 @@ window.Quarto = {
 <p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données ozone.</em></p>
 <section id="combien-de-relevés-ont-été-effectués" class="level3">
 <h3 class="anchored" data-anchor-id="combien-de-relevés-ont-été-effectués">Combien de relevés ont été effectués ?</h3>
+<p>1 366 relevés ont été effectués à Rennes, et constituent la base brute.</p>
 </section>
-<section id="quelle-variable-est-la-variable-à-prédire" class="level3">
-<h3 class="anchored" data-anchor-id="quelle-variable-est-la-variable-à-prédire">Quelle variable est la variable à prédire ?</h3>
+<section id="quelle-est-la-variable-à-prédire" class="level3">
+<h3 class="anchored" data-anchor-id="quelle-est-la-variable-à-prédire">Quelle est la variable à prédire ?</h3>
+<p>C’est la variable target, qui correspond à la concentration maximum d’ozone.</p>
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quels-types-sont-elles" class="level3">
 <h3 class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quels-types-sont-elles">Combien y a t il de variables prédictives ? De quels types sont-elles ?</h3>
+<p>Il y a 12 variables prédictives, qui sont toutes quantitatives.</p>
 </section>
 <section id="y-a-t-il-des-données-manquantes-dans-la-base-brute" class="level3">
 <h3 class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes-dans-la-base-brute">Y a t il des données manquantes dans la base brute ?</h3>
+<p>Oui, 2 valeurs manquantes sur la variables Ne18.</p>
 <p><em>Etape 2 : Dans l’onglet “préparation” : conserver 70 % de la base brute pour l’entraînement.</em></p>
 </section>
 <section id="y-a-t-il-des-données-manquantes-dans-la-base-dentraînement" class="level3">
 <h3 class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes-dans-la-base-dentraînement">Y a t il des données manquantes dans la base d’entraînement ?</h3>
+<p>Oui également : ça signifie qu’elles ont été tirées aléatoirement dans la base d’entraînement (elles ne sont donc pas dans les bases de validation et de test).</p>
 <p><em>Etape 3 : Dans l’onglet “modèle”, choisir la forêt aléatoire et ajuster le modèle sur la base d’entraînement.</em></p>
 </section>
 <section id="regarder-le-message-dans-la-console-de-r-studio.-que-sest-il-passé" class="level3">
 <h3 class="anchored" data-anchor-id="regarder-le-message-dans-la-console-de-r-studio.-que-sest-il-passé">Regarder le message dans la console de R Studio. Que s’est-il passé ?</h3>
+<p>La fonction qui fait tourner l’algorithme sur les forêts aléatoires ne peut pas tourner si il y a des valeurs manquantes. Il faut donc appliquer une transformation sur la base d’entraînement avant d’appliquer l’algorithme.</p>
 </section>
 <section id="que-faire-quand-il-y-a-des-valeurs-manquantes-dans-vos-variables-prédictives-plusieurs-possibilités" class="level3">
 <h3 class="anchored" data-anchor-id="que-faire-quand-il-y-a-des-valeurs-manquantes-dans-vos-variables-prédictives-plusieurs-possibilités">Que faire quand il y a des valeurs manquantes dans vos variables prédictives ? (plusieurs possibilités)</h3>
+<p>On peut faire des imputations, avec différentes méthodes (si on ne veut vraiment pas perdre d’individus).</p>
+<p>On peut aussi supprimer des individus (des lignes), si on a un échantillon suffisamment important et si il n’y a pas trop de valeurs manquantes.</p>
 <p><em>Etape 4 : Dans l’onglet préparation, choisir la recette “imputation avec la moyenne” que vous appliquez sur la base d’entraînement.</em></p>
 </section>
 <section id="y-a-t-il-encore-des-données-manquantes" class="level3">
 <h3 class="anchored" data-anchor-id="y-a-t-il-encore-des-données-manquantes">Y a t il encore des données manquantes ?</h3>
+<p>Non : ce qui signifie que la méthode d’imputation a bien marché.</p>
 <p><em>Etape 5 : Dans l’onglet modèle, choisir à nouveau la forêt aléatoire et ajuster le modèle sur la base d’entraînement.</em></p>
 </section>
-<section id="combien-darbres-de-regression-ont-été-générés-de-combien-de-variables-sont-ils-constitués" class="level3">
-<h3 class="anchored" data-anchor-id="combien-darbres-de-regression-ont-été-générés-de-combien-de-variables-sont-ils-constitués">Combien d’arbres de regression ont été générés ? De combien de variables sont-ils constitués ?</h3>
+<section id="combien-darbres-de-regression-ont-été-générés-par-cette-méthode-de-combien-de-variables-sont-ils-constitués" class="level3">
+<h3 class="anchored" data-anchor-id="combien-darbres-de-regression-ont-été-générés-par-cette-méthode-de-combien-de-variables-sont-ils-constitués">Combien d’arbres de regression ont été générés par cette méthode ? De combien de variables sont-ils constitués ?</h3>
+<p>500 arbres, avec 3 variables tirées aléatoirement à chaque fois.</p>
 </section>
-<section id="au-regard-des-10-premiers-individus-affichés-les-estimations-des-valeurs-dozone-sont-elles-éloignées-des-valeurs-réellement-mesurées" class="level3">
-<h3 class="anchored" data-anchor-id="au-regard-des-10-premiers-individus-affichés-les-estimations-des-valeurs-dozone-sont-elles-éloignées-des-valeurs-réellement-mesurées">Au regard des 10 premiers individus affichés, les estimations des valeurs d’ozone sont-elles éloignées des valeurs réellement mesurées ?</h3>
+<section id="calculer-le-rss-le-mse-et-le-rmse-à-partir-de-lestimation-et-de-la-vraie-valeur-observée-des-deux-premiers-individus-du-tableau-seulement." class="level3">
+<h3 class="anchored" data-anchor-id="calculer-le-rss-le-mse-et-le-rmse-à-partir-de-lestimation-et-de-la-vraie-valeur-observée-des-deux-premiers-individus-du-tableau-seulement.">Calculer le RSS, le MSE et le RMSE à partir de l’estimation et de la vraie valeur observée des deux premiers individus du tableau seulement.</h3>
+<p>Les valeurs ne sont pas forcément les mêmes pour les estimations parce qu’il y a deux niveaux d’aléatoires dans les forêts (tirage bootstrap des individus + tirage aléatoire des variables).</p>
+<p><span class="math display">\[
+RSS = (56-44,5)² + (41,2 - 27,5)²=319,94
+\]</span></p>
+<p><span class="math display">\[
+MSE = \frac{319,94}{2} = 159,97
+\]</span></p>
+<p><span class="math display">\[
+RMSE = \sqrt{159,97} = 12,6
+\]</span></p>
 <p><em>Etape 6 : Dans l’onglet validation, évaluer les performances de ce premier modèle (forêt aléatoire) appliqué sur la base transformée (imputation des valeurs manquantes)</em></p>
 </section>
 <section id="noter-les-indicateurs-de-performance-de-ce-premier-modèle-dans-le-tableau-comparatif-ci-dessous" class="level3">
@@ -491,17 +513,18 @@ window.Quarto = {
 </section>
 <section id="ce-modèle-a-t-il-de-bonnes-capacités-prédictives" class="level3">
 <h3 class="anchored" data-anchor-id="ce-modèle-a-t-il-de-bonnes-capacités-prédictives">Ce modèle a t il de bonnes capacités prédictives ?</h3>
+<p>Difficile à dire : on peut regarder le RMSE, qui nous dit qu’en moyenne, les prévisions s’éloignent de 13,9 des vraies valeurs. Le R² est assez proche de 1. Ce qui nous intéresse, c’est de savoir si ce modèle est le meilleur.</p>
 <p><em>Etape 7 : Dans les onglets modèles et validation, ajuster les autres algorithmes sur la base d’entraînement, et évaluer leurs performances.</em></p>
 </section>
 <section id="compléter-le-tableau-ci-dessous-avec-les-performances-des-autres-modèles" class="level3">
 <h3 class="anchored" data-anchor-id="compléter-le-tableau-ci-dessous-avec-les-performances-des-autres-modèles">Compléter le tableau ci-dessous avec les performances des autres modèles :</h3>
 <table class="table">
 <colgroup>
-<col style="width: 31%">
-<col style="width: 15%">
+<col style="width: 24%">
 <col style="width: 18%">
 <col style="width: 18%">
-<col style="width: 16%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -546,30 +569,26 @@ window.Quarto = {
 </section>
 <section id="quel-algorithme-est-le-plus-performant-pour-prédire" class="level3">
 <h3 class="anchored" data-anchor-id="quel-algorithme-est-le-plus-performant-pour-prédire">Quel algorithme est le plus performant pour prédire ?</h3>
+<p>C’est la forêt aléatoire qu regard de tous les indicateurs.</p>
 <p><em>Etape 8 : dans l’onglet “généralisation”, ajuster la forêt aléatoire sur la base d’entraînement et la base de validation.</em></p>
-</section>
-<section id="les-trois-premiers-indicateurs-rss-mse-rmse-ont-une-valeur-supérieure-à-ceux-mesurés-dans-létape-précédente.-etait-ce-prévisible" class="level3">
-<h3 class="anchored" data-anchor-id="les-trois-premiers-indicateurs-rss-mse-rmse-ont-une-valeur-supérieure-à-ceux-mesurés-dans-létape-précédente.-etait-ce-prévisible">Les trois premiers indicateurs (RSS, MSE, RMSE) ont une valeur supérieure à ceux mesurés dans l’étape précédente. Etait-ce prévisible ?</h3>
 </section>
 <section id="le-r²-se-rapproche-de-1.-etait-ce-prévisible" class="level3">
 <h3 class="anchored" data-anchor-id="le-r²-se-rapproche-de-1.-etait-ce-prévisible">Le R² se rapproche de 1. Etait-ce prévisible ?</h3>
-<p><em>Mise en situation 2 : En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d’information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours prêts à donner. A partir de la base de données grandile, choisissez l’algorithme le plus performant pour prédire le revenu disponible d’un ménage à partir des autres informations socio-économiques.</em></p>
+<p>Oui parce que plus un modèle a d’individus, mieux il apprend. Or ici, on a ajouté la base de validation pour ajuster notre algorithme.</p>
+<p><em>Mise en situation 2 : En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d’information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours disposés à donner.</em></p>
+<p><em>A partir de la base de données grandile, votre mission est de choisir l’algorithme le plus performant pour prédire le revenu disponible d’un ménage à partir des autres informations socio-économiques.</em></p>
 </section>
 <section id="compléter-le-tableau-pour-comparer-les-performances-des-algorithmes." class="level3">
 <h3 class="anchored" data-anchor-id="compléter-le-tableau-pour-comparer-les-performances-des-algorithmes.">Compléter le tableau pour comparer les performances des algorithmes.</h3>
 <table class="table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
-<col style="width: 18%">
+<col style="width: 79%">
+<col style="width: 12%">
+<col style="width: 8%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>Modèle testé sur la base avec imputation par la moyenne</th>
-<th style="text-align: center;">RSS</th>
-<th style="text-align: center;">MSE</th>
 <th style="text-align: center;">RMSE</th>
 <th style="text-align: center;">R²</th>
 </tr>
@@ -577,40 +596,34 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td><em>Modèle 1 : Forêt aléatoire</em><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">1 475</td>
+<td style="text-align: center;">0,99</td>
 </tr>
 <tr class="even">
 <td><em>Modèle 2 : Arbre de regression</em></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">4 431,9</td>
+<td style="text-align: center;">0,95</td>
 </tr>
 <tr class="odd">
 <td><em>Modèle 3 : Régression linéaire</em></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">3 552,4</td>
+<td style="text-align: center;">0,97</td>
 </tr>
 <tr class="even">
 <td><em>Modèle 4 : KNN</em></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td style="text-align: center;">1 508,5</td>
+<td style="text-align: center;">0,99</td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="quel-algorithme-est-le-plus-performant" class="level3">
 <h3 class="anchored" data-anchor-id="quel-algorithme-est-le-plus-performant">Quel algorithme est le plus performant ?</h3>
+<p>La forêt aléatoire, comme d’habitude !</p>
 </section>
 <section id="ajuster-ce-modèle-sur-la-base-dentraînement-et-de-validation-puis-généraliser-le-sur-des-données-quil-na-jamais-vu-les-données-de-test" class="level3">
 <h3 class="anchored" data-anchor-id="ajuster-ce-modèle-sur-la-base-dentraînement-et-de-validation-puis-généraliser-le-sur-des-données-quil-na-jamais-vu-les-données-de-test">Ajuster ce modèle sur la base d’entraînement et de validation puis généraliser le sur des données qu’il n’a jamais vu (les données de test)</h3>
+<p>le modèle marche encore mieux, puisque on a davantage d’individus.</p>
 </section>
 </section>
 

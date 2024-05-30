@@ -1,5 +1,5 @@
 ---
-title: "Exercice Machine learning"
+title: "Exercice Machine learning (avec correction)"
 format: html
 editor: visual
 ---
@@ -78,26 +78,26 @@ Par défaut, si la probabilité d'une modalité est supérieure à 0,5, c'est ce
 
 Exactitude :
 
-$$(439 + 127)/735 = 77\% $$
+$$\frac{439 + 127}{735} = 77\% $$
 
 Sensibilité :
 
 $$
-439 / (439+50) = 90 \%
+\frac{439}{439 + 50} = 90 \%
 $$
 
 Spécificité :
 
 $$
-(127) / (119 + 127) = 52 \%
+\frac{127}{119 + 127} = 52 \%
 $$
 
 ### 
 
-Compléter le tableau suivant avec les performances de ce première modèle.
+### Compléter le tableau suivant avec les performances de ce première modèle.
 
 | Modèle testé                       | Exactitude | Sensibilité | Spécificité | AUC  |
-|------------------|--------------|--------------|--------------|--------------|
+|---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique* | 77 %       | 90 %        | 52 %        | 0,83 |
 
 : Performances de la regression logistique
@@ -195,7 +195,7 @@ Dans ce cas, autant choisir un modèle économe en ressources informatiques. Le 
 
 1 366 relevés ont été effectués à Rennes, et constituent la base brute.
 
-### Quelle est la variable à prédire ? 
+### Quelle est la variable à prédire ?
 
 C'est la variable target, qui correspond à la concentration maximum d'ozone.
 
@@ -227,7 +227,7 @@ On peut aussi supprimer des individus (des lignes), si on a un échantillon suff
 
 *Etape 4 : Dans l'onglet préparation, choisir la recette "imputation avec la moyenne" que vous appliquez sur la base d'entraînement.*
 
-### Y a t il encore des données manquantes ? 
+### Y a t il encore des données manquantes ?
 
 Non : ce qui signifie que la méthode d'imputation a bien marché.
 
@@ -261,7 +261,7 @@ $$
 |------------------------------|:------:|:---:|:----:|:----:|
 | *Modèle 1 : Forêt aléatoire* | 39 362 | 192 | 13,9 | 0,71 |
 
-### Ce modèle a t il de bonnes capacités prédictives ? 
+### Ce modèle a t il de bonnes capacités prédictives ?
 
 Difficile à dire : on peut regarder le RMSE, qui nous dit qu'en moyenne, les prévisions s'éloignent de 13,9 des vraies valeurs. Le R² est assez proche de 1. Ce qui nous intéresse, c'est de savoir si ce modèle est le meilleur.
 
@@ -270,7 +270,7 @@ Difficile à dire : on peut regarder le RMSE, qui nous dit qu'en moyenne, les pr
 ### Compléter le tableau ci-dessous avec les performances des autres modèles :
 
 | Modèle testé sur la base avec imputation par la moyenne |  RSS   | MSE | RMSE |  R²  |
-|---------------------|:--------:|:----------:|:----------:|:---------:|
+|------------------|:------------:|:------------:|:------------:|:------------:|
 | *Modèle 1 : Forêt aléatoire*[^1]                        | 39 362 | 192 | 13,9 | 0,71 |
 | *Modèle 2 : Arbre de regression*                        | 56 900 | 278 | 16,7 | 0,59 |
 | *Modèle 3 : Régression linéaire*                        | 45 416 | 222 | 14,9 | 0,68 |
@@ -296,10 +296,10 @@ Oui parce que plus un modèle a d'individus, mieux il apprend. Or ici, on a ajou
 
 | Modèle testé sur la base avec imputation par la moyenne |  RMSE   |  R²  |
 |---------------------------------------------------------|:-------:|:----:|
-| *Modèle 1 : Forêt aléatoire*[^2]                        |         |      |
-| *Modèle 2 : Arbre de regression*                        | 4 431,9 |      |
+| *Modèle 1 : Forêt aléatoire*[^2]                        |  1 475  | 0,99 |
+| *Modèle 2 : Arbre de regression*                        | 4 431,9 | 0,95 |
 | *Modèle 3 : Régression linéaire*                        | 3 552,4 | 0,97 |
-| *Modèle 4 : KNN*                                        |         |      |
+| *Modèle 4 : KNN*                                        | 1 508,5 | 0,99 |
 
 [^2]: Les valeurs ne sont pas les mêmes.
 
