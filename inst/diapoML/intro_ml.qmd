@@ -36,7 +36,6 @@ Le deep learning est un sous domaine du machine learning : globalement, il veut 
 ## Non supervisé VS supervisé
 
 ::: panel-tabset
-
 ## Non supervisé
 
 ```{r}
@@ -58,22 +57,87 @@ locations <- data.frame(Y_prix = c(1000,800,600,1000,800),
 kbl(locations,
     format = "html")
 ```
-
 :::
 
 ::: notes
-
-En apprentissage non supervisée, les données ne sont pas étiquetées. Le but est de regrouper automatiquement les individus qui se ressemblent, et de leur trouver ensuite un nom qui les rassemblent : par exemple les grands logements vont être ensemble. 
-En apprentissage supervisé, j'ai des données étiquetées (avec un Y) et le but est d'être capable de prédire Y à partir de ces données étiquetées.
-
+En apprentissage non supervisée, les données ne sont pas étiquetées. Le but est de regrouper automatiquement les individus qui se ressemblent, et de leur trouver ensuite un nom qui les rassemblent : par exemple les grands logements vont être ensemble. Permet de faire de la classification automatique. En apprentissage supervisé, j'ai des données étiquetées (avec un Y) et le but est d'être capable de prédire Y à partir de ces données étiquetées.
 :::
 
 ## But de l'apprentissage supervisé
 
-IL s'agit de trouver la fonction f qui va le mieux prédire Y en fonction de X1, X2...,Xn
+Il s'agit de trouver la fonction f qui va le mieux **prédire** Y en fonction de X1, X2...,Xn
 
 $$
 Y = f(X_1, X_2, ...,X_n)
 $$
 
+## Les étapes de l'apprentissage supervisé :
 
+1.  Disposer d'une base de données étiquetée
+
+2.  Nettoyer et explorer cette base de données 
+
+2.  Réserver une partie de la base pour l'apprentissage/test
+
+3.  Apprendre des données avec des algorithmes
+
+4.  Comparer les performances prédictives de ces algorithmes
+
+5.  Choisir le modèle et l'ajuster sur les données d'apprentissage
+
+6.  Mettre en production
+
+## Apprentissage avec la regression linéaire
+
+::: columns
+::: {.column width="60%"}
+```{r}
+locations <- data.frame(Y_prix = c(1000,800,600,1000,800),X_surface = c(50,30,25,60,35))
+row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
+reg <- lm(locations$Y_prix ~ locations$X_surface)
+kbl(locations,
+    format = "html")
+```
+:::
+
+::: {.column width="40%"}
+Par MCO, on trouve la fonction f :
+
+$$
+Y = 416,5 + 10,6 X
+$$
+:::
+:::
+
+::: notes
+Exemple : sur cette base avec une seule variable explicative, par la méthode des MCO (méthode des moindres carrés ordinaires), on peut trouver une droite qui passe au plus près des points du nuage de point (cf module sur les régressions linéaires).
+:::
+
+## Estimations ou prévisions ?
+
+::: panel-tabset
+## Estimations
+
+```{r}
+locations <- data.frame(prix = c(1000,800,600,1000,800),surface = c(50,30,25,60,35))
+row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
+reg <- lm(locations$prix ~ locations$surface)
+locations$prix_estime <- predict(reg)
+kbl(locations,
+    format = "html")
+```
+
+## Prévisions
+
+```{r}
+locations <- data.frame(surface = c(45,30,110))
+row.names(locations) <- c("logement6","logement7","logement8")
+
+
+
+locations <- locations %>% 
+  mutate(prix_prevu = reg$coefficients[1] + reg$coefficients[2]*surface)
+kbl(locations,format = "html")
+
+```
+:::
