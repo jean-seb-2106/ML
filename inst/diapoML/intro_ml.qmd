@@ -11,17 +11,39 @@ library(kableExtra)
 library(dplyr)
 ```
 
-## C'est quoi le machine learning ?
+## C'est quoi l'intelligence artificielle ?
 
 ![](IA_ML.png){fig-align="center"}
 
 ::: notes
 L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.*
 
+
+
+
+:::
+
+## "La bonne vieille IA"...
+
+![](système_expert.png){fig-align="center"}
+
+:::notes
 Il y a "la bonne vieille intelligence artificielle" en français, celle pour laquelle un expert explicite toutes les règles qui sont ensuite traduites en langue informatique. Il faut l'expert à côté de l'informaticien qui code, pour lui donner toutes les règles.
 
-Avec l'intelligence artificielle, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
+C'est celle qu'on utilise depuis longtemps, depuis les années 50.
+:::
 
+## ...VS l'apprentissage automatique
+
+![](machine-learning-entrainement-ia.jpg){fig-align="center"}
+:::notes
+Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
+:::
+
+## et le Deep learning
+
+![](reseau_neurones.jpg){fig-align="center"}
+:::notes
 Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
 :::
 
@@ -75,17 +97,16 @@ $$
 
 1.  Disposer d'une base de données étiquetée
 
-2.  Nettoyer et explorer cette base de données 
+2.  Nettoyer et explorer cette base de données
 
-2.  Réserver une partie de la base pour l'apprentissage/test
+3.  Réserver une partie de la base pour l'apprentissage/test
 
-3.  Apprendre des données avec des algorithmes
+4.  Apprendre des données avec des algorithmes
 
-4.  Comparer les performances prédictives de ces algorithmes
+5.  Comparer les performances prédictives de ces algorithmes
 
-5.  Choisir le modèle et l'ajuster sur les données d'apprentissage
+6.  Choisir le meilleur modèle et le mettre en production
 
-6.  Mettre en production
 
 ## Apprentissage avec la regression linéaire
 

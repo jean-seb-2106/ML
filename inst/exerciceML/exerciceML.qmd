@@ -97,7 +97,7 @@ $$
 ### Compléter le tableau suivant avec les performances de ce première modèle.
 
 | Modèle testé                       | Exactitude | Sensibilité | Spécificité | AUC  |
-|---------------|---------------|---------------|---------------|---------------|
+|------------------------------------|------------|-------------|-------------|------|
 | *Modèle 1 : Regression logistique* | 77 %       | 90 %        | 52 %        | 0,83 |
 
 : Performances de la regression logistique
@@ -115,7 +115,7 @@ $$
 ### Compléter le tableau suivant avec les performances de ce deuxi-me modèle.
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
-|---------------|---------------|---------------|---------------|---------------|
+|--------------------------------------|------------|-------------|-------------|------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 
@@ -136,7 +136,7 @@ Chaque arbre est constitué par défaut de 3 variables tirées aléatoirement (M
 ### Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
-|---------------|---------------|---------------|---------------|---------------|
+|--------------------------------------|------------|-------------|-------------|------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 | *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        | 0,89 |
@@ -150,7 +150,7 @@ Par défaut, la valeur retenue par l'algorithme est 5.
 ### Noter les indicateurs dans le tableau comparatif des modèles
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
-|---------------|---------------|---------------|---------------|---------------|
+|--------------------------------------|------------|-------------|-------------|------|
 | *Modèle 1 : Regression logistique*   | 77 %       | 90 %        | 52 %        | 0,83 |
 | *Modèle 2 : arbre de classification* | 76 %       | 80 %        | 67 %        | 0,77 |
 | *Modèle 3 : forêt aléatoire*         | 83 %       | 90 %        | 70 %        | 0,89 |
@@ -169,7 +169,7 @@ Non. Le modèle final s'ajuste sur la base d'entraînement (70 % des données) e
 ***Mise en situation 2 :** Vous êtes le gouverneur de Grandile, la plus grande île de l'archipel de Ceph'ile. Vous disposez d'une base de données avec des informations sur 5 418 ménages habitants à Grandile, et notamment vous savez si ce ménage est pauvre ou non. Vous voulez être en capacité de prédire si un nouveau ménage est pauvre à partir des informations socio-économiques que vous aurez collectées.*
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
-|---------------|---------------|---------------|---------------|---------------|
+|--------------------------------------|------------|-------------|-------------|------|
 | *Modèle 1 : Regression logistique*   | 99 %       | 100 %       | 98 %        | 1    |
 | *Modèle 2 : arbre de classification* | 99 %       | 100 %       | 94 %        | 0,98 |
 | *Modèle 3 : forêt aléatoire*         | 99 %       | 100 %       | 98 %        | 1    |
@@ -270,7 +270,7 @@ Difficile à dire : on peut regarder le RMSE, qui nous dit qu'en moyenne, les pr
 ### Compléter le tableau ci-dessous avec les performances des autres modèles :
 
 | Modèle testé sur la base avec imputation par la moyenne |  RSS   | MSE | RMSE |  R²  |
-|------------------|:------------:|:------------:|:------------:|:------------:|
+|---------------------------------------------------------|:------:|:---:|:----:|:----:|
 | *Modèle 1 : Forêt aléatoire*[^1]                        | 39 362 | 192 | 13,9 | 0,71 |
 | *Modèle 2 : Arbre de regression*                        | 56 900 | 278 | 16,7 | 0,59 |
 | *Modèle 3 : Régression linéaire*                        | 45 416 | 222 | 14,9 | 0,68 |
