@@ -11,23 +11,19 @@ library(kableExtra)
 library(dplyr)
 ```
 
-## C'est quoi l'intelligence artificielle ?
+## Non mais c'est quoi en fait ?
 
 ![](IA_ML.png){fig-align="center"}
 
 ::: notes
 L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.*
-
-
-
-
 :::
 
 ## "La bonne vieille IA"...
 
 ![](système_expert.png){fig-align="center"}
 
-:::notes
+::: notes
 Il y a "la bonne vieille intelligence artificielle" en français, celle pour laquelle un expert explicite toutes les règles qui sont ensuite traduites en langue informatique. Il faut l'expert à côté de l'informaticien qui code, pour lui donner toutes les règles.
 
 C'est celle qu'on utilise depuis longtemps, depuis les années 50.
@@ -35,16 +31,16 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 
 ## ...VS l'apprentissage automatique
 
-![](machine-learning-entrainement-ia.jpg){fig-align="center"}
-:::notes
-Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
-:::
+![](machine-learning-entrainement-ia.jpg){fig-align="center"} :::notes Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent. :::
 
-## et le Deep learning
+<!-- ## et le Deep learning -->
 
-![](reseau_neurones.jpg){fig-align="center"}
-:::notes
-Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
+<!-- ![](reseau_neurones.jpg){fig-align="center"} -->
+
+<!-- :::notes -->
+
+<!-- Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple. -->
+
 :::
 
 ## Les différents types d'apprentissage automatique
@@ -55,43 +51,95 @@ Le deep learning est un sous domaine du machine learning : globalement, il veut 
 
 3.  L'apprentissage par essai/erreur
 
-## Non supervisé VS supervisé
-
-::: panel-tabset
-## Non supervisé
-
-```{r}
-locations <- data.frame(
-                        X1_surface = c(50,30,25,60,35),
-                        X2_pieces = c(3,2,1,4,1))
-
-kbl(locations,
-    format = "html")
-```
-
-## Supervisé
-
-```{r}
-locations <- data.frame(Y_prix = c(1000,800,600,1000,800),
-                        X1_surface = c(50,30,25,60,35),
-                        X2_pieces = c(3,2,1,4,1))
-
-kbl(locations,
-    format = "html")
-```
+::: notes
+Dans ce module d'introduction, on va principalement étudier l'apprentissage supervisé. L'apprentissage non supervisé a été vu en partie dans le module sur la modélisation. Enfin, le dernier type d'apprentissage ne sera pas vu, c'est celui qui est utilisé pour simuler un joueur de jeu de go ou d'échec par exemple.
 :::
+
+## Différence entre supervisé et non supervisé
+
+![](supervisé_nonsupervisé.png){fig-align="center"}
 
 ::: notes
-En apprentissage non supervisée, les données ne sont pas étiquetées. Le but est de regrouper automatiquement les individus qui se ressemblent, et de leur trouver ensuite un nom qui les rassemblent : par exemple les grands logements vont être ensemble. Permet de faire de la classification automatique. En apprentissage supervisé, j'ai des données étiquetées (avec un Y) et le but est d'être capable de prédire Y à partir de ces données étiquetées.
+Dans le non supervisé, les données ne sont pas étiquetés. Le but pour la machine est de détecter les ressemblances entre les individus (cf module sur le clustering).
+
+Dans le supervisé, la machine apprend sur des données étiquetés (avec un Y). L'image a un nom, et le but est de faire en sorte que le modèle soit capable de prédire correctement une nouvelle image.
+
+Cette image vient du site suivant :
+
+<https://www.le-cortex.com/media/articles/lintelligence-artificielle-comment-ca-marche>
 :::
 
-## But de l'apprentissage supervisé
+## But de l'apprentissage supervisé : la prédiction
 
-Il s'agit de trouver la fonction f qui va le mieux **prédire** Y en fonction de X1, X2...,Xn
+-   Il s'agit de trouver la fonction f qui va le mieux **prédire** Y en fonction de X1, X2...,Xn
+
+-   $$
+    Y = f(X_1, X_2, ...,X_n)
+    $$
+
+-   Le but premier de l'apprentissage supervisé n'est pas d'expliquer (cf module sur les modélisation statistique), mais bien de prédire.
+
+## Différence entre régression et classification
+
+![](types_apprentissage.png){fig-align="center"}
+
+:::notes
+Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres) comme modèle.
+Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre.
+:::
+
+## Prédire ou estimer ?
+
+::: panel-tabset
+
+## Base de départ
+
+```{r}
+locations <- data.frame(Y_prix = c(1000,800,600,1000,800),X1_surface = c(50,30,25,60,35))
+row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
+kbl(locations,
+    format = "html")
+```
+
+## Modèle
+
+```{r}
+reg <- lm(locations$Y_prix ~ locations$X1_surface)
+```
 
 $$
-Y = f(X_1, X_2, ...,X_n)
+Y = 416,5 + 10,6 X_1
 $$
+
+## Estimations
+
+```{r}
+
+locations$prix_estime <- predict(reg) %>% round(1)
+kbl(locations,
+    format = "html")
+```
+
+## Prévisions
+
+```{r}
+locations <- data.frame(surface = c(45,30,110))
+row.names(locations) <- c("logement6","logement7","logement8")
+
+
+
+locations <- locations %>% 
+  mutate(prix_prevu = reg$coefficients[1] + reg$coefficients[2]*surface) %>% round(1)
+kbl(locations,format = "html")
+
+```
+:::
+
+:::notes
+On cherche à prédire le prix d'un logement en fonction de sa surface. 
+J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). 
+Il s'agit donc d'un problème de régression (et pas de classification).
+:::
 
 ## Les étapes de l'apprentissage supervisé :
 
@@ -106,7 +154,6 @@ $$
 5.  Comparer les performances prédictives de ces algorithmes
 
 6.  Choisir le meilleur modèle et le mettre en production
-
 
 ## Apprentissage avec la regression linéaire
 
@@ -134,31 +181,46 @@ $$
 Exemple : sur cette base avec une seule variable explicative, par la méthode des MCO (méthode des moindres carrés ordinaires), on peut trouver une droite qui passe au plus près des points du nuage de point (cf module sur les régressions linéaires).
 :::
 
-## Estimations ou prévisions ?
+<!-- ## Non supervisé VS supervisé -->
 
-::: panel-tabset
-## Estimations
+<!-- ::: panel-tabset -->
 
-```{r}
-locations <- data.frame(prix = c(1000,800,600,1000,800),surface = c(50,30,25,60,35))
-row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
-reg <- lm(locations$prix ~ locations$surface)
-locations$prix_estime <- predict(reg)
-kbl(locations,
-    format = "html")
-```
+<!-- ## Non supervisé -->
 
-## Prévisions
+<!-- ```{r} -->
 
-```{r}
-locations <- data.frame(surface = c(45,30,110))
-row.names(locations) <- c("logement6","logement7","logement8")
+<!-- locations <- data.frame( -->
 
+<!--                         X1_surface = c(50,30,25,60,35), -->
 
+<!--                         X2_pieces = c(3,2,1,4,1)) -->
 
-locations <- locations %>% 
-  mutate(prix_prevu = reg$coefficients[1] + reg$coefficients[2]*surface)
-kbl(locations,format = "html")
+<!-- kbl(locations, -->
 
-```
-:::
+<!--     format = "html") -->
+
+<!-- ``` -->
+
+<!-- ## Supervisé -->
+
+<!-- ```{r} -->
+
+<!-- locations <- data.frame(Y_prix = c(1000,800,600,1000,800), -->
+
+<!--                         X1_surface = c(50,30,25,60,35), -->
+
+<!--                         X2_pieces = c(3,2,1,4,1)) -->
+
+<!-- kbl(locations, -->
+
+<!--     format = "html") -->
+
+<!-- ``` -->
+
+<!-- ::: -->
+
+<!-- ::: notes -->
+
+<!-- En apprentissage non supervisée, les données ne sont pas étiquetées. Le but est de regrouper automatiquement les individus qui se ressemblent, et de leur trouver ensuite un nom qui les rassemblent : par exemple les grands logements vont être ensemble. Permet de faire de la classification automatique. En apprentissage supervisé, j'ai des données étiquetées (avec un Y) et le but est d'être capable de prédire Y à partir de ces données étiquetées. -->
+
+<!-- ::: -->
