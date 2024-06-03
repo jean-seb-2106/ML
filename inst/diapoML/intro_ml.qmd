@@ -83,7 +83,6 @@ Cette image vient du site suivant :
 
 ::: columns
 ::: {.column width="50%"}
-
 -   $$
     Y = f(X_1, X_2, ...,X_n)
     $$
@@ -92,7 +91,6 @@ Cette image vient du site suivant :
 :::
 
 ::: {.column width="50%"}
-
 ![](42293349-photo-de-future-femme-prédiction-de-la-boule-de-cristal.jpg)
 :::
 :::
@@ -186,15 +184,15 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 ::: panel-tabset
 ## Sous-Apprentissage
 
-![](sous_apprentissage.png){width="600"}
+![](sous_apprentissage.png){fig-align="center" width="500"}
 
 ## Sur-apprentissage
 
-![](sur-apprentissage.png){width="600"}
+![](sur-apprentissage.png){fig-align="center" width="500"}
 
 ## Bon modèle
 
-![](apprentissage_adapté.png){width="600"}
+![](apprentissage_adapté.png){fig-align="center" width="500"}
 :::
 
 ::: notes
@@ -208,6 +206,10 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 -   Dans le dernier cas, l'estimation est correcte (même si elle est moins bonne que dans le cas précédent) mais la prévision risque d'être meilleure, parce qu'elle colle moins aux données.
 :::
+
+## Le compromis biais-variance
+
+![](biais_variance.png){fig-align="center"}
 
 ## Autre exemple
 
