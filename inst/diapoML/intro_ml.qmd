@@ -13,6 +13,7 @@ library(dplyr)
 library(asta) #pour récupérer la base titanic
 library(skimr)
 library(tidymodels)
+library(rpart.plot)
 ```
 
 # Les grands principes
@@ -243,7 +244,7 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 ```{r}
 grandile <- asta::grandile %>% 
-select(Y_REVENU = REV_DISPONIBLE, X1_PATRIMOINE= PATRIMOINE,X2_AGE = AGE)
+select(Y_REVENU = REV_DISPONIBLE, X1_NBPIECES= NBPIECES,X2_AGE = AGE)
 kbl(head(grandile))
 ```
 
@@ -259,7 +260,7 @@ kbl(head(grandile))
 
 <!-- ``` -->
 
-# Etape 2 : Explorer et nettoyer la base
+# Etape 2 : Explorer, nettoyer et améliorer la base
 
 ## Exploration {.scrollable}
 
@@ -268,11 +269,15 @@ kbl(head(grandile))
 skim(grandile)
 ```
 
-## Nettoyage
+## Nettoyage et transformation des données
 
 -   Traitement des données manquantes
 
--   
+-   Traitement des "outliers"
+
+-   Encodage de variables
+
+-   Création de nouvelles variables
 
 # Etape 3 : Partitionner la base
 
@@ -302,54 +307,118 @@ skim(train_grandile)
 # Etape 4 : Entraînement des modèles
 
 ```{r}
+#Les recettes
 rec1 <- 
   recipe(Y_REVENU ~ ., data = train_grandile) 
+```
+
+```{r}
+
+#les modèles
+
+#modèle de regression linéaire
+mod_lr <- linear_reg() %>% 
+  set_engine("lm")
+
+mod_tree <- 
+  mod_tree <- 
+  decision_tree(
+    cost_complexity = 0.02,
+    # tree_depth = 7,
+    # min_n = NULL
+  ) %>%
+  set_engine("rpart") %>%
+  set_mode("regression")
+
 ```
 
 ## Modèle 1 : Régression linéaire
 
 ```{r}
-#modèle de regression linéaire
-mod_lr <- linear_reg() %>% 
-  set_engine("lm")
+wflow <- workflow() %>% 
+  add_recipe(rec1) %>% 
+  add_model(mod_lr)
+
+fit_lr <- wflow %>% fit(data=train_grandile)
+summary(fit_lr)
+
+
 ```
+
+## Modèle 2 : Arbre de régression, comment ça marche ?
+
+1.  L'algorithme (CART) choisit la variable la plus discriminante
+
+2.  Test de toutes les valeurs pour déterminer le seuil optimal
+
+3.  Partage de la population en deux noeuds
+
+4.  Il renouvelle les 3 premières étapes pour chaque noeud
+
+5.  L'utilisateur définit le nombre de noeuds souhaités (max = N)
+
+6.  Les valeurs estimées sont les moyennes des noeuds terminaux
+
+## Modèle 2 : Arbre de regression (visualisation) {.smaller}
+
+```{r}
+arbre1 <- rpart(Y_REVENU ~ .,data=train_grandile,cp=0.02)
+rpart.plot(arbre1)
+```
+
+## Modèle 2 : sortie R
 
 ```{r}
 wflow <- workflow() %>% 
   add_recipe(rec1) %>% 
-  add_model(mod_lr)
+  add_model(mod_tree)
+
+fit_tree <- wflow %>% fit(data=train_grandile)
+fit_tree
+
 ```
 
-```{r}
-fit <- wflow %>% fit(data=train_grandile)
-fit 
-```
+<!-- ## Apprentissage avec la regression linéaire -->
 
-## Apprentissage avec la regression linéaire
+<!-- ::: columns -->
 
-::: columns
-::: {.column width="60%"}
-```{r}
-locations <- data.frame(Y_prix = c(1000,800,600,1000,800),X_surface = c(50,30,25,60,35))
-row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5")
-reg <- lm(locations$Y_prix ~ locations$X_surface)
-kbl(locations,
-    format = "html")
-```
-:::
+<!-- ::: {.column width="60%"} -->
 
-::: {.column width="40%"}
-Par MCO, on trouve la fonction f :
+<!-- ```{r} -->
 
-$$
-Y = 416,5 + 10,6 X
-$$
-:::
-:::
+<!-- locations <- data.frame(Y_prix = c(1000,800,600,1000,800),X_surface = c(50,30,25,60,35)) -->
 
-::: notes
-Exemple : sur cette base avec une seule variable explicative, par la méthode des MCO (méthode des moindres carrés ordinaires), on peut trouver une droite qui passe au plus près des points du nuage de point (cf module sur les régressions linéaires).
-:::
+<!-- row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5") -->
+
+<!-- reg <- lm(locations$Y_prix ~ locations$X_surface) -->
+
+<!-- kbl(locations, -->
+
+<!--     format = "html") -->
+
+<!-- ``` -->
+
+<!-- ::: -->
+
+<!-- ::: {.column width="40%"} -->
+
+<!-- Par MCO, on trouve la fonction f : -->
+
+<!-- $$ -->
+
+<!-- Y = 416,5 + 10,6 X -->
+
+<!-- $$ -->
+
+<!-- ::: -->
+
+<!-- ::: -->
+
+<!-- ::: notes -->
+
+<!-- Exemple : sur cette base avec une seule variable explicative, par la méthode des MCO (méthode des moindres carrés ordinaires), on peut trouver une droite qui passe au plus près des points du nuage de point (cf module sur les régressions linéaires). -->
+
+<!-- ::: -->
 
 <!-- ## Non supervisé VS supervisé -->
 
