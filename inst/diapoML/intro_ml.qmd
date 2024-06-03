@@ -11,6 +11,8 @@ library(kableExtra)
 library(dplyr)
 ```
 
+# Les grands principes
+
 ## Non mais c'est quoi en fait ?
 
 ![](IA_ML.png){fig-align="center"}
@@ -83,15 +85,13 @@ Cette image vient du site suivant :
 
 ![](types_apprentissage.png){fig-align="center"}
 
-:::notes
-Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres) comme modèle.
-Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre.
+::: notes
+Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres) comme modèle. Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre.
 :::
 
 ## Prédire ou estimer ?
 
 ::: panel-tabset
-
 ## Base de départ
 
 ```{r}
@@ -135,11 +135,23 @@ kbl(locations,format = "html")
 ```
 :::
 
-:::notes
-On cherche à prédire le prix d'un logement en fonction de sa surface. 
-J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). 
-Il s'agit donc d'un problème de régression (et pas de classification).
+::: notes
+On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). Il s'agit donc d'un problème de régression (et pas de classification).
 :::
+
+## Comment la machine apprend ?
+
+-   La machine apprend sur des données étiquetées grace à des algorithmes (exemple : la régression linéaire pour des don).
+
+-   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
+
+::: notes
+Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
+:::
+
+## La complexité d'un modèle
+
+# Les grandes étapes
 
 ## Les étapes de l'apprentissage supervisé :
 
@@ -149,7 +161,7 @@ Il s'agit donc d'un problème de régression (et pas de classification).
 
 3.  Réserver une partie de la base pour l'apprentissage/test
 
-4.  Apprendre des données avec des algorithmes
+4.  Apprendre des données avec des modèles/algorithmes
 
 5.  Comparer les performances prédictives de ces algorithmes
 
