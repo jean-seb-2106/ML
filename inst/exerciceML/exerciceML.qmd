@@ -1,6 +1,10 @@
 ---
 title: "Exercice Machine learning (avec correction)"
-format: html
+format: 
+  html:
+    toc: false
+    number-sections: true
+  
 editor: visual
 ---
 
