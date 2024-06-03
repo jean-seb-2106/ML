@@ -3,12 +3,16 @@ title: "Introduction au machine learning"
 format: 
   revealjs:
     incremental: true
+    embed-resources: true #pour tout mettre dans un seul fichier
 editor: visual
 ---
 
 ```{r}
 library(kableExtra)
 library(dplyr)
+library(asta) #pour récupérer la base titanic
+library(skimr)
+library(tidymodels)
 ```
 
 # Les grands principes
@@ -21,6 +25,8 @@ library(dplyr)
 L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.*
 
 Le machine learning fait partie d'intelligence artificielle, mais il se distingue de l'IA historique par son mode de fonctionnement.
+
+Le deep learning est un machine learning très puissant, utilisé sur des données très volumineuses (images, vidéos..) et nécessitant de grosses puissances de calculs.
 :::
 
 ## "La bonne vieille IA"...
@@ -219,9 +225,9 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 ## Les étapes de l'apprentissage supervisé :
 
-1.  Disposer d'une base de données étiquetée
+1.  Définir le sujet (classification ou régression ?)
 
-2.  Nettoyer et explorer cette base de données
+2.  Explorer et nettoyer la base de données
 
 3.  Réserver une partie de la base pour l'apprentissage/test
 
@@ -230,6 +236,94 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 5.  Comparer les performances prédictives de ces algorithmes
 
 6.  Choisir le meilleur modèle et le mettre en production
+
+# Etape 1 : définir le problème
+
+## Régression ou classification ?
+
+```{r}
+grandile <- asta::grandile %>% 
+select(Y_REVENU = REV_DISPONIBLE, X1_PATRIMOINE= PATRIMOINE,X2_AGE = AGE)
+kbl(head(grandile))
+```
+
+<!-- ## Régression ou classification ? -->
+
+<!-- ```{r} -->
+
+<!-- grandile_classif <- asta::grandile %>%  -->
+
+<!-- select(Y_PAUVRE = PAUVRE, X1_REVENU = REV_DISPONIBLE, X2_DIPL = DIPL) -->
+
+<!-- kbl(head(grandile_classif)) -->
+
+<!-- ``` -->
+
+# Etape 2 : Explorer et nettoyer la base
+
+## Exploration {.scrollable}
+
+```{r}
+# summary(grandile)
+skim(grandile)
+```
+
+## Nettoyage
+
+-   Traitement des données manquantes
+
+-   
+
+# Etape 3 : Partitionner la base
+
+## Partition de la base
+
+![](training-validation-test-sets.png){fig-align="center"}
+
+## Partition de grandile {.scrollable}
+
+```{r}
+part_training <- 0.6 
+part_validation <- 0.2
+set.seed(1234)
+
+grandile_split <- initial_validation_split(grandile,prop = c(part_training,part_validation))
+
+train_grandile <- training(grandile_split) #le fichier d'entraînement
+test_grandile <- testing(grandile_split) #le fichier de test
+valid_grandile <- validation(grandile_split)
+train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
+```
+
+```{r}
+skim(train_grandile)
+```
+
+# Etape 4 : Entraînement des modèles
+
+```{r}
+rec1 <- 
+  recipe(Y_REVENU ~ ., data = train_grandile) 
+```
+
+## Modèle 1 : Régression linéaire
+
+```{r}
+#modèle de regression linéaire
+mod_lr <- linear_reg() %>% 
+  set_engine("lm")
+```
+
+```{r}
+wflow <- workflow() %>% 
+  add_recipe(rec1) %>% 
+  add_model(mod_lr)
+```
+
+```{r}
+fit <- wflow %>% fit(data=train_grandile)
+fit 
+```
 
 ## Apprentissage avec la regression linéaire
 
