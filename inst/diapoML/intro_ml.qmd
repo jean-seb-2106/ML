@@ -13,12 +13,14 @@ library(dplyr)
 
 # Les grands principes
 
-## Non mais c'est quoi en fait ?
+## Vous avez dit "machine learning" ?
 
 ![](IA_ML.png){fig-align="center"}
 
 ::: notes
 L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.*
+
+Le machine learning fait partie d'intelligence artificielle, mais il se distingue de l'IA historique par son mode de fonctionnement.
 :::
 
 ## "La bonne vieille IA"...
@@ -33,7 +35,11 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 
 ## ...VS l'apprentissage automatique
 
-![](machine-learning-entrainement-ia.jpg){fig-align="center"} :::notes Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent. :::
+![](machine-learning-entrainement-ia.jpg){fig-align="center"}
+
+::: notes
+Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
+:::
 
 <!-- ## et le Deep learning -->
 
@@ -43,7 +49,7 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 
 <!-- Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple. -->
 
-:::
+<!-- ::: -->
 
 ## Les différents types d'apprentissage automatique
 
@@ -55,6 +61,8 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 
 ::: notes
 Dans ce module d'introduction, on va principalement étudier l'apprentissage supervisé. L'apprentissage non supervisé a été vu en partie dans le module sur la modélisation. Enfin, le dernier type d'apprentissage ne sera pas vu, c'est celui qui est utilisé pour simuler un joueur de jeu de go ou d'échec par exemple.
+
+la différence entre supervisé et non supervisé est dans la diapo suivante.
 :::
 
 ## Différence entre supervisé et non supervisé
@@ -73,15 +81,29 @@ Cette image vient du site suivant :
 
 ## But de l'apprentissage supervisé : la prédiction
 
--   Il s'agit de trouver la fonction f qui va le mieux **prédire** Y en fonction de X1, X2...,Xn
+::: columns
+::: {.column width="50%"}
 
 -   $$
     Y = f(X_1, X_2, ...,X_n)
     $$
 
--   Le but premier de l'apprentissage supervisé n'est pas d'expliquer (cf module sur les modélisation statistique), mais bien de prédire.
+-   Le but premier de l'apprentissage supervisé n'est pas d'expliquer mais bien de prédire.
+:::
 
-## Différence entre régression et classification
+::: {.column width="50%"}
+
+![](42293349-photo-de-future-femme-prédiction-de-la-boule-de-cristal.jpg)
+:::
+:::
+
+::: notes
+-   Il s'agit de trouver la fonction f qui va le mieux **prédire** Y en fonction de X1, X2...,Xn
+
+-   On distingue la modélisation statistique (cf module 3 de statistique), avec des tests et des hypothèses. Le but est d'expliquer, d'interpréter, de comprendre les données du machine learning, qui a pour objectif d'avoir les meilleures performances prédictives, au détriment parfois de l'interprétabilité.
+:::
+
+## Régression et classification
 
 ![](types_apprentissage.png){fig-align="center"}
 
@@ -141,15 +163,55 @@ On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une
 
 ## Comment la machine apprend ?
 
--   La machine apprend sur des données étiquetées grace à des algorithmes (exemple : la régression linéaire pour des don).
+-   La machine learning apprend sur des données étiquetées grace à des algorithmes (exemple : la régression linéaire pour des don).
 
 -   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
+
+-   Il existe de nombreux modèles/algorithmes.
 
 ::: notes
 Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
 :::
 
-## La complexité d'un modèle
+## Les classes de modèles
+
+1.  Les modèles de régression
+
+2.  Les modèles à base d'arbre
+
+3.  Les réseaux de neurones et le deep learning
+
+## C'est quoi un "bon" apprentissage ?
+
+::: panel-tabset
+## Sous-Apprentissage
+
+![](sous_apprentissage.png){width="600"}
+
+## Sur-apprentissage
+
+![](sur-apprentissage.png){width="600"}
+
+## Bon modèle
+
+![](apprentissage_adapté.png){width="600"}
+:::
+
+::: notes
+Un modèle qui apprend correctement ne doit ni être trop simple ni trop complexe. si il est trop simple, il prédira très probablement mal (puisqu'il estime mal). Si il est trop complexe, il colle trop aux données ayant servi à construire le modèle, et donc il ne va pas bien marcher avec de nouvelles données.
+
+Le but est de prédire la couleur des points (orange ou bleu), c'est donc un problème de classification supervisée :
+
+-   dans le premier cas, le modèle est trop simple : il va mal estimer et il va mal prédire (trop de biais)
+
+-   Dans le deuxième cas, le modèle est trop complexe : il va bien estimer mais il risque de mal prédire
+
+-   Dans le dernier cas, l'estimation est correcte (même si elle est moins bonne que dans le cas précédent) mais la prévision risque d'être meilleure, parce qu'elle colle moins aux données.
+:::
+
+## Autre exemple
+
+![](sur_sous_apprentissage.PNG){fig-align="left"}
 
 # Les grandes étapes
 

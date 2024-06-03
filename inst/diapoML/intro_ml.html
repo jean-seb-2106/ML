@@ -338,11 +338,12 @@
 <h1>Les grands principes</h1>
 
 </section>
-<section id="non-mais-cest-quoi-en-fait" class="slide level2">
-<h2>Non mais c’est quoi en fait ?</h2>
+<section id="vous-avez-dit-machine-learning" class="slide level2">
+<h2>Vous avez dit “machine learning” ?</h2>
 
 <img data-src="IA_ML.png" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
 <p>L’intelligence artificielle définie par Yann le Cun <span class="citation" data-cites="Cun2019">[@Cun2019]</span> : <em>l’intelligence artificielle est la capacité pour une machine d’assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.</em></p>
+<p>Le machine learning fait partie d’intelligence artificielle, mais il se distingue de l’IA historique par son mode de fonctionnement.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -375,12 +376,25 @@
 </section>
 <section id="vs-lapprentissage-automatique" class="slide level2">
 <h2>…VS l’apprentissage automatique</h2>
-<p><img data-src="machine-learning-entrainement-ia.jpg" class="quarto-figure quarto-figure-center"> :::notes Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver ‘toute seule’ cette règle, c’est pour ça qu’on dit qu’elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent. :::</p>
+
+<img data-src="machine-learning-entrainement-ia.jpg" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
+<p>Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver ‘toute seule’ cette règle, c’est pour ça qu’on dit qu’elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 <!-- ## et le Deep learning -->
 <!-- ![](reseau_neurones.jpg){fig-align="center"} -->
 <!-- :::notes -->
 <!-- Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple. -->
-<p>:::</p>
+<!-- ::: -->
 </section>
 <section id="les-différents-types-dapprentissage-automatique" class="slide level2">
 <h2>Les différents types d’apprentissage automatique</h2>
@@ -391,6 +405,7 @@
 </ol>
 <aside class="notes">
 <p>Dans ce module d’introduction, on va principalement étudier l’apprentissage supervisé. L’apprentissage non supervisé a été vu en partie dans le module sur la modélisation. Enfin, le dernier type d’apprentissage ne sera pas vu, c’est celui qui est utilisé pour simuler un joueur de jeu de go ou d’échec par exemple.</p>
+<p>la différence entre supervisé et non supervisé est dans la diapo suivante.</p>
 <style type="text/css">
         span.MJX_Assistive_MathML {
           position:absolute!important;
@@ -425,16 +440,37 @@
 </section>
 <section id="but-de-lapprentissage-supervisé-la-prédiction" class="slide level2">
 <h2>But de l’apprentissage supervisé : la prédiction</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
 <ul>
-<li class="fragment"><p>Il s’agit de trouver la fonction f qui va le mieux <strong>prédire</strong> Y en fonction de X1, X2…,Xn</p></li>
 <li class="fragment"><p><span class="math display">\[
 Y = f(X_1, X_2, ...,X_n)
 \]</span></p></li>
-<li class="fragment"><p>Le but premier de l’apprentissage supervisé n’est pas d’expliquer (cf module sur les modélisation statistique), mais bien de prédire.</p></li>
+<li class="fragment"><p>Le but premier de l’apprentissage supervisé n’est pas d’expliquer mais bien de prédire.</p></li>
 </ul>
+</div><div class="column" style="width:50%;">
+<p><img data-src="42293349-photo-de-future-femme-prédiction-de-la-boule-de-cristal.jpg"></p>
+</div>
+</div>
+<aside class="notes">
+<ul>
+<li><p>Il s’agit de trouver la fonction f qui va le mieux <strong>prédire</strong> Y en fonction de X1, X2…,Xn</p></li>
+<li><p>On distingue la modélisation statistique (cf module 3 de statistique), avec des tests et des hypothèses. Le but est d’expliquer, d’interpréter, de comprendre les données du machine learning, qui a pour objectif d’avoir les meilleures performances prédictives, au détriment parfois de l’interprétabilité.</p></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="différence-entre-régression-et-classification" class="slide level2">
-<h2>Différence entre régression et classification</h2>
+<section id="régression-et-classification" class="slide level2">
+<h2>Régression et classification</h2>
 
 <img data-src="types_apprentissage.png" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
 <p>Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n’utilise pas nécessairement la régression linéaire (qui est un modèle parmi d’autres) comme modèle. Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre.</p>
@@ -609,7 +645,76 @@ Y = 416,5 + 10,6 X_1
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
-</section></section>
+</section>
+<section id="comment-la-machine-apprend" class="slide level2">
+<h2>Comment la machine apprend ?</h2>
+<ul>
+<li class="fragment"><p>La machine learning apprend sur des données étiquetées grace à des algorithmes (exemple : la régression linéaire pour des don).</p></li>
+<li class="fragment"><p>Le but de ces algorithmes est de minimiser <u>l’erreur d’estimation</u>.</p></li>
+<li class="fragment"><p>Il existe de nombreux modèles/algorithmes.</p></li>
+</ul>
+<aside class="notes">
+<p>Un algorithme est une série d’instructions définies et ordonnées qui permettent d’effectuer une tâche spécifique. Il existe plusieurs façons d’évaluer l’erreur d’estimation, certaines ont déjà été vues pendant le TD sur les régressions. L’erreur quadratique est un exemple d’erreur d’estimation que l’algorithme de la régression cherche à estimer.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="les-classes-de-modèles" class="slide level2">
+<h2>Les classes de modèles</h2>
+<ol type="1">
+<li class="fragment"><p>Les modèles de régression</p></li>
+<li class="fragment"><p>Les modèles à base d’arbre</p></li>
+<li class="fragment"><p>Les réseaux de neurones et le deep learning</p></li>
+</ol>
+</section>
+<section id="cest-quoi-un-bon-apprentissage" class="slide level2">
+<h2>C’est quoi un “bon” apprentissage ?</h2>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Sous-Apprentissage</a></li><li><a href="#tabset-2-2">Sur-apprentissage</a></li><li><a href="#tabset-2-3">Bon modèle</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<p><img data-src="sous_apprentissage.png" width="600"></p>
+</div>
+<div id="tabset-2-2">
+<p><img data-src="sur-apprentissage.png" width="600"></p>
+</div>
+<div id="tabset-2-3">
+<p><img data-src="apprentissage_adapté.png" width="600"></p>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p>Un modèle qui apprend correctement ne doit ni être trop simple ni trop complexe. si il est trop simple, il prédira très probablement mal (puisqu’il estime mal). Si il est trop complexe, il colle trop aux données ayant servi à construire le modèle, et donc il ne va pas bien marcher avec de nouvelles données.</p>
+<p>Le but est de prédire la couleur des points (orange ou bleu), c’est donc un problème de classification supervisée :</p>
+<ul>
+<li><p>dans le premier cas, le modèle est trop simple : il va mal estimer et il va mal prédire (trop de biais)</p></li>
+<li><p>Dans le deuxième cas, le modèle est trop complexe : il va bien estimer mais il risque de mal prédire</p></li>
+<li><p>Dans le dernier cas, l’estimation est correcte (même si elle est moins bonne que dans le cas précédent) mais la prévision risque d’être meilleure, parce qu’elle colle moins aux données.</p></li>
+</ul>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="autre-exemple" class="slide level2">
+<h2>Autre exemple</h2>
+
+<img data-src="sur_sous_apprentissage.PNG" class="quarto-figure quarto-figure-left r-stretch"></section></section>
 <section>
 <section id="les-grandes-étapes" class="title-slide slide level1 center">
 <h1>Les grandes étapes</h1>

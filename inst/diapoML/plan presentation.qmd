@@ -32,7 +32,7 @@ Avec l'intelligence artificielle, on donne à la machine une grande quantité de
 
 Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
 
-Dans ce module d'introduction, on va voir le machine learning, et même juste un domaine de machine learning. 
+Dans ce module d'introduction, on va voir le machine learning, et même juste un domaine de machine learning.
 
 ## Diapo 2 : apprentissage supervisé vs non supervisé
 
