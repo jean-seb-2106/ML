@@ -200,7 +200,6 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 
 ::: columns
 ::: {.column width="50%"}
-
 ![](entraînement_test.png)
 :::
 
@@ -308,6 +307,8 @@ skim(grandile)
 
 -   Encodage de variables
 
+-   Transformation de variables (log, centrage-réduction)
+
 -   Création de nouvelles variables
 
 # Etape 3 : Partitionner la base
@@ -316,7 +317,13 @@ skim(grandile)
 
 ![](training-validation-test-sets.png){fig-align="center"}
 
-## Partition de grandile {.scrollable}
+-   Base d'entraînement : 60 %
+
+-   Base de validation : 20 %
+
+-   Base de test : 20 %
+
+## Base d'entraînement {.scrollable}
 
 ```{r}
 part_training <- 0.6 
@@ -334,6 +341,10 @@ train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
 ```{r}
 skim(train_grandile)
 ```
+
+::: notes
+Dans ce cas, il s'agit d'un tirage aléatoire simple. Donc la base d'entraînement n'est pas toujours la même.
+:::
 
 # Etape 4 : Entraînement des modèles
 
@@ -371,31 +382,47 @@ wflow <- workflow() %>%
   add_model(mod_lr)
 
 fit_lr <- wflow %>% fit(data=train_grandile)
-summary(fit_lr)
+fit_lr
 
 
 ```
 
-## Modèle 2 : Arbre de régression, comment ça marche ?
+::: notes
+C'est le résultat de l'ajustement de la régression linéaire sur la base d'entraînement : on a donc trois coefficients, qu'on utilisera pour prédire.
 
-1.  L'algorithme (CART) choisit la variable la plus discriminante
+On peut déjà avoir des indicateurs de qualité du modèle avec les estimations (cf module de stat sur la modélisation).
+:::
 
-2.  Test de toutes les valeurs pour déterminer le seuil optimal
-
-3.  Partage de la population en deux noeuds
-
-4.  Il renouvelle les 3 premières étapes pour chaque noeud
-
-5.  L'utilisateur définit le nombre de noeuds souhaités (max = N)
-
-6.  Les valeurs estimées sont les moyennes des noeuds terminaux
-
-## Modèle 2 : Arbre de regression (visualisation) {.smaller}
+## Modèle 2 : Arbre de régression (visualisation) {.smaller}
 
 ```{r}
-arbre1 <- rpart(Y_REVENU ~ .,data=train_grandile,cp=0.02)
+arbre1 <- rpart(Y_REVENU ~ .,data=train_grandile,cp=0.02) 
 rpart.plot(arbre1)
 ```
+
+::: notes
+Les cercles représentent une partie de la population d'étude. Le première cercle est appelé la racine,
+:::
+
+## Modèle 2 : Arbre de régression, comment ça marche ?
+
+L'algorithme CART permet d'ajuster le modèle sur les données d'entraînement.
+
+1.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante
+
+2.  Il teste toutes les valeurs de cette variable et choisit celle qui estime le mieux
+
+3.  Partage de la population en deux noeuds.
+
+4.  L'estimation est la moyenne
+
+::: notes
+CART : classifications and regression trees. C'est l'algorithme le plus utilisé, il est adapté à régression et la classification. Il en existe d'autres.
+
+Pour tout savoir sur les arbres de régression (et de classification) :
+
+<https://blent.ai/blog/a/arbres-de-decision-en-machine-learning>
+:::
 
 ## Modèle 2 : sortie R
 
@@ -408,6 +435,51 @@ fit_tree <- wflow %>% fit(data=train_grandile)
 fit_tree
 
 ```
+
+# Etape 5 : Evaluation de la performance des modèles
+
+## Prévisions sur la base de validation {.scrollable}
+
+```{r}
+pred_modele1 <- augment(fit_lr, valid_grandile) %>% select(-`.resid`) %>% rename(Y_REG = `.pred`)
+pred_modele2 <- augment(fit_tree,valid_grandile) %>% rename(Y_ARBRE = `.pred`) %>% select(Y_ARBRE) 
+pred <- pred_modele2 %>% cbind(pred_modele1) %>% round() %>% select(Y_REVENU,X1_NBPIECES,X2_AGE,Y_REG,Y_ARBRE)
+kbl(pred)
+```
+
+## Indicateurs de performances
+
+|                                           |                                                        |
+|--------------------------------|----------------------------------------|
+| $$                                        
+ RSS = \sum_{i=1}^{N}{(y_i - \hat{y}_i)^2}  
+ $$                                         | $$                                                     
+                                             RMSE = \sqrt{RMSE}                                      
+                                             $$                                                      |
+| $$                                        
+ MSE = \frac{RSS}{N}                        
+ $$                                         | $$                                                     
+                                             R² = \frac{1-RSS}{\sum_{i=1}^{N}{(y_i - \bar{y}_i)^2}}  
+                                             $$                                                      |
+
+## Quel modèle est le plus performant ?
+
+| Modèle                         | MSE                                                              | RMSE                                                                   | R²                                                                                |
+|----------------------------|--------------|------------|------------|
+| Modèle 1 : Régression linéaire | `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`   | `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`   | `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`   |
+| Modèle 2 : Arbre               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
+
+# Etape 6 : Choix du modèle et généralisation
+
+## Les critères de choix
+
+1.  Performance du modèle
+
+2.  Contraintes techniques
+
+3.  Interprétabilité
+
+## Entraînement du modèle retenu
 
 <!-- ## Apprentissage avec la regression linéaire -->
 
