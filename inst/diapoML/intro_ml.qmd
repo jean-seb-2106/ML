@@ -72,7 +72,7 @@ Dans ce module d'introduction, on va principalement étudier l'apprentissage sup
 la différence entre supervisé et non supervisé est dans la diapo suivante.
 :::
 
-## Différence entre supervisé et non supervisé
+## Supervisé VS non supervisé
 
 ![](supervisé_nonsupervisé.png){fig-align="center"}
 
@@ -168,7 +168,7 @@ On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une
 
 ## Comment la machine apprend ?
 
--   La machine learning apprend sur des données étiquetées grace à des algorithmes (exemple : la régression linéaire pour des don).
+-   La machine apprend sur des données étiquetées grâce à des algorithmes/modèles.
 
 -   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
 
@@ -178,13 +178,44 @@ On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une
 Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
 :::
 
-## Les classes de modèles
+## Les modèles/algorithmes
 
 1.  Les modèles de régression
 
+    1.  Régression linéaire (Régression)
+
+    2.  Régression logistique (Classification)
+
 2.  Les modèles à base d'arbre
 
+    1.  Arbre de décision (Régression et classification)
+
+    2.  Forêt aléatoire (Régression et classification)
+
+    3.  XGBoost (Régression et classification)
+
 3.  Les réseaux de neurones et le deep learning
+
+## Comment savoir si un modèle est performant ?
+
+::: columns
+::: {.column width="50%"}
+
+![](entraînement_test.png)
+:::
+
+::: {.column width="50%"}
+-   Le modèle apprend sur une base d'entraînement.
+
+-   On teste sa performance sur une base de test.
+:::
+:::
+
+## Les deux écueils de l'apprentissage
+
+-   Le sous-apprentissage : le modèle n'est pas adapté ou trop simple.
+
+-   Le sur-apprentissage : le modèle colle trop aux données d'apprentissage.
 
 ## C'est quoi un "bon" apprentissage ?
 
@@ -193,17 +224,17 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 
 ![](sous_apprentissage.png){fig-align="center" width="500"}
 
-## Sur-apprentissage
-
-![](sur-apprentissage.png){fig-align="center" width="500"}
-
 ## Bon modèle
 
 ![](apprentissage_adapté.png){fig-align="center" width="500"}
+
+## Sur-apprentissage
+
+![](sur-apprentissage.png){fig-align="center" width="500"}
 :::
 
 ::: notes
-Un modèle qui apprend correctement ne doit ni être trop simple ni trop complexe. si il est trop simple, il prédira très probablement mal (puisqu'il estime mal). Si il est trop complexe, il colle trop aux données ayant servi à construire le modèle, et donc il ne va pas bien marcher avec de nouvelles données.
+Un modèle qui apprend correctement ne doit ni être trop simple ni trop complexe. si il est trop simple, il prédira probablement mal (puisqu'il estime mal). Si il est trop complexe, il colle trop aux données ayant servi à construire le modèle, et donc il ne va pas bien marcher avec de nouvelles données.
 
 Le but est de prédire la couleur des points (orange ou bleu), c'est donc un problème de classification supervisée :
 
@@ -262,7 +293,7 @@ kbl(head(grandile))
 
 # Etape 2 : Explorer, nettoyer et améliorer la base
 
-## Exploration {.scrollable}
+## Exploration de la base brute {.scrollable}
 
 ```{r}
 # summary(grandile)
