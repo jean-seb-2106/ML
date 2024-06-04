@@ -16,8 +16,6 @@ library(tidymodels)
 library(rpart.plot)
 ```
 
-# Les grands principes
-
 ## Vous avez dit "machine learning" ?
 
 ![](IA_ML.png){fig-align="center"}
@@ -48,15 +46,13 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
 :::
 
-<!-- ## et le Deep learning -->
+## et le Deep learning
 
-<!-- ![](reseau_neurones.jpg){fig-align="center"} -->
+![](reseau_neurones.jpg){fig-align="center"}
 
-<!-- :::notes -->
-
-<!-- Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple. -->
-
-<!-- ::: -->
+::: notes
+Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
+:::
 
 ## Les différents types d'apprentissage automatique
 
@@ -182,17 +178,17 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 
 1.  Les modèles de régression
 
-    1.  Régression linéaire (Régression)
+    -   Régression linéaire (Régression)
 
-    2.  Régression logistique (Classification)
+    -   Régression logistique (Classification)
 
 2.  Les modèles à base d'arbre
 
-    1.  Arbre de décision (Régression et classification)
+    -   Arbre de décision (Régression et classification)
 
-    2.  Forêt aléatoire (Régression et classification)
+    -   Forêt aléatoire (Régression et classification)
 
-    3.  XGBoost (Régression et classification)
+    -   XGBoost (Régression et classification)
 
 3.  Les réseaux de neurones et le deep learning
 
@@ -252,8 +248,6 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 ![](sur_sous_apprentissage.PNG){fig-align="left"}
 
-# Les grandes étapes
-
 ## Les étapes de l'apprentissage supervisé :
 
 1.  Définir le sujet (classification ou régression ?)
@@ -268,6 +262,8 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 6.  Choisir le meilleur modèle et le mettre en production
 
+# Premier exemple
+
 # Etape 1 : définir le problème
 
 ## Régression ou classification ?
@@ -277,18 +273,6 @@ grandile <- asta::grandile %>%
 select(Y_REVENU = REV_DISPONIBLE, X1_NBPIECES= NBPIECES,X2_AGE = AGE)
 kbl(head(grandile))
 ```
-
-<!-- ## Régression ou classification ? -->
-
-<!-- ```{r} -->
-
-<!-- grandile_classif <- asta::grandile %>%  -->
-
-<!-- select(Y_PAUVRE = PAUVRE, X1_REVENU = REV_DISPONIBLE, X2_DIPL = DIPL) -->
-
-<!-- kbl(head(grandile_classif)) -->
-
-<!-- ``` -->
 
 # Etape 2 : Explorer, nettoyer et améliorer la base
 
@@ -449,25 +433,28 @@ kbl(pred)
 
 ## Indicateurs de performances
 
-|                                           |                                                        |
-|--------------------------------|----------------------------------------|
-| $$                                        
- RSS = \sum_{i=1}^{N}{(y_i - \hat{y}_i)^2}  
- $$                                         | $$                                                     
-                                             RMSE = \sqrt{RMSE}                                      
-                                             $$                                                      |
-| $$                                        
- MSE = \frac{RSS}{N}                        
- $$                                         | $$                                                     
-                                             R² = \frac{1-RSS}{\sum_{i=1}^{N}{(y_i - \bar{y}_i)^2}}  
-                                             $$                                                      |
+-   $$                                        
+     RSS = \sum_{i=1}^{N}{(y_i - \hat{y}_i)^2}  
+     $$
 
-## Quel modèle est le plus performant ?
+-   $$                                        
+     MSE = \frac{RSS}{N}                        
+     $$
 
-| Modèle                         | MSE                                                              | RMSE                                                                   | R²                                                                                |
-|----------------------------|--------------|------------|------------|
-| Modèle 1 : Régression linéaire | `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`   | `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`   | `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`   |
-| Modèle 2 : Arbre               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
+-   $$                                                     
+                                                 RMSE = \sqrt{MSE}                                      
+                                                 $$
+
+-   $$                                                     
+                                                 R² = \frac{1-RSS}{\sum_{i=1}^{N}{(y_i - \bar{y}_i)^2}}  
+                                                 $$
+
+## Comparaison des performances
+
+| [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
+|--------------------|:---------------:|:---------------:|:---------------:|
+| **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
+| **Modèle 2 : Arbre**               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
 # Etape 6 : Choix du modèle et généralisation
 
@@ -480,6 +467,120 @@ kbl(pred)
 3.  Interprétabilité
 
 ## Entraînement du modèle retenu
+
+```{r}
+fit_tree_final <- wflow %>% fit(data=train_valid_grandile)
+fit_tree_final
+```
+
+## Généralisation/Mise en production {.scrollable}
+
+```{r}
+pred_modele_final <- augment(fit_tree_final, test_grandile) %>% select(-`.resid`,-Y_REVENU) %>% rename(Y_PREVU = `.pred`) %>% round()
+kbl(pred_modele_final)
+```
+
+# Deuxième exemple : classification supervisée
+
+# Etape 1 : définir le problème
+
+## Régression ou classification ?
+
+```{r}
+
+grandile <- asta::grandile %>%
+select(Y_PAUVRE = PAUVRE, X1_REVENU = REV_DISPONIBLE, X2_DIPL = DIPL) %>% 
+mutate(Y_PAUVRE = as.factor(Y_PAUVRE))
+
+kbl(head(grandile))
+
+```
+
+# Etape 2 : Explorer, nettoyer et améliorer la base {.scrollable}
+
+## Exploration de la base
+
+```{r}
+# summary(grandile)
+skim(grandile)
+```
+
+# Etape 3 : Partitionner la base
+
+## Partition
+
+![](training-validation-test-sets.png){fig-align="center"}
+
+-   Base d'entraînement : 60 %
+
+-   Base de validation : 20 %
+
+-   Base de test : 20 %
+
+## Exploration de la base d'entraînement {.scrollable}
+
+```{r}
+part_training <- 0.6 
+part_validation <- 0.2
+set.seed(1234)
+
+grandile_split <- initial_validation_split(grandile,
+                                            prop = c(part_training,part_validation),
+                                            strata = Y_PAUVRE)
+
+train_grandile <- training(grandile_split) #le fichier d'entraînement
+test_grandile <- testing(grandile_split) #le fichier de test
+valid_grandile <- validation(grandile_split)
+train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
+```
+
+```{r}
+skim(train_grandile)
+```
+
+# Etape 4 : Entraînement des modèles
+
+## Modèles à entraîner
+
+```{r}
+mod_lr <- 
+  logistic_reg() %>% 
+  set_engine("glm")
+
+mod_rf <- 
+  rand_forest(trees = 1000,
+              mtry = 3,
+              min_n = NULL) %>% 
+  set_engine("ranger") %>% 
+  set_mode("classification")
+
+
+mod_tree <- 
+  mod_tree <- 
+  decision_tree(
+    cost_complexity = 0.02,
+    tree_depth = 7,
+    min_n = NULL
+  ) %>%
+  set_engine("rpart") %>%
+  set_mode("classification")
+```
+
+-   Régression logistique
+
+-   Arbre de classification
+
+-   Forêt aléatoire
+
+## Modèle 1 : la régression logistique
+
+## Modèle 2 : l'arbre de classification
+
+## Modèle 3 : la forêt aléatoire
+
+# Etape 5 : Evaluation de la performance des modèles
+
+# Etape 6 : Choix du modèle et généralisation
 
 <!-- ## Apprentissage avec la regression linéaire -->
 
