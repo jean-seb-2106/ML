@@ -46,13 +46,13 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
 :::
 
-## et le Deep learning
+<!-- ## et le Deep learning -->
 
-![](reseau_neurones.jpg){fig-align="center"}
+<!-- ![](reseau_neurones.jpg){fig-align="center"} -->
 
-::: notes
-Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple.
-:::
+<!-- ::: notes -->
+<!-- Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple. -->
+<!-- ::: -->
 
 ## Les différents types d'apprentissage automatique
 
@@ -174,23 +174,41 @@ On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une
 Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
 :::
 
-## Les modèles/algorithmes
+## Quelques modèles/algorithmes
 
-1.  Les modèles de régression
+::: columns
+::: {.column width="50%"}
+[**Régression supervisé**]{.underline}
 
-    -   Régression linéaire (Régression)
+-   Régression linéaire
 
-    -   Régression logistique (Classification)
+-   Arbre de régression
 
-2.  Les modèles à base d'arbre
+-   Forêt aléatoire
 
-    -   Arbre de décision (Régression et classification)
+-   XGBoost
 
-    -   Forêt aléatoire (Régression et classification)
+-   KNN
 
-    -   XGBoost (Régression et classification)
+-   SVM
+:::
 
-3.  Les réseaux de neurones et le deep learning
+::: {.column width="50%"}
+[**Classification supervisé**]{.underline}
+
+-   Régression logistique
+
+-   Arbre de classification
+
+-   Forêt aléatoire
+
+-   XGBoost
+
+-   KNN
+
+-   SVM
+:::
+:::
 
 ## Comment savoir si un modèle est performant ?
 
@@ -264,8 +282,6 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 # Premier exemple
 
-# Etape 1 : définir le problème
-
 ## Régression ou classification ?
 
 ```{r}
@@ -274,13 +290,11 @@ select(Y_REVENU = REV_DISPONIBLE, X1_NBPIECES= NBPIECES,X2_AGE = AGE)
 kbl(head(grandile))
 ```
 
-# Etape 2 : Explorer, nettoyer et améliorer la base
-
 ## Exploration de la base brute {.scrollable}
 
 ```{r}
-# summary(grandile)
-skim(grandile)
+summary(grandile)
+# skim(grandile)
 ```
 
 ## Nettoyage et transformation des données
@@ -294,8 +308,6 @@ skim(grandile)
 -   Transformation de variables (log, centrage-réduction)
 
 -   Création de nouvelles variables
-
-# Etape 3 : Partitionner la base
 
 ## Partition de la base
 
@@ -323,14 +335,13 @@ train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
 ```
 
 ```{r}
-skim(train_grandile)
+# skim(train_grandile)
+summary(train_grandile)
 ```
 
 ::: notes
 Dans ce cas, il s'agit d'un tirage aléatoire simple. Donc la base d'entraînement n'est pas toujours la même.
 :::
-
-# Etape 4 : Entraînement des modèles
 
 ```{r}
 #Les recettes
@@ -420,8 +431,6 @@ fit_tree
 
 ```
 
-# Etape 5 : Evaluation de la performance des modèles
-
 ## Prévisions sur la base de validation {.scrollable}
 
 ```{r}
@@ -452,11 +461,9 @@ kbl(pred)
 ## Comparaison des performances
 
 | [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
-|--------------------|:---------------:|:---------------:|:---------------:|
+|------------------|:----------------:|:----------------:|:-----------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 | **Modèle 2 : Arbre**               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
-
-# Etape 6 : Choix du modèle et généralisation
 
 ## Les critères de choix
 
@@ -466,7 +473,7 @@ kbl(pred)
 
 3.  Interprétabilité
 
-## Entraînement du modèle retenu
+## Entraînement du modèle final
 
 ```{r}
 fit_tree_final <- wflow %>% fit(data=train_valid_grandile)
@@ -477,35 +484,29 @@ fit_tree_final
 
 ```{r}
 pred_modele_final <- augment(fit_tree_final, test_grandile) %>% select(-`.resid`,-Y_REVENU) %>% rename(Y_PREVU = `.pred`) %>% round()
-kbl(pred_modele_final)
+kbl(head(pred_modele_final,100))
 ```
 
-# Deuxième exemple : classification supervisée
+# Deuxième exemple
 
-# Etape 1 : définir le problème
-
-## Régression ou classification ?
+## Régression ou classification ? {.scrollable}
 
 ```{r}
 
 grandile <- asta::grandile %>%
 select(Y_PAUVRE = PAUVRE, X1_REVENU = REV_DISPONIBLE, X2_DIPL = DIPL) %>% 
-mutate(Y_PAUVRE = as.factor(Y_PAUVRE))
+mutate(Y_PAUVRE = as.factor(Y_PAUVRE), X2_DIPL = as.factor(X2_DIPL))
 
-kbl(head(grandile))
+kbl(head(grandile,100))
 
 ```
 
-# Etape 2 : Explorer, nettoyer et améliorer la base {.scrollable}
-
-## Exploration de la base
+## Exploration de la base brute {.scrollable}
 
 ```{r}
 # summary(grandile)
-skim(grandile)
+summary(grandile)
 ```
-
-# Etape 3 : Partitionner la base
 
 ## Partition
 
@@ -535,10 +536,22 @@ train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
 ```
 
 ```{r}
-skim(train_grandile)
+summary(train_grandile)
 ```
 
-# Etape 4 : Entraînement des modèles
+```{r}
+rec1 <- 
+  recipe(Y_PAUVRE ~ ., data = train_grandile) 
+# %>% step_normalize(all_numeric_predictors()) 
+# %>% step_dummy(all_nominal_predictors()) %>% #: pour transformer les variables nominales en indicatrices
+# %>% update_role(flight, time_hour, new_role = "ID") %>% #: pour retirer des variables du modèle
+# %>%step_normalize(all_numeric_predictors()) #pour centrer réduire
+# %>% step_zv() #pour enlever les variables avec une seules valeur
+# %>% step_rm() #removes variables
+# %>% step_impute_mode() #imputation des valeurs manquantes avec le mode
+# %>% step_impute_mean() #imputation des valeurs manquates avec la moyenne
+# %>% step_clean_names #nettoyer le nom des variables
+```
 
 ## Modèles à entraîner
 
@@ -572,15 +585,123 @@ mod_tree <-
 
 -   Forêt aléatoire
 
-## Modèle 1 : la régression logistique
+## Modèle 1 : régression logistique
 
-## Modèle 2 : l'arbre de classification
+```{r}
+wflow <- workflow() %>% 
+  add_recipe(rec1) %>% 
+  add_model(mod_lr)
 
-## Modèle 3 : la forêt aléatoire
+fit_lr <- wflow %>% fit(data=train_grandile)
+fit_lr
+```
 
-# Etape 5 : Evaluation de la performance des modèles
+## Prévisions (Régression logistique) {.scrollable}
 
-# Etape 6 : Choix du modèle et généralisation
+```{r}
+pred_valid <- augment(fit_lr, valid_grandile) %>% 
+select(Y_PAUVRE,starts_with(".pred")) %>% 
+mutate_if(is.numeric,round,digits=2) %>% 
+rename(`Y_REG`=`.pred_class`)
+kbl(head(pred_valid,100))
+```
+
+## Table de confusion (Régression logistique)
+
+```{r}
+pred_valid %>%
+  conf_mat(Y_PAUVRE, Y_REG) %>%
+  autoplot(type="heatmap")
+```
+
+## Performance (Régression logistique)
+
+```{r}
+#Accuracy : pourcentage de biens classés
+accuracy_reg <- pred_valid %>% 
+  accuracy(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
+
+#Spécificité
+spec_reg <- pred_valid %>% 
+  specificity(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
+
+#Sensitivité
+sens_reg <- pred_valid %>% 
+  sensitivity(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
+```
+
+|                                  | Exactitude       | Spécificité  | Sensibilité  |
+|-----------------------------|---------------|---------------|---------------|
+| Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
+
+## Modèle 2 : arbre de classification
+
+```{r}
+wflow <- workflow() %>% 
+  add_recipe(rec1) %>% 
+  add_model(mod_tree)
+
+fit_tree <- wflow %>% fit(data=train_grandile)
+fit_tree
+
+```
+
+```{r}
+pred_tree <- augment(fit_tree, valid_grandile) %>% 
+select(`.pred_class`) %>% 
+mutate_if(is.numeric,round,digits=2) %>% 
+rename(`Y_ARBRE`=`.pred_class`)
+
+```
+
+## Modèle 3 : forêt aléatoire
+
+```{r}
+wflow <- workflow() %>% 
+  add_recipe(rec1) %>% 
+  add_model(mod_rf)
+
+fit_rf <- wflow %>% fit(data=train_grandile)
+fit_rf
+```
+
+```{r}
+pred_rf <- augment(fit_rf, valid_grandile) %>% 
+select(`.pred_class`) %>% 
+mutate_if(is.numeric,round,digits=2) %>% 
+rename(`Y_FORET`=`.pred_class`)
+
+```
+
+## Comparaison des modèles
+
+```{r}
+pred_valid <- pred_valid %>% bind_cols(pred_tree) %>% bind_cols(pred_rf) %>% select(starts_with("Y"))
+
+#indicateurs pour les arbres
+
+accuracy_tree <- pred_valid %>% 
+  accuracy(truth = Y_PAUVRE, Y_ARBRE) %>% as.numeric() %>% round(2)
+spec_tree <- pred_valid %>% 
+  specificity(truth = Y_PAUVRE, Y_ARBRE) %>% as.numeric() %>% round(2)
+sens_tree <- pred_valid %>% 
+  sensitivity(truth = Y_PAUVRE, Y_ARBRE) %>% as.numeric() %>% round(2)
+
+#Indicateurs pour les forêts
+accuracy_rf <- pred_valid %>% 
+  accuracy(truth = Y_PAUVRE, Y_FORET) %>% as.numeric() %>% round(2)
+spec_rf <- pred_valid %>% 
+  specificity(truth = Y_PAUVRE, Y_FORET) %>% as.numeric() %>% round(2)
+sens_rf <- pred_valid %>% 
+  sensitivity(truth = Y_PAUVRE, Y_FORET) %>% as.numeric() %>% round(2)
+
+```
+
+|                                    | Exactitude       | Spécificité  | Sensibilité  |
+|---------------------------|---------------|---------------|---------------|
+| Modèle 1 : régression logistique   | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
+| Modèle 2 : arbre de classification |   `r accuracy_tree[3]`               |   `r spec_tree[3]`           |     `r sens_tree[3]`         |
+| Modèle 3 : forêt aléatoire         |      `r accuracy_rf[3]`            |    `r spec_rf[3]`          |     `r sens_rf[3]`         |
 
 <!-- ## Apprentissage avec la regression linéaire -->
 
