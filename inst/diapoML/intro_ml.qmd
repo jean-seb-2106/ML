@@ -1,5 +1,6 @@
 ---
 title: "Introduction au machine learning"
+author: "Attachés 2024"
 format: 
   revealjs:
     incremental: true
@@ -51,7 +52,9 @@ Avec le machine learning, on donne à la machine une grande quantité de donnée
 <!-- ![](reseau_neurones.jpg){fig-align="center"} -->
 
 <!-- ::: notes -->
+
 <!-- Le deep learning est un sous domaine du machine learning : globalement, il veut reproduire le cerveau humain grace à des neurones articifiels. très puissant en reconnaissance d'images par exemple. -->
+
 <!-- ::: -->
 
 ## Les différents types d'apprentissage automatique
@@ -68,7 +71,7 @@ Dans ce module d'introduction, on va principalement étudier l'apprentissage sup
 la différence entre supervisé et non supervisé est dans la diapo suivante.
 :::
 
-## Supervisé VS non supervisé
+------------------------------------------------------------------------
 
 ![](supervisé_nonsupervisé.png){fig-align="center"}
 
@@ -168,13 +171,13 @@ On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une
 
 -   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
 
--   Il existe de nombreux modèles/algorithmes.
+-   Il existe de nombreux modèles/algorithmes :
 
 ::: notes
 Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
 :::
 
-## Quelques modèles/algorithmes
+------------------------------------------------------------------------
 
 ::: columns
 ::: {.column width="50%"}
@@ -224,13 +227,27 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 :::
 :::
 
+## Problème de régression
+
+::: panel-tabset
+## Base brute
+
+## Base d'entraînement
+
+## Apprentissage
+
+## Base de validation
+:::
+
+## Problème de classification
+
 ## Les deux écueils de l'apprentissage
 
 -   Le sous-apprentissage : le modèle n'est pas adapté ou trop simple.
 
 -   Le sur-apprentissage : le modèle colle trop aux données d'apprentissage.
 
-## C'est quoi un "bon" apprentissage ?
+------------------------------------------------------------------------
 
 ::: panel-tabset
 ## Sous-Apprentissage
@@ -630,8 +647,8 @@ sens_reg <- pred_valid %>%
   sensitivity(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
 ```
 
-|                                  | Exactitude       | Spécificité  | Sensibilité  |
-|-----------------------------|---------------|---------------|---------------|
+|                                  | Exactitude          | Spécificité     | Sensibilité     |
+|-------------------------|----------------|----------------|----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ## Modèle 2 : arbre de classification
@@ -697,11 +714,11 @@ sens_rf <- pred_valid %>%
 
 ```
 
-|                                    | Exactitude       | Spécificité  | Sensibilité  |
-|---------------------------|---------------|---------------|---------------|
-| Modèle 1 : régression logistique   | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
-| Modèle 2 : arbre de classification |   `r accuracy_tree[3]`               |   `r spec_tree[3]`           |     `r sens_tree[3]`         |
-| Modèle 3 : forêt aléatoire         |      `r accuracy_rf[3]`            |    `r spec_rf[3]`          |     `r sens_rf[3]`         |
+|                                    | Exactitude           | Spécificité      | Sensibilité      |
+|------------------------|----------------|----------------|----------------|
+| Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
+| Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
+| Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
 
 <!-- ## Apprentissage avec la regression linéaire -->
 
