@@ -5,6 +5,8 @@ format:
   revealjs:
     incremental: true
     embed-resources: true #pour tout mettre dans un seul fichier
+    scrollable: true
+    theme: serif
 editor: visual
 ---
 
@@ -165,13 +167,13 @@ kbl(locations,format = "html")
 On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). Il s'agit donc d'un problème de régression (et pas de classification).
 :::
 
-## Comment la machine apprend ?
+## Comment la machine apprend ? {.nonsmaller}
 
 -   La machine apprend sur des données étiquetées grâce à des algorithmes/modèles.
 
 -   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
 
--   Il existe de nombreux modèles/algorithmes :
+-   Ces algorithmes (très nombreux!) sont spéficiques pour les deux types d'apprentissage (classification et régression).
 
 ::: notes
 Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
@@ -221,31 +223,174 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 :::
 
 ::: {.column width="50%"}
--   Le modèle apprend sur une base d'entraînement.
+-   Le modèle apprend (s'ajuste) sur une base d'entraînement.
 
--   On teste sa performance sur une base de test.
+-   Un modèle entraîné sur une base s'appelle une instance.
+
+-   On teste la performance de cette instance sur une base de validation.
 :::
 :::
 
-## Problème de régression
+## Problème de régression {.smaller}
 
 ::: panel-tabset
-## Base brute
+## Base Brute
+
+```{r}
+locations <- data.frame(Y_prix = c(1000,800,600,1000,800,900,300,1500),X1_surface = c(50,30,25,60,35,45,30,110))
+row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5","logement6","logement7","logement8")
+kbl(locations,
+    format = "html",caption = "locations")
+```
 
 ## Base d'entraînement
 
+```{r}
+locations_train <- data.frame(Y_prix = c(1000,800,600,1000,800),X1_surface = c(50,30,25,60,35))
+row.names(locations_train) <- c("logement1","logement2","logement3","logement4","logement5")
+kbl(locations_train,
+    format = "html",caption="location_train")
+```
+
 ## Apprentissage
 
+```{r}
+reg <- lm(locations_train$Y_prix ~ locations_train$X1_surface)
+summary(reg)
+
+
+
+```
+
 ## Base de validation
+
+```{r}
+locations_valid <- locations[6:8,]
+
+#workflow sur la base d'entraînement
+rec <- recipe(Y_prix ~ ., data = locations_train) #aucune recette appliquée
+mod_lr <- linear_reg() %>% 
+  set_engine("lm")
+wflow <- workflow() %>% 
+  add_recipe(rec) %>% 
+  add_model(mod_lr)
+
+#ajustement sur la base d'entraînement
+fit_lr <- wflow %>% fit(data=locations_train)
+
+#Prédiction sur la base de validation
+pred <- augment(fit_lr, locations_valid) #%>% select(-`.resid`) %>% rename(Y_REG = `.pred`)
+row.names(pred) <- c("logement6","logement7","logement8")
+
+kbl(pred,digits=c(1,1,0,0),caption = "locations_valid")
+```
 :::
 
-## Problème de classification
+## Indicateurs de performances
 
-## Les deux écueils de l'apprentissage
+$$                                        
+ RSS = \sum_{i=1}^{N}{(y_i - \hat{y}_i)^2} 
+ $$
 
--   Le sous-apprentissage : le modèle n'est pas adapté ou trop simple.
+$$                                        
+ MSE = \frac{RSS}{N}                     
+ $$
 
--   Le sur-apprentissage : le modèle colle trop aux données d'apprentissage.
+$$                                                     
+                                             RMSE = \sqrt{MSE}                                   
+                                             $$
+
+$$                                                     
+                                             R² = \frac{SCE}{SCT}  
+                                             $$
+
+::: notes
+Les valeurs des indicateurs de performance donnent une première idée de la qualité du modèle en matière de prédiction (on voit notamment que le coeff de détermination est très faible). Mais la vraie utilité, c'est pour comparer plusieurs modèles entre eux : on verra un exemple plus bas.\
+
+RSS = 7,1² + 434,1² + 81,2² = 195 087 MSE = 65 029 RMSE = 255 R² = 0.18
+:::
+
+## Problème de classification {.smaller}
+
+::: panel-tabset
+## Base Brute
+
+```{r}
+canards <- data.frame(Y_femelle = c("1","1","0","1","1","0","0","0","1","0"),X1_poids = c(841,600,1200,500,700,1150,750,800,680,910)) %>% mutate(Y_femelle = as.factor(Y_femelle))
+row.names(canards) <- c("canard1","canard2","canard3","canard4","canard5","canard6","canard7","canard8","canard9","canards10")
+kbl(canards,
+    format = "html",caption = "canards")
+```
+
+## Base d'entraînement
+
+```{r}
+canards_train <- canards[1:7,]
+row.names(canards_train) <- c("canard1","canard2","canard3","canard4","canard5","canards6","canards7")
+kbl(canards_train,
+    format = "html",
+caption="canards_train")
+```
+
+## Apprentissage
+
+```{r}
+
+
+#workflow sur la base d'entraînement
+rec <- recipe(Y_femelle ~ ., data = canards_train) 
+
+mod_lr <- 
+  logistic_reg() %>% 
+  set_engine("glm")
+wflow <- workflow() %>% 
+  add_recipe(rec) %>% 
+  add_model(mod_lr)
+
+#ajustement sur la base d'entraînement
+fit_lr <- wflow %>% fit(data=canards_train)
+fit_lr
+
+
+```
+
+## Base de validation
+
+```{r}
+
+canards_valid <- canards[8:10,]
+
+#Prédiction sur la base de validation
+pred <- augment(fit_lr, canards_valid) #%>% select(-`.resid`) %>% rename(Y_REG = `.pred`)
+row.names(pred) <- c("canards8","canards9","canards10")
+
+kbl(pred,digits=c(1,2,2,0,0),caption = "canards_valid",centering = TRUE)
+```
+:::
+
+## Indicateurs de performances {.smaller}
+
+```{r}
+# pred %>%
+#   conf_mat(Y_sexe, .pred_class) %>%
+#   autoplot(type="heatmap")
+```
+
+![](matrice_de_confusion.png){fig-align="left"}
+
+**Exactitude** : (TN + TP) / (TN + TP + FP + FN)
+
+**Sensibilité (Rappel)** : TP / (TP + FN)
+
+**Spécificité** : TN / (TN + FP)
+
+**Précision** : TP / (TP + FP)
+
+## Les deux écueils de l'apprentissage {.smaller}
+
+-   **Le sous-apprentissage** : le modèle n'est pas adapté ou trop simple.
+
+-   **Le sur-apprentissage** : le modèle colle trop aux données d'apprentissage.
 
 ------------------------------------------------------------------------
 
@@ -304,7 +449,7 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 ```{r}
 grandile <- asta::grandile %>% 
 select(Y_REVENU = REV_DISPONIBLE, X1_NBPIECES= NBPIECES,X2_AGE = AGE)
-kbl(head(grandile))
+kbl(head(grandile),caption="Grandile")
 ```
 
 ## Exploration de la base brute {.scrollable}
@@ -457,24 +602,6 @@ pred <- pred_modele2 %>% cbind(pred_modele1) %>% round() %>% select(Y_REVENU,X1_
 kbl(pred)
 ```
 
-## Indicateurs de performances
-
--   $$                                        
-     RSS = \sum_{i=1}^{N}{(y_i - \hat{y}_i)^2}  
-     $$
-
--   $$                                        
-     MSE = \frac{RSS}{N}                        
-     $$
-
--   $$                                                     
-                                                 RMSE = \sqrt{MSE}                                      
-                                                 $$
-
--   $$                                                     
-                                                 R² = \frac{1-RSS}{\sum_{i=1}^{N}{(y_i - \bar{y}_i)^2}}  
-                                                 $$
-
 ## Comparaison des performances
 
 | [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
@@ -554,6 +681,7 @@ train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
 
 ```{r}
 summary(train_grandile)
+nrow(train_grandile)
 ```
 
 ```{r}
@@ -648,7 +776,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Spécificité     | Sensibilité     |
-|-------------------------|----------------|----------------|----------------|
+|-------------------|------------------|------------------|------------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ## Modèle 2 : arbre de classification
@@ -715,7 +843,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|------------------------|----------------|----------------|----------------|
+|-------------------|------------------|------------------|------------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
