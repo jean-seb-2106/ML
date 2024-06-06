@@ -87,7 +87,7 @@ Cette image vient du site suivant :
 <https://www.le-cortex.com/media/articles/lintelligence-artificielle-comment-ca-marche>
 :::
 
-## But de l'apprentissage supervisé : la prédiction
+## But de l'apprentissage supervisé : la prédiction {.smaller}
 
 ::: columns
 ::: {.column width="50%"}
@@ -95,7 +95,9 @@ Cette image vient du site suivant :
     Y = f(X_1, X_2, ...,X_n)
     $$
 
--   Le but premier de l'apprentissage supervisé n'est pas d'expliquer mais bien de prédire.
+-   Le but premier n'est pas d'expliquer mais de prédire.
+
+-   Deux types d'apprentissage supervisé selon Y.
 :::
 
 ::: {.column width="50%"}
@@ -109,7 +111,7 @@ Cette image vient du site suivant :
 -   On distingue la modélisation statistique (cf module 3 de statistique), avec des tests et des hypothèses. Le but est d'expliquer, d'interpréter, de comprendre les données du machine learning, qui a pour objectif d'avoir les meilleures performances prédictives, au détriment parfois de l'interprétabilité.
 :::
 
-## Régression et classification
+---
 
 ![](types_apprentissage.png){fig-align="center"}
 
@@ -214,6 +216,11 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 -   SVM
 :::
 :::
+
+
+
+
+
 
 ## Comment savoir si un modèle est performant ?
 
@@ -428,6 +435,33 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 
 ![](sur_sous_apprentissage.PNG){fig-align="left"}
 
+
+## Un exemple d'arbre de décision
+
+![](Exemple-darbre-de-regression.png){.smaller fig-align="center" width="400"}
+
+
+## Les arbres de décision, comment ça marche ?
+
+L'algorithme CART permet d'ajuster le modèle sur les données d'entraînement.
+
+1.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante
+
+2.  Il teste toutes les valeurs de cette variable et choisit celle qui estime le mieux
+
+3.  Partage de la population en deux noeuds.
+
+4.  L'estimation est la moyenne
+
+::: notes
+CART : classifications and regression trees. C'est l'algorithme le plus utilisé, il est adapté à régression et la classification. Il en existe d'autres.
+
+Pour tout savoir sur les arbres de régression (et de classification) :
+
+<https://blent.ai/blog/a/arbres-de-decision-en-machine-learning>
+:::
+
+
 ## Les étapes de l'apprentissage supervisé :
 
 1.  Définir le sujet (classification ou régression ?)
@@ -561,25 +595,7 @@ rpart.plot(arbre1)
 Les cercles représentent une partie de la population d'étude. Le première cercle est appelé la racine,
 :::
 
-## Modèle 2 : Arbre de régression, comment ça marche ?
 
-L'algorithme CART permet d'ajuster le modèle sur les données d'entraînement.
-
-1.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante
-
-2.  Il teste toutes les valeurs de cette variable et choisit celle qui estime le mieux
-
-3.  Partage de la population en deux noeuds.
-
-4.  L'estimation est la moyenne
-
-::: notes
-CART : classifications and regression trees. C'est l'algorithme le plus utilisé, il est adapté à régression et la classification. Il en existe d'autres.
-
-Pour tout savoir sur les arbres de régression (et de classification) :
-
-<https://blent.ai/blog/a/arbres-de-decision-en-machine-learning>
-:::
 
 ## Modèle 2 : sortie R
 
