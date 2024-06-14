@@ -611,7 +611,7 @@ kbl(pred)
 ## Comparaison des performances
 
 | [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
-|-----------------|:---------------:|:---------------:|:------------------:|
+|------------------------------------|:----------------------------------------------------------------:|:----------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 | **Modèle 2 : Arbre**               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
@@ -782,7 +782,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Spécificité     | Sensibilité     |
-|-----------------------|-----------------|-----------------|-----------------|
+|----------------------------------|---------------------|-----------------|-----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ## Modèle 2 : arbre de classification
@@ -849,7 +849,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|-----------------------|-----------------|-----------------|-----------------|
+|------------------------------------|----------------------|------------------|------------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
