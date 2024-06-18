@@ -68,7 +68,7 @@ Avec le machine learning, on donne à la machine une grande quantité de donnée
 3.  L'apprentissage par essai/erreur
 
 ::: notes
-Dans ce module d'introduction, on va principalement étudier l'apprentissage supervisé. L'apprentissage non supervisé a été vu en partie dans le module sur la modélisation. Enfin, le dernier type d'apprentissage ne sera pas vu, c'est celui qui est utilisé pour simuler un joueur de jeu de go ou d'échec par exemple.
+Dans ce module d'introduction, on va principalement étudier l'apprentissage supervisé. L'apprentissage non supervisé a été vu en partie dans le module sur la modélisation (CAH et K-MEANS). Enfin, le dernier type d'apprentissage ne sera pas vu, c'est celui qui est utilisé pour simuler un joueur de jeu de go ou d'échec par exemple.
 
 la différence entre supervisé et non supervisé est dans la diapo suivante.
 :::
@@ -108,7 +108,7 @@ Cette image vient du site suivant :
 ::: notes
 -   Il s'agit de trouver la fonction f qui va le mieux **prédire** Y en fonction de X1, X2...,Xn
 
--   On distingue la modélisation statistique (cf module 3 de statistique), avec des tests et des hypothèses. Le but est d'expliquer, d'interpréter, de comprendre les données du machine learning, qui a pour objectif d'avoir les meilleures performances prédictives, au détriment parfois de l'interprétabilité.
+-   On distingue la modélisation statistique (cf module 3 de statistique), avec des tests et des hypothèses. Le but est d'expliquer, d'interpréter, de comprendre les données. En machine learning, l'objectif est d'avoir les meilleures performances prédictives, au détriment parfois de l'interprétabilité.
 :::
 
 ------------------------------------------------------------------------
@@ -116,7 +116,7 @@ Cette image vient du site suivant :
 ![](types_apprentissage.png){fig-align="center"}
 
 ::: notes
-Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres) comme modèle. Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre.
+Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres) comme modèle. Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre. Il ne faut pas confondre les méthodes de classification (K-means, CAH) qu'on a vu dans le module de statistique, et la classification supervisée qui consiste à prévoir des données qualitatives. Pour ne pas confondre, on utilise le terme de clustering pour désigner les méthodes d'apprentissage non supervisé.
 :::
 
 ## Prédire ou estimer ?
@@ -166,7 +166,9 @@ kbl(locations,format = "html")
 :::
 
 ::: notes
-On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). Il s'agit donc d'un problème de régression (et pas de classification).
+C'est une distinction essentielle en machine learning : les estimations sont les valeurs données par le modèle aux individus qui ont servi à ajuster ce modèle. C'est à partir de ces estimations qu'on construit des indicateurs pour évaluer la qualité d'un modèle. Les prévisions sont les valeurs données par le modèle à des individus qui n'ont pas servi à ajuster le modèle.
+
+Par exemple ici, on cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). Il s'agit donc d'un problème de régression (et pas de classification). J'ajuste une régression linéaire sur mes 5 individus (j'estime les paramètres de la régression), et je calcule les estimations. A partir de cette instance de modèle,
 :::
 
 ## Comment la machine apprend ? {.nonsmaller}
@@ -175,7 +177,7 @@ On cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une
 
 -   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
 
--   Ces algorithmes (très nombreux!) sont spéficiques pour les deux types d'apprentissage (classification et régression).
+-   Ces algorithmes (très nombreux!) pour les deux types d'apprentissage ([classification]{style="color:blue"} et [régression]{style="color:red"}).
 
 ::: notes
 Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
@@ -183,9 +185,9 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 
 ------------------------------------------------------------------------
 
--   Régression linéaire / logistique
+-   [Régression linéaire]{style="color:red"} / [Régression logistique]{style="color:blue"}
 
--   Arbre de régression / classification
+-   [Arbre de régression]{style="color:red"} / [Arbre de classification]{style="color:blue"}
 
 -   Méthodes à base d'arbres :
 
@@ -282,6 +284,10 @@ kbl(pred,digits=c(1,1,0,0),caption = "locations_valid")
 ```
 :::
 
+::: notes
+La base de départ est partitionnée en une base d'entraînement et une base de validation. L'algorithme s'ajuste sur la base d'entraînement (5 logements) et cette instance est utilisée pour prédire sur la base de validation (qui n'a pas servi à construire le modèle).
+:::
+
 ## Indicateurs de performances
 
 $$                                        
@@ -303,13 +309,13 @@ $$
 ::: notes
 Les valeurs des indicateurs de performance donnent une première idée de la qualité du modèle en matière de prédiction (on voit notamment que le coeff de détermination est très faible). Mais la vraie utilité, c'est pour comparer plusieurs modèles entre eux : on verra un exemple plus bas.\
 
-RSS = 7,1² + 434,1² + 81,2² = 195 087
+RSS (risque quadratique) = 7,1² + 434,1² + 81,2² = 195 087
 
-MSE = 65 029
+MSE (risque quadratique moyen) = 65 029
 
 RMSE = 255
 
-R² = 0.18
+R² (coeff de détermination)= 0.18
 :::
 
 ## Problème de classification {.smaller}
@@ -395,6 +401,12 @@ La régression logistique s'entraîne sur les 7 premiers canards pour estimer de
 **Spécificité** : TN / (TN + FP)
 
 **Précision** : TP / (TP + FP)
+
+::: notes
+Exactitude : 1 mal classé sur 3 (33,33%)
+
+Sensibilité :
+:::
 
 ## Les deux écueils de l'apprentissage
 
@@ -619,7 +631,7 @@ kbl(pred)
 ## Comparaison des performances
 
 | [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
-|------------------|:----------------:|:----------------:|:------------------:|
+|------------------|:----------------:|:----------------:|:-----------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 | **Modèle 2 : Arbre**               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
@@ -790,7 +802,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Spécificité     | Sensibilité     |
-|---------------------|-----------------|-----------------|-----------------|
+|--------------------|------------------|------------------|------------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ## Modèle 2 : arbre de classification
@@ -857,7 +869,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|---------------------|-----------------|-----------------|-----------------|
+|--------------------|------------------|------------------|------------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
