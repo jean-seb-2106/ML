@@ -26,7 +26,7 @@ library(rpart.plot)
 ::: notes
 L'intelligence artificielle définie par Yann le Cun [@Cun2019] : *l'intelligence artificielle est la capacité pour une machine d'assurer des tâches généralement assurée par les animaux ou les humains : percevoir, raisonner, agir.*
 
-Le machine learning fait partie d'intelligence artificielle, mais il se distingue de l'IA historique par son mode de fonctionnement.
+Le machine learning fait partie de l'intelligence artificielle, mais il se distingue de l'IA historique par son mode de fonctionnement.
 
 Le deep learning est un machine learning très puissant, utilisé sur des données très volumineuses (images, vidéos..) et nécessitant de grosses puissances de calculs.
 :::
@@ -46,7 +46,7 @@ C'est celle qu'on utilise depuis longtemps, depuis les années 50.
 ![](machine-learning-entrainement-ia.jpg){fig-align="center"}
 
 ::: notes
-Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme qui permet de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
+Avec le machine learning, on donne à la machine une grande quantité de donnée, et elle va trouver 'toute seule' cette règle, c'est pour ça qu'on dit qu'elle apprend. Elle apprend grace à un algorithme et des machines puissantes qui permettent de traiter une (très) grande quantité de donnée pour en faire ressortir un schéma réccurent.
 :::
 
 <!-- ## et le Deep learning -->
@@ -183,38 +183,28 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 
 ------------------------------------------------------------------------
 
-::: columns
-::: {.column width="50%"}
-[**Régression supervisé**]{.underline}
+-   Régression linéaire / logistique
 
--   Régression linéaire
+-   Arbre de régression / classification
 
--   Arbre de régression
+-   Méthodes à base d'arbres :
 
--   Forêt aléatoire
+    -   Forêt aléatoire
 
--   XGBoost
+    -   Boosting
 
--   KNN
+-   KNN (plus proches voisins)
 
 -   SVM
-:::
 
-::: {.column width="50%"}
-[**Classification supervisé**]{.underline}
+-   Réseaux de neurones/deep learning
 
--   Régression logistique
+::: notes
+Les algorithmes sont plus ou moins bien adaptés aux données en entrée. Certains algorithmes sont plus gourmands en ressources informatiques que d'autres. Par exemple, les forêts aléatoires sont gourmands en ressources informatiques, bien davantage que les régréssions.
 
--   Arbre de classification
+Le deep learning est adapté pour des données volumineuses comme les images ou les vidéos.
 
--   Forêt aléatoire
-
--   XGBoost
-
--   KNN
-
--   SVM
-:::
+Certains algorithmes sont plus interprétables que d'autres pour lesquelles il y a une boîte noire qui est difficile à décrypter pour des non initiés (exemple : le deep learning).
 :::
 
 ## Comment savoir si un modèle est performant ?
@@ -229,8 +219,12 @@ Un algorithme est une série d'instructions définies et ordonnées qui permette
 
 -   Un modèle entraîné sur une base s'appelle une instance.
 
--   On teste la performance de cette instance sur une base de validation.
+-   On évalue la performance de cette instance sur une base de validation.
 :::
+:::
+
+::: notes
+En machine learning, la performance d'un modèle est sa capacité à prédire sur des données qu'il n'a jamais vues.
 :::
 
 ## Problème de régression {.smaller}
@@ -309,7 +303,13 @@ $$
 ::: notes
 Les valeurs des indicateurs de performance donnent une première idée de la qualité du modèle en matière de prédiction (on voit notamment que le coeff de détermination est très faible). Mais la vraie utilité, c'est pour comparer plusieurs modèles entre eux : on verra un exemple plus bas.\
 
-RSS = 7,1² + 434,1² + 81,2² = 195 087 MSE = 65 029 RMSE = 255 R² = 0.18
+RSS = 7,1² + 434,1² + 81,2² = 195 087
+
+MSE = 65 029
+
+RMSE = 255
+
+R² = 0.18
 :::
 
 ## Problème de classification {.smaller}
@@ -370,6 +370,14 @@ kbl(pred,digits=c(1,2,2,0,0),caption = "canards_valid",centering = TRUE)
 ```
 :::
 
+::: notes
+On est sur un problème de classification puisque la variable à prédire est une qualitative, avec deux modalités (le canard est-il une femelle ?). Les données brutes sont étiquetées (ou labellisées), c'est à dire qu'on connaît Y pour les 10 canards.
+
+On divise la base de données initiale en deux : une partie pour entraîner le modèle (ici la régression logistique) et une partie pour évaluer la performance de l'instance du modèle.
+
+La régression logistique s'entraîne sur les 7 premiers canards pour estimer des paramètres. Et cette instance fait des prévisions sur les 3 derniers canards, qui n'ont pas servi à construire le modèle. Pour chaque canard et chaque modalité, le modèle renvoie une probabilité. si cette probabilité est supérieure à 0,5, alors la modalité prédite est celle là.
+:::
+
 ## Indicateurs de performances {.smaller}
 
 ```{r}
@@ -388,24 +396,24 @@ kbl(pred,digits=c(1,2,2,0,0),caption = "canards_valid",centering = TRUE)
 
 **Précision** : TP / (TP + FP)
 
-## Les deux écueils de l'apprentissage {.smaller}
+## Les deux écueils de l'apprentissage
 
 -   **Le sous-apprentissage** : le modèle n'est pas adapté ou trop simple.
 
 -   **Le sur-apprentissage** : le modèle colle trop aux données d'apprentissage.
 
-------------------------------------------------------------------------
+## La quête du Saint Graal {.smaller}
 
-::: panel-tabset
-## Sous-Apprentissage
+::: {.panel-tabset .smaller}
+## Sous-Apprentissage {.smaller}
 
 ![](sous_apprentissage.png){fig-align="center" width="500"}
 
-## Bon modèle
+## Bon modèle {.smaller}
 
 ![](apprentissage_adapté.png){fig-align="center" width="500"}
 
-## Sur-apprentissage
+## Sur-apprentissage {.smaller}
 
 ![](sur-apprentissage.png){fig-align="center" width="500"}
 :::
@@ -611,7 +619,7 @@ kbl(pred)
 ## Comparaison des performances
 
 | [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
-|------------------------------------|:----------------------------------------------------------------:|:----------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
+|------------------|:----------------:|:----------------:|:------------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 | **Modèle 2 : Arbre**               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
@@ -782,7 +790,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Spécificité     | Sensibilité     |
-|----------------------------------|---------------------|-----------------|-----------------|
+|---------------------|-----------------|-----------------|-----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ## Modèle 2 : arbre de classification
@@ -849,7 +857,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|------------------------------------|----------------------|------------------|------------------|
+|---------------------|-----------------|-----------------|-----------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
