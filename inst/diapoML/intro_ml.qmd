@@ -396,16 +396,20 @@ La régression logistique s'entraîne sur les 7 premiers canards pour estimer de
 
 **Exactitude** : (TN + TP) / (TN + TP + FP + FN)
 
-**Sensibilité (Rappel)** : TP / (TP + FN)
+**Sensibilité (Rappel, ou taux de vrais positifs)** : TP / (TP + FN)
 
 **Spécificité** : TN / (TN + FP)
 
 **Précision** : TP / (TP + FP)
 
 ::: notes
-Exactitude : 1 mal classé sur 3 (33,33%)
+**Exactitude** : Mesure la capacité prédictive globale du modèle.
 
-Sensibilité :
+**Sensibilité :** Mesure la capacité du modèle à prédire les positifs.
+
+**Spécificité** : Mesure la capacité du modèle à prédire les négatifs.
+
+**Précision :** quand on souhaite minimiser les faux positifs.
 :::
 
 ## Les deux écueils de l'apprentissage
@@ -414,7 +418,7 @@ Sensibilité :
 
 -   **Le sur-apprentissage** : le modèle colle trop aux données d'apprentissage.
 
-## La quête du Saint Graal {.smaller}
+## A la recherche du bon modèle {.smaller}
 
 ::: {.panel-tabset .smaller}
 ## Sous-Apprentissage {.smaller}
@@ -445,6 +449,14 @@ Le but est de prédire la couleur des points (orange ou bleu), c'est donc un pro
 ## Le compromis biais-variance
 
 ![](biais_variance.png){fig-align="center"}
+
+::: notes
+Si un modèle est trop simple (comme ici la droite qui modélise mal le nuage de points), il fera beaucoup d'erreurs d'estimations ET de prédictions sur de nouvelles données.
+
+Plus on complexifie ce modèle, moins il fait d'erreurs d'estimations. Pour un modèle de régression, un modèle se complexifie quand on lui rajoute des variables. On verra que dans le cas d'un arbre de décision, plus un arbre est profond (plus il a de feuilles), moins il fait d'erreurs d'estimation. Quand on arrive à un seuil trop important de complexité, on dit que le modèle colle trop aux données d'entraînement. Autrement dit, il surraprend, et il risque de ne pas bien s'adapter à un nouveau jeu de données, qui n'aura pas tout à fait la même structure.
+
+Il faut donc réussir à trouver un modèle qui ne sous-apprend pas et qui ne tombe pas non plus dans le piège du surraprentissage.
+:::
 
 ## Autre exemple
 
@@ -565,7 +577,7 @@ skim(train_grandile)
 ```
 
 ::: notes
-Dans ce cas, il s'agit d'un tirage aléatoire simple. Donc la base d'entraînement n'est pas toujours la même.
+La base d'entraînement n'est pas toujours la même puisqu'elle a été tiré au hasard. Dans cet exemple, on a bloqué l'aléatoire (set.seed).
 :::
 
 ```{r}
@@ -621,7 +633,7 @@ rpart.plot(arbre1)
 ```
 
 ::: notes
-Les cercles représentent une partie de la population d'étude. Le première cercle est appelé la racine,
+Les cercles représentent une partie de la population d'étude. Le première cercle est appelé la racine,.
 :::
 
 ## Modèle 2 : sortie R
@@ -633,6 +645,7 @@ wflow <- workflow() %>%
 
 fit_tree <- wflow %>% fit(data=train_grandile)
 fit_tree
+# summary(arbre1)
 
 ```
 
@@ -654,7 +667,7 @@ kbl(pred)
 
 ## Optimisation des modèles
 
-1.  Et si on retirait une variable ?
+1.  Et si on retirait une variable ? ajoutait une variable ?
 
 2.  Et si on essayait avec un arbre plus profond ? (hyper-paramètres)
 
@@ -686,6 +699,12 @@ pred_modele_final <- augment(fit_tree_final, test_grandile) %>% select(-`.resid`
 kbl(head(pred_modele_final,100))
 ```
 
+::: notes
+Voilà les prédictions obtenues à partir de notre base de test, qui a l'avantage de ne pas avoir du tout servi pour sélectionner notre modèle. En théorie, on pourrait construire des indicateurs de qualité de prédiction. Mais elles ne remettront pas en cause le choix de notre modèle, qui est celui retenu pour la mise en production.
+
+Le modèle n'est pas top, on pourrait faire bien mieux que ça, mais avec d'autres variables explicatives !
+:::
+
 # Deuxième exemple
 
 ## Régression ou classification ? {.scrollable .smaller}
@@ -699,6 +718,10 @@ mutate(Y_PAUVRE = as.factor(Y_PAUVRE), X2_DIPL = as.factor(X2_DIPL))
 kbl(head(grandile,100))
 
 ```
+
+::: notes
+Il s'agit d'un problème de classification. On cherche à prédire la variable Y_PAUVRE, qui est une qualitative à 2 modalités, à partir d'une variable quantitative (le revenu) et d'une qualitative (le niveau de diplôme, qualitative ordinale).
+:::
 
 ## Exploration de la base brute {.scrollable .smaller}
 
@@ -716,6 +739,10 @@ skim(grandile)
 -   Base de validation : 20 %
 
 -   Base de test : 20 %
+
+::: notes
+La partition n'est pas complètement aléatoire, puisqu'on cherche à avoir une proportion de pauvres identique dans chacune des bases.
+:::
 
 ## Exploration de la base d'entraînement {.scrollable .smaller}
 
@@ -735,8 +762,9 @@ train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
 ```
 
 ```{r}
-summary(train_grandile)
-nrow(train_grandile)
+# summary(train_grandile)
+# nrow(train_grandile)
+skim(train_grandile)
 ```
 
 ```{r}
@@ -779,11 +807,11 @@ mod_tree <-
   set_mode("classification")
 ```
 
--   Régression logistique
+1.  Régression logistique
 
--   Arbre de classification
+2.  Arbre de classification
 
--   Forêt aléatoire
+3.  Forêt aléatoire
 
 ## Modèle 1 : régression logistique
 
@@ -796,7 +824,11 @@ fit_lr <- wflow %>% fit(data=train_grandile)
 fit_lr
 ```
 
-## Prévisions (Régression logistique) {.scrollable}
+::: notes
+Le modèle s'ajuste sur les données d'entraînement, et on récupère les coefficients.
+:::
+
+## Prévisions (modèle 1) {.scrollable}
 
 ```{r}
 pred_valid <- augment(fit_lr, valid_grandile) %>% 
@@ -806,7 +838,13 @@ rename(`Y_REG`=`.pred_class`)
 kbl(head(pred_valid,100))
 ```
 
-## Table de confusion (Régression logistique)
+::: notes
+On établit des prévisions sur la base de validation à partir des probabilités estimées par le modèle. Si la probabilité associée à une modalité est supérieure à 0,5, alors le modèle renvoie cette modalité.
+
+A partir de ces prévisions sur la base de validation, on va pouvoir classer les individus dans une table de confusion.
+:::
+
+## Table de confusion (modèle 1)
 
 ```{r}
 pred_valid %>%
@@ -814,25 +852,29 @@ pred_valid %>%
   autoplot(type="heatmap")
 ```
 
-## Performance (Régression logistique)
+## Performances (modèle 1)
 
 ```{r}
 #Accuracy : pourcentage de biens classés
 accuracy_reg <- pred_valid %>% 
   accuracy(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
 
-#Spécificité
+#la fonction specificity = sensibilité (recall)
 spec_reg <- pred_valid %>% 
   specificity(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
 
-#Sensitivité
+#sensitivity = spécificité (capacité à prévoir du négatif)
 sens_reg <- pred_valid %>% 
   sensitivity(truth = Y_PAUVRE, Y_REG) %>% as.numeric() %>% round(2)
 ```
 
-|                                  | Exactitude          | Spécificité     | Sensibilité     |
-|-------------------------|----------------|----------------|----------------|
+|                                  | Exactitude          | Sensibilité     | Spécificité     |
+|-------------------------|-----------------|---------------|----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
+
+::: notes
+Le modèle classe mal les positifs (c'est à dire les pauvres). Il s'est trompé dans 60% des cas puisque la sensibilité (ou recall, rappel) est égale à 0,4. Donc il faut se méfier quand il prédit qu'un ménage est pauvre. Si on veut qu'un modèle soit meilleur pour prédire les positifs, une solution consiste à changer le seuil, passer à 0,7 par exemple.
+:::
 
 ## Modèle 2 : arbre de classification
 
@@ -902,6 +944,41 @@ sens_rf <- pred_valid %>%
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
+
+## Optimisation
+
+1.  Et si on ajoutait/retirait des variables explicatives ?
+
+2.  Et si on regroupait des modalités sur DIPL ?
+
+3.  Et si on modifiait la profondeur de l'arbre (modèle 2) ?
+
+4.  Et si modifiait le nombre d'arbres tirés aléatoirement ? Le nombre de variables ? (modèle 3)
+
+## Entraînement du modèle final
+
+```{r}
+wflow_final <- workflow() %>% 
+  add_recipe(rec1) %>% 
+  add_model(mod_rf)
+
+fit_final <- wflow_final %>% fit(data=train_valid_grandile)
+fit_final
+```
+
+## Généralisation/Mise en production
+
+```{r}
+pred_final <- augment(fit_final, test_grandile) %>% 
+select(Y_PAUVRE,starts_with(".pred")) %>% 
+mutate_if(is.numeric,round,digits=2) %>% 
+rename(`Y_PREDICT`=`.pred_class`)
+kbl(head(pred_final,100))
+```
+
+## A vous de jouer maintenant !
+
+![](JO2024.jpg){fig-align="center"}
 
 <!-- ## Apprentissage avec la regression linéaire -->
 
