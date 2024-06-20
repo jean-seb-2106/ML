@@ -116,7 +116,7 @@ Cette image vient du site suivant :
 ![](types_apprentissage.png){fig-align="center"}
 
 ::: notes
-Attention : en machine learning, dans un problème de régression (Y est quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres) comme modèle. Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre. Il ne faut pas confondre les méthodes de classification (K-means, CAH) qu'on a vu dans le module de statistique, et la classification supervisée qui consiste à prévoir des données qualitatives. Pour ne pas confondre, on utilise le terme de clustering pour désigner les méthodes d'apprentissage non supervisé.
+Attention : en machine learning, dans un problème de régression (Y quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres). Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre. Il ne faut pas confondre les méthodes de classification (K-means, CAH) qu'on a vu dans le module de statistique, et la classification supervisée qui consiste à prévoir des données qualitatives. Pour ne pas confondre, on utilise le terme de clustering pour désigner les méthodes d'apprentissage non supervisé.
 :::
 
 ## Prédire ou estimer ?
@@ -209,7 +209,7 @@ Le deep learning est adapté pour des données volumineuses comme les images ou 
 Certains algorithmes sont plus interprétables que d'autres pour lesquelles il y a une boîte noire qui est difficile à décrypter pour des non initiés (exemple : le deep learning).
 :::
 
-## Comment savoir si un modèle est performant ?
+## Comment savoir si un modèle apprend bien ?
 
 ::: columns
 ::: {.column width="50%"}
@@ -226,7 +226,7 @@ Certains algorithmes sont plus interprétables que d'autres pour lesquelles il y
 :::
 
 ::: notes
-En machine learning, la performance d'un modèle est sa capacité à prédire sur des données qu'il n'a jamais vues.
+En machine learning, la performance d'un modèle est sa capacité à prédire sur des données qu'il n'a jamais vues. En fonction du type de problème (régression ou classification), les indicateurs d'évaluation ne seront pas les mêmes.
 :::
 
 ## Problème de régression {.smaller}
@@ -412,6 +412,16 @@ La régression logistique s'entraîne sur les 7 premiers canards pour estimer de
 **Précision :** quand on souhaite minimiser les faux positifs.
 :::
 
+## La validation croisée
+
+![](Validation_croisée.png){fig-align="center"}
+
+::: notes
+En pratique, on met en place un cadre de **validation croisée**. En orange, les points qui servent à l'entraînement de mon algorithme, en blanc les points qui vont servir à valider (sur lesquels je fais des prédictions). Dans cet exemple je découpe ma base en 5, et j'entraîne mon algorithme 5 fois, sur 4/5 de la base de départ. J'ai donc 5 instances qui font des prévisions successives sur 1/5 de la base.
+
+L'intérêt est que tous les points de la base auront servi au moins une fois pour l'entraînement. Et j'aurais moins de risque d'avoir un biais d'échantillonage que dans la validation simple.
+:::
+
 ## Les deux écueils de l'apprentissage
 
 -   **Le sous-apprentissage** : le modèle n'est pas adapté ou trop simple.
@@ -462,21 +472,29 @@ Il faut donc réussir à trouver un modèle qui ne sous-apprend pas et qui ne to
 
 ![](sur_sous_apprentissage.PNG){fig-align="left"}
 
-## Un exemple d'arbre de décision
+## Un arbre de décision, c'est quoi ?
 
 ![](Exemple-darbre-de-regression.png){.smaller fig-align="center" width="400"}
 
-## Les arbres de décision, comment ça marche ?
+::: notes
+Voilà un exemple d'arbre de décision, qui a pour put de prédire la taille en fonction du sexe, de l'age et du fait d'habiter en ville. Ici on a un arbre de décision qui prédit que les hommes de moins de 28 ans habitant en ville mesurent 1,80 m.
+
+Un arbre est composé de noeuds (split en anglais) et de feuilles. Le premier noeud est appelé la racine. C'est donc un arbre renversé. Les noeuds sont segmentés à l'aide d'une variable qui peut être quantitative ou qualitative.
+:::
+
+## Comment se construisent les arbres ?
 
 L'algorithme CART permet d'ajuster le modèle sur les données d'entraînement.
 
-1.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante
+1.  L'utilisateur paramètre la profondeur de l'arbre
 
-2.  Il teste toutes les valeurs de cette variable et choisit celle qui estime le mieux
+2.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante
 
-3.  Partage de la population en deux noeuds.
+3.  Il teste toutes les valeurs de cette variable et choisit celle qui discrimine le mieux.
 
-4.  L'estimation est la moyenne
+4.  Le noeud est divisé en deux parties qui deviennent soit des feuilles soit des noeuds.
+
+5.  L'estimation est soit la moyenne (pour la régression) soit la modalité majoritaire (pour la classification).
 
 ::: notes
 CART : classifications and regression trees. C'est l'algorithme le plus utilisé, il est adapté à régression et la classification. Il en existe d'autres.
@@ -661,7 +679,7 @@ kbl(pred)
 ## Comparaison des performances
 
 |        [Modèle]{.underline}        |                         [MSE]{.underline}                         |                           [RMSE]{.underline}                            |                                 [R²]{.underline}                                  |
-|:--------------:|:---------------:|:----------------:|:-------------------:|
+|:---------------:|:---------------:|:---------------:|:------------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round(1)`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round(1)`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 |        **Modèle 2 : Arbre**        | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round(1)` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round(1)` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
@@ -869,7 +887,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Sensibilité     | Spécificité     |
-|-------------------------|-----------------|---------------|----------------|
+|-----------------------|-----------------|-----------------|-----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ::: notes
@@ -940,7 +958,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|-------------------------|----------------|----------------|----------------|
+|-----------------------|-----------------|-----------------|-----------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
