@@ -966,11 +966,11 @@ fit_final <- wflow_final %>% fit(data=train_valid_grandile)
 fit_final
 ```
 
-## Généralisation/Mise en production
+## Généralisation/Mise en production {.smaller .scrollable}
 
 ```{r}
 pred_final <- augment(fit_final, test_grandile) %>% 
-select(Y_PAUVRE,starts_with(".pred")) %>% 
+select(Y_PAUVRE,starts_with(".pred"),X1_REVENU,X2_DIPL) %>% 
 mutate_if(is.numeric,round,digits=2) %>% 
 rename(`Y_PREDICT`=`.pred_class`)
 kbl(head(pred_final,100))
