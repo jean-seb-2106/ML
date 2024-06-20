@@ -474,13 +474,13 @@ Pour tout savoir sur les arbres de régression (et de classification) :
 <https://blent.ai/blog/a/arbres-de-decision-en-machine-learning>
 :::
 
-## Les étapes de l'apprentissage supervisé :
+## Les étapes de l'apprentissage supervisé : {.smaller}
 
 1.  Définir le sujet (classification ou régression ?)
 
 2.  Explorer et nettoyer la base de données
 
-3.  Réserver une partie de la base pour l'apprentissage/test
+3.  Réserver une partie de la base pour l'apprentissage/validation/test
 
 4.  Apprendre des données avec des modèles/algorithmes
 
@@ -490,20 +490,31 @@ Pour tout savoir sur les arbres de régression (et de classification) :
 
 # Premier exemple
 
-## Régression ou classification ?
+## Régression ou classification ? {.scrollable .smaller}
 
 ```{r}
 grandile <- asta::grandile %>% 
 select(Y_REVENU = REV_DISPONIBLE, X1_NBPIECES= NBPIECES,X2_AGE = AGE)
-kbl(head(grandile),caption="Grandile")
+kbl(head(grandile,100),caption="Grandile")
 ```
 
-## Exploration de la base brute {.scrollable}
+::: notes
+Il s'agit d'un problème de régression puisque la variable à expliquer est quantitative continue. Les variables explicatives sont deux quantitatives (dont une est discrète).
+:::
+
+## Exploration de la base brute {.scrollable .smaller}
 
 ```{r}
-summary(grandile)
-# skim(grandile)
+# summary(grandile)
+# print("Il y a",nrow(grandile),"ménages dans le fichier Grandile")
+skim(grandile)
 ```
+
+::: notes
+On voit qu'il n'y a pas de valeurs manquantes, et on a les ordres de grandeurs des variables. On a aussi les distributions.
+
+Pour aller plus loin dans l'exploration, on pourrait explorer les liens linéaires entre les variables prises deux à deux (quanti-quanti, voire quali-quanti si on considère que le nombre de pièces est une variable discrète).
+:::
 
 ## Nettoyage et transformation des données
 
@@ -527,7 +538,13 @@ summary(grandile)
 
 -   Base de test : 20 %
 
-## Base d'entraînement {.scrollable}
+::: notes
+Dans cet exemple, les bases sont tirées au hasard. Mais il est possible de faire en sorte d'avoir des bases représentatives (pour avoir un poids suffisant de certaines modalités de variables). Par exemple, si on a vraiment pas de chances, on pourrait n'avoir aucun "riche" dans notre base d'entraînement, et que des riches dans la base de validation. Notre modèle ne prédirait pas bien sur la base de validation.
+
+C'est la raison pour laquelle on préfère toujours faire de la **validation croisée** (avec un découpage en 5 ou 10). Mais il faut avoir conscience qu'elle prend de la ressource informatique.
+:::
+
+## Base d'entraînement {.scrollable .smaller}
 
 ```{r}
 part_training <- 0.6 
@@ -543,8 +560,8 @@ train_valid_grandile <- train_grandile %>% bind_rows(valid_grandile)
 ```
 
 ```{r}
-# skim(train_grandile)
-summary(train_grandile)
+skim(train_grandile)
+# summary(train_grandile)
 ```
 
 ::: notes
@@ -630,18 +647,24 @@ kbl(pred)
 
 ## Comparaison des performances
 
-| [Modèle]{.underline}               |                        [MSE]{.underline}                         |                           [RMSE]{.underline}                           |                                 [R²]{.underline}                                  |
-|------------------|:----------------:|:----------------:|:-----------------:|
-| **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round()`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round()`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
-| **Modèle 2 : Arbre**               | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round()` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round()` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
+|        [Modèle]{.underline}        |                         [MSE]{.underline}                         |                           [RMSE]{.underline}                            |                                 [R²]{.underline}                                  |
+|:--------------:|:---------------:|:----------------:|:-------------------:|
+| **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round(1)`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round(1)`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
+|        **Modèle 2 : Arbre**        | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round(1)` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round(1)` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
-## Les critères de choix
+## Optimisation des modèles
 
-1.  Performance du modèle
+1.  Et si on retirait une variable ?
 
-2.  Contraintes techniques
+2.  Et si on essayait avec un arbre plus profond ? (hyper-paramètres)
 
-3.  Interprétabilité
+3.  Et si on construisait des variables à partir des variables existantes ? (X², Log(X) etc...)
+
+::: notes
+On ne le fait pas dans cet exemple, mais en pratique, il faudrait tester les performances de ces "nouveaux" modèles, pour voir si ils prédisent mieux que ceux-là. Peut-être que la régression sur une variable prédit mieux que la régression sur deux variables. Peut-être que notre arbre n'est pas suffisament profond (hyper-paramètre qu'on a laissé par défaut).
+
+En pratique, il faudrait tester un grand nombre d'arbre et prendre celui avec la profondeur qui prédit le mieux (sur des données qu'elle n'a jamais vues). Des fonctions R permettent de le faire.
+:::
 
 ## Entraînement du modèle final
 
@@ -650,7 +673,13 @@ fit_tree_final <- wflow %>% fit(data=train_valid_grandile)
 fit_tree_final
 ```
 
-## Généralisation/Mise en production {.scrollable}
+::: notes
+Après avoir testé le pouvoir prédictif d'un nombre suffisant de modèles, sur des données transformées ou non, on retient un et un seul modèle qui sera mis en production pour faire des prédictions. On ne reviendra pas sur notre choix.
+
+Dans notre cas, on a retenu un arbre de régression, avec la profondeur d'arbre par défaut. Il faut donc ajuster cet arbre sur les données d'entraînement et les données de validation, pour avoir un maximum de données.
+:::
+
+## Généralisation/Mise en production {.scrollable .smaller}
 
 ```{r}
 pred_modele_final <- augment(fit_tree_final, test_grandile) %>% select(-`.resid`,-Y_REVENU) %>% rename(Y_PREVU = `.pred`) %>% round()
@@ -659,7 +688,7 @@ kbl(head(pred_modele_final,100))
 
 # Deuxième exemple
 
-## Régression ou classification ? {.scrollable}
+## Régression ou classification ? {.scrollable .smaller}
 
 ```{r}
 
@@ -671,11 +700,11 @@ kbl(head(grandile,100))
 
 ```
 
-## Exploration de la base brute {.scrollable}
+## Exploration de la base brute {.scrollable .smaller}
 
 ```{r}
 # summary(grandile)
-summary(grandile)
+skim(grandile)
 ```
 
 ## Partition
@@ -688,7 +717,7 @@ summary(grandile)
 
 -   Base de test : 20 %
 
-## Exploration de la base d'entraînement {.scrollable}
+## Exploration de la base d'entraînement {.scrollable .smaller}
 
 ```{r}
 part_training <- 0.6 
@@ -802,7 +831,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Spécificité     | Sensibilité     |
-|--------------------|------------------|------------------|------------------|
+|-------------------------|----------------|----------------|----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ## Modèle 2 : arbre de classification
@@ -869,7 +898,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|--------------------|------------------|------------------|------------------|
+|-------------------------|----------------|----------------|----------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
