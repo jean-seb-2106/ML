@@ -97,7 +97,11 @@ Cette image vient du site suivant :
 
 -   Le but premier n'est pas d'expliquer mais de prédire.
 
--   Deux types d'apprentissage supervisé selon Y.
+-   Deux types d'apprentissage supervisé :
+
+    -   Régression
+
+    -   Classification
 :::
 
 ::: {.column width="50%"}
@@ -117,6 +121,44 @@ Cette image vient du site suivant :
 
 ::: notes
 Attention : en machine learning, dans un problème de régression (Y quanti continu), je n'utilise pas nécessairement la régression linéaire (qui est un modèle parmi d'autres). Dans un problème de classification (Y est quali), je peux utiliser une régression logistique comme modèle pour apprendre. Il ne faut pas confondre les méthodes de classification (K-means, CAH) qu'on a vu dans le module de statistique, et la classification supervisée qui consiste à prévoir des données qualitatives. Pour ne pas confondre, on utilise le terme de clustering pour désigner les méthodes d'apprentissage non supervisé.
+:::
+
+## Comment la machine apprend ? {.nonsmaller}
+
+-   Le statisticien fixe un cadre d'apprentissage : le modèle
+
+-   Des algorithmes permettent d'entraîner ces modèles sur des données étiquetées. Leur but est de minimiser [l'erreur d'estimation]{.underline}.
+
+-   Les algorithmes sont des répétitions de calculs simples permettant d'approcher de façon itérative le résultat attendu.
+
+::: notes
+Un algorithme emblématique est la descente de gradient, utilisé pour ajuster beaucoup de modèles de machines learning, même les modèles de deep learning.
+:::
+
+## Quelques exemples de modèles {.nonsmaller}
+
+-   [Régression linéaire]{style="color:red"} / [Régression logistique]{style="color:blue"}
+
+-   [Arbre de régression]{style="color:red"} / [Arbre de classification]{style="color:blue"}
+
+-   Méthodes à base d'arbres :
+
+    -   Forêt aléatoire
+
+    -   Boosting
+
+-   KNN (plus proches voisins)
+
+-   SVM
+
+-   Réseaux de neurones/deep learning
+
+::: notes
+Les modèles sont plus ou moins bien adaptés aux données fournies. Certains algorithmes sont par exemple plus gourmands en ressources informatiques que d'autres. Par exemple, les forêts aléatoires sont gourmands en ressources informatiques, bien davantage que les régréssions.
+
+Le deep learning est adapté pour des données volumineuses comme les images ou les vidéos.
+
+Certains algorithmes sont plus interprétables que d'autres pour lesquelles il y a une boîte noire qui est difficile à décrypter pour des non initiés (exemple : le deep learning).
 :::
 
 ## Prédire ou estimer ?
@@ -168,48 +210,10 @@ kbl(locations,format = "html")
 ::: notes
 C'est une distinction essentielle en machine learning : les estimations sont les valeurs données par le modèle aux individus qui ont servi à ajuster ce modèle. C'est à partir de ces estimations qu'on construit des indicateurs pour évaluer la qualité d'un modèle. Les prévisions sont les valeurs données par le modèle à des individus qui n'ont pas servi à ajuster le modèle.
 
-Par exemple ici, on cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). Il s'agit donc d'un problème de régression (et pas de classification). J'ajuste une régression linéaire sur mes 5 individus (j'estime les paramètres de la régression), et je calcule les estimations. A partir de cette instance de modèle,
+Par exemple ici, on cherche à prédire le prix d'un logement en fonction de sa surface. J'ai une base de données de 5 logements étiquetés (avec le prix) et une variable explicative (la surface). Il s'agit donc d'un problème de régression (et pas de classification). J'ajuste une régression linéaire sur mes 5 individus (j'estime les paramètres de la régression), et je calcule les estimations. A partir de cette instance de modèle, je peux faire des prévisions sur des données qui n'ont pas servi à construire le modèle (les logements 6, 7 et 8).
 :::
 
-## Comment la machine apprend ? {.nonsmaller}
-
--   La machine apprend sur des données étiquetées grâce à des algorithmes/modèles.
-
--   Le but de ces algorithmes est de minimiser [l'erreur d'estimation]{.underline}.
-
--   Ces algorithmes (très nombreux!) pour les deux types d'apprentissage ([classification]{style="color:blue"} et [régression]{style="color:red"}).
-
-::: notes
-Un algorithme est une série d'instructions définies et ordonnées qui permettent d'effectuer une tâche spécifique. Il existe plusieurs façons d'évaluer l'erreur d'estimation, certaines ont déjà été vues pendant le TD sur les régressions. L'erreur quadratique est un exemple d'erreur d'estimation que l'algorithme de la régression cherche à estimer.
-:::
-
-------------------------------------------------------------------------
-
--   [Régression linéaire]{style="color:red"} / [Régression logistique]{style="color:blue"}
-
--   [Arbre de régression]{style="color:red"} / [Arbre de classification]{style="color:blue"}
-
--   Méthodes à base d'arbres :
-
-    -   Forêt aléatoire
-
-    -   Boosting
-
--   KNN (plus proches voisins)
-
--   SVM
-
--   Réseaux de neurones/deep learning
-
-::: notes
-Les algorithmes sont plus ou moins bien adaptés aux données en entrée. Certains algorithmes sont plus gourmands en ressources informatiques que d'autres. Par exemple, les forêts aléatoires sont gourmands en ressources informatiques, bien davantage que les régréssions.
-
-Le deep learning est adapté pour des données volumineuses comme les images ou les vidéos.
-
-Certains algorithmes sont plus interprétables que d'autres pour lesquelles il y a une boîte noire qui est difficile à décrypter pour des non initiés (exemple : le deep learning).
-:::
-
-## Comment savoir si un modèle apprend bien ?
+## Comment savoir si un modèle a bien appris ?
 
 ::: columns
 ::: {.column width="50%"}
@@ -482,13 +486,13 @@ Voilà un exemple d'arbre de décision, qui a pour put de prédire la taille en 
 Un arbre est composé de noeuds (split en anglais) et de feuilles. Le premier noeud est appelé la racine. C'est donc un arbre renversé. Les noeuds sont segmentés à l'aide d'une variable qui peut être quantitative ou qualitative.
 :::
 
-## Comment se construisent les arbres ?
+## Comment est-il construit ? {.smaller .scrollable}
 
 L'algorithme CART permet d'ajuster le modèle sur les données d'entraînement.
 
-1.  L'utilisateur paramètre la profondeur de l'arbre
+1.  L'utilisateur paramètre la profondeur de l'arbre.
 
-2.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante
+2.  A chaque noeud, l'algorithme (CART) choisit la variable la plus discriminante.
 
 3.  Il teste toutes les valeurs de cette variable et choisit celle qui discrimine le mieux.
 
@@ -497,11 +501,33 @@ L'algorithme CART permet d'ajuster le modèle sur les données d'entraînement.
 5.  L'estimation est soit la moyenne (pour la régression) soit la modalité majoritaire (pour la classification).
 
 ::: notes
-CART : classifications and regression trees. C'est l'algorithme le plus utilisé, il est adapté à régression et la classification. Il en existe d'autres.
+CART : classifications and regression trees. C'est l'algorithme le plus utilisé, il est adapté à régression et la classification. Il en existe d'autres. On ne peut pas trop rentrer dans le détail du fonctionnement de l'algorithme (notamment comment choisit-il la variable la plus discriminante et à quel moment il décide de s'arrêter pour constituer une feuille.)
 
 Pour tout savoir sur les arbres de régression (et de classification) :
 
 <https://blent.ai/blog/a/arbres-de-decision-en-machine-learning>
+:::
+
+## La forêt aléatoire : mieux qu'un arbre !
+
+-   L'arbre de décision est un apprenant faible (faibles performances)...
+
+-   La forêt aléatoire entraîne un grand nombre instances d'arbres :
+
+    -   sur des données légèrement différentes (bootstrap)
+
+    -   sur une partie des variables explicatives
+
+-   Les estimations de tous les arbres sont ensuite combinées :
+
+    -   pour la régression : on prend la moyenne
+
+    -   pour la classification : on prend la valeur majoritaire
+
+::: notes
+Les performances des arbres sont bien meilleures parce qu'il est plus robuste. Le fait d'entraîner un grand nombre d'arbres sur des données légèrement différentes et avec différentes variables permet d'améliorer ses performances prédictives.
+
+L'utilisateur continue de paramétrer la profondeur de l'arbre + le nombre d'arbres à entraîner + le nombre de variable pour chaque arbre.
 :::
 
 ## Les étapes de l'apprentissage supervisé : {.smaller}
@@ -679,7 +705,7 @@ kbl(pred)
 ## Comparaison des performances
 
 |        [Modèle]{.underline}        |                         [MSE]{.underline}                         |                           [RMSE]{.underline}                            |                                 [R²]{.underline}                                  |
-|:---------------:|:---------------:|:---------------:|:------------------:|
+|:----------------:|:----------------:|:----------------:|:-----------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round(1)`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round(1)`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 |        **Modèle 2 : Arbre**        | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round(1)` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round(1)` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
@@ -748,6 +774,10 @@ Il s'agit d'un problème de classification. On cherche à prédire la variable Y
 skim(grandile)
 ```
 
+::: notes
+La proportion de pauvres est bien inférieure à celle des non pauvres. Il faudra en tenir compte dans l'étape suivante. Pour s'entraîner, l'algorithme aura besoin de suffisamment d'individus de chaque modalité.
+:::
+
 ## Partition
 
 ![](training-validation-test-sets.png){fig-align="center"}
@@ -799,6 +829,10 @@ rec1 <-
 # %>% step_clean_names #nettoyer le nom des variables
 ```
 
+::: notes
+On vérifie que la base d'entraînement a bien la même proportion de pauvres que la base brute.
+:::
+
 ## Modèles à entraîner
 
 ```{r}
@@ -830,6 +864,10 @@ mod_tree <-
 2.  Arbre de classification
 
 3.  Forêt aléatoire
+
+::: notes
+On ajoute la forêt aléatoire par rapport à l'exemple précédent. En général, c'est l'algorithme qui a les meilleures performances, mais il faut le vérifier. C'est un algorithme gourmand en ressources.
+:::
 
 ## Modèle 1 : régression logistique
 
@@ -870,6 +908,10 @@ pred_valid %>%
   autoplot(type="heatmap")
 ```
 
+::: notes
+C'est à partir de cette table de confusion qu'on a va calculer les indicateurs de performances.
+:::
+
 ## Performances (modèle 1)
 
 ```{r}
@@ -887,7 +929,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Sensibilité     | Spécificité     |
-|-----------------------|-----------------|-----------------|-----------------|
+|--------------------|------------------|------------------|------------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ::: notes
@@ -958,7 +1000,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|-----------------------|-----------------|-----------------|-----------------|
+|--------------------|------------------|------------------|------------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
@@ -997,89 +1039,3 @@ kbl(head(pred_final,100))
 ## A vous de jouer maintenant !
 
 ![](JO2024.jpg){fig-align="center"}
-
-<!-- ## Apprentissage avec la regression linéaire -->
-
-<!-- ::: columns -->
-
-<!-- ::: {.column width="60%"} -->
-
-<!-- ```{r} -->
-
-<!-- locations <- data.frame(Y_prix = c(1000,800,600,1000,800),X_surface = c(50,30,25,60,35)) -->
-
-<!-- row.names(locations) <- c("logement1","logement2","logement3","logement4","logement5") -->
-
-<!-- reg <- lm(locations$Y_prix ~ locations$X_surface) -->
-
-<!-- kbl(locations, -->
-
-<!--     format = "html") -->
-
-<!-- ``` -->
-
-<!-- ::: -->
-
-<!-- ::: {.column width="40%"} -->
-
-<!-- Par MCO, on trouve la fonction f : -->
-
-<!-- $$ -->
-
-<!-- Y = 416,5 + 10,6 X -->
-
-<!-- $$ -->
-
-<!-- ::: -->
-
-<!-- ::: -->
-
-<!-- ::: notes -->
-
-<!-- Exemple : sur cette base avec une seule variable explicative, par la méthode des MCO (méthode des moindres carrés ordinaires), on peut trouver une droite qui passe au plus près des points du nuage de point (cf module sur les régressions linéaires). -->
-
-<!-- ::: -->
-
-<!-- ## Non supervisé VS supervisé -->
-
-<!-- ::: panel-tabset -->
-
-<!-- ## Non supervisé -->
-
-<!-- ```{r} -->
-
-<!-- locations <- data.frame( -->
-
-<!--                         X1_surface = c(50,30,25,60,35), -->
-
-<!--                         X2_pieces = c(3,2,1,4,1)) -->
-
-<!-- kbl(locations, -->
-
-<!--     format = "html") -->
-
-<!-- ``` -->
-
-<!-- ## Supervisé -->
-
-<!-- ```{r} -->
-
-<!-- locations <- data.frame(Y_prix = c(1000,800,600,1000,800), -->
-
-<!--                         X1_surface = c(50,30,25,60,35), -->
-
-<!--                         X2_pieces = c(3,2,1,4,1)) -->
-
-<!-- kbl(locations, -->
-
-<!--     format = "html") -->
-
-<!-- ``` -->
-
-<!-- ::: -->
-
-<!-- ::: notes -->
-
-<!-- En apprentissage non supervisée, les données ne sont pas étiquetées. Le but est de regrouper automatiquement les individus qui se ressemblent, et de leur trouver ensuite un nom qui les rassemblent : par exemple les grands logements vont être ensemble. Permet de faire de la classification automatique. En apprentissage supervisé, j'ai des données étiquetées (avec un Y) et le but est d'être capable de prédire Y à partir de ces données étiquetées. -->
-
-<!-- ::: -->
