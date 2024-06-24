@@ -3191,7 +3191,7 @@ window.Quarto = {
   <li><a href="#y-a-t-il-des-données-manquantes" id="toc-y-a-t-il-des-données-manquantes" class="nav-link" data-scroll-target="#y-a-t-il-des-données-manquantes"><span class="header-section-number">1.5</span> Y a-t-il des données manquantes ?</a></li>
   <li><a href="#a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" id="toc-a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" class="nav-link" data-scroll-target="#a-quoi-vont-servir-les-bases-dentraînement-et-de-validation"><span class="header-section-number">1.6</span> A quoi vont servir les bases d’entraînement et de validation ?</a></li>
   <li><a href="#a-quoi-sert-la-base-de-test" id="toc-a-quoi-sert-la-base-de-test" class="nav-link" data-scroll-target="#a-quoi-sert-la-base-de-test"><span class="header-section-number">1.7</span> A quoi sert la base de test ?</a></li>
-  <li><a href="#quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." id="toc-quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." class="nav-link" data-scroll-target="#quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute."><span class="header-section-number">1.8</span> Quel est le poids de chacune des modalités de la variable à prédire dans la base d’entraînement ? Comparer avec la répartition dans la base brute.</a></li>
+  <li><a href="#quel-est-le-poids-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." id="toc-quel-est-le-poids-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." class="nav-link" data-scroll-target="#quel-est-le-poids-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute."><span class="header-section-number">1.8</span> Quel est le poids des modalités de la variable à prédire dans la base d’entraînement ? Comparer avec la répartition dans la base brute.</a></li>
   <li><a href="#les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur" id="toc-les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur" class="nav-link" data-scroll-target="#les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur"><span class="header-section-number">1.9</span> Les variables prédictives ont-elles toutes les mêmes ordres de grandeur ?</a></li>
   <li><a href="#quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement" id="toc-quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement" class="nav-link" data-scroll-target="#quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement"><span class="header-section-number">1.10</span> Quels sont les effets de cette “recette” sur les variables prédictives de la base d’entraînement ?</a></li>
   <li><a href="#quelle-est-la-différence-entre-une-estimation-et-une-prévision" id="toc-quelle-est-la-différence-entre-une-estimation-et-une-prévision" class="nav-link" data-scroll-target="#quelle-est-la-différence-entre-une-estimation-et-une-prévision"><span class="header-section-number">1.11</span> Quelle est la différence entre une estimation et une prévision ?</a></li>
@@ -3290,7 +3290,9 @@ Mise en situation 1
 <p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données sur les vins.</em></p>
 <section id="combien-dindividus-dans-la-base-de-donnéees-brute-vins" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="combien-dindividus-dans-la-base-de-donnéees-brute-vins"><span class="header-section-number">1.1</span> Combien d’individus dans la base de donnéees brute vins ?</h3>
-<p>La base de données brute “vins” est constituées de <code>r nrow(vins)</code> individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.</p>
+<div style="color: blue;">
+<p>La base de données brute “vins” est constituées de 4 898 individus : ces individus sont des références de vins qui ont été goûtés et notés par des professionels. Ils sont caractérisés par une note et leur composition chimique.</p>
+</div>
 </section>
 <section id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle" class="level3" data-number="1.2">
 <h3 data-number="1.2" class="anchored" data-anchor-id="quelle-est-la-variable-à-prédire-de-quel-type-est-elle"><span class="header-section-number">1.2</span> Quelle est la variable à prédire ? De quel type est-elle ?</h3>
@@ -3302,7 +3304,7 @@ Mise en situation 1
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles" class="level3" data-number="1.4">
 <h3 data-number="1.4" class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles"><span class="header-section-number">1.4</span> Combien y a t il de variables prédictives ? De quel type sont-elles ?</h3>
-<p>Il y a 11 variables quantitatives qui sont les compositions chimique du vin.</p>
+<p>Il y a 11 variables quantitatives continues qui sont les compositions chimique du vin.</p>
 </section>
 <section id="y-a-t-il-des-données-manquantes" class="level3" data-number="1.5">
 <h3 data-number="1.5" class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes"><span class="header-section-number">1.5</span> Y a-t-il des données manquantes ?</h3>
@@ -3311,14 +3313,14 @@ Mise en situation 1
 </section>
 <section id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" class="level3" data-number="1.6">
 <h3 data-number="1.6" class="anchored" data-anchor-id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation"><span class="header-section-number">1.6</span> A quoi vont servir les bases d’entraînement et de validation ?</h3>
-<p>La base d’entraînement et la base de validation sont utilisés pendant la phase d’apprentissage : les modèles testés (regression logistique, arbre de classification, forêt..) sont ajustés sur la base d’entraînement (70% de la base brute dans notre exemple) et les performances de ces modèles sont mesurés à partir des prévisions de ces modèles sur la base de validation (15% de la base brute).</p>
+<p>La base d’entraînement et la base de validation sont utilisées pendant la phase d’apprentissage : les modèles testés (regression logistique, arbre de classification, forêt..) sont ajustés sur la base d’entraînement (70% de la base brute dans notre exemple) et les performances de ces modèles sont mesurés à partir des prévisions de ces modèles sur la base de validation (15% de la base brute).</p>
 </section>
 <section id="a-quoi-sert-la-base-de-test" class="level3" data-number="1.7">
 <h3 data-number="1.7" class="anchored" data-anchor-id="a-quoi-sert-la-base-de-test"><span class="header-section-number">1.7</span> A quoi sert la base de test ?</h3>
 <p>Les individus appartenant à la base de test ne vont pas du tout servir à choisir le modèle le plus performant : ce sont des données complètement extérieures, qui permettent de se mettre en condition réelle avant la généralisation (ou la mise en production) de l’algorithme retenu le plus performant.</p>
 </section>
-<section id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." class="level3" data-number="1.8">
-<h3 data-number="1.8" class="anchored" data-anchor-id="quel-est-le-poids-de-chacune-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute."><span class="header-section-number">1.8</span> Quel est le poids de chacune des modalités de la variable à prédire dans la base d’entraînement ? Comparer avec la répartition dans la base brute.</h3>
+<section id="quel-est-le-poids-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute." class="level3" data-number="1.8">
+<h3 data-number="1.8" class="anchored" data-anchor-id="quel-est-le-poids-des-modalités-de-la-variable-à-prédire-dans-la-base-dentraînement-comparer-avec-la-répartition-dans-la-base-brute."><span class="header-section-number">1.8</span> Quel est le poids des modalités de la variable à prédire dans la base d’entraînement ? Comparer avec la répartition dans la base brute.</h3>
 <p>Le poids de chacune des modalités est le même dans la base d’entraînement que dans la base brute, ce qui signifie que le tirage des individus a été contraint.</p>
 </section>
 <section id="les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur" class="level3" data-number="1.9">
@@ -3342,7 +3344,8 @@ Mise en situation 1
 </section>
 <section id="quel-indicateur-nous-donne-des-informations-sur-la-qualité-du-modèle" class="level3" data-number="1.13">
 <h3 data-number="1.13" class="anchored" data-anchor-id="quel-indicateur-nous-donne-des-informations-sur-la-qualité-du-modèle"><span class="header-section-number">1.13</span> Quel indicateur nous donne des informations sur la qualité du modèle ?</h3>
-<p><em>Etape 5 : Dans l’onglet “Validation”, évaluer la performance du modèle retenu précédemment (modèle 1 : regression logistique sur la base centrée réduite).</em></p>
+<p>L’AIC (Akaike information criterion) nous donne un indicateur de qualité du modèle : en plus de sa capacité à faire de bonnes estimations, il prend en compte la complexité du modèle, c’est à dire le nombre de variables et de modalités pour une régression logistique. La complexité du modèle va pénaliser l’AIC. Plus il est proche de 0, meilleur est sa qualité. Il est difficile à interpréter tout seul : il faudrait essayer de retirer des variables pour voir quel est le meilleur modèle (en enlevant des redondances).</p>
+<p><em>Etape 5 : Dans l’onglet “Validation”, évaluer la performance du modèle retenu précédemment (modèle 1 : régression logistique sur la base centrée réduite).</em></p>
 </section>
 <section id="combien-dindividus-sont-classés-dans-la-table-de-confusion-a-quelle-base-ces-individus-appartiennent-ils" class="level3" data-number="1.14">
 <h3 data-number="1.14" class="anchored" data-anchor-id="combien-dindividus-sont-classés-dans-la-table-de-confusion-a-quelle-base-ces-individus-appartiennent-ils"><span class="header-section-number">1.14</span> Combien d’individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ?</h3>
@@ -3369,11 +3372,11 @@ Mise en situation 1
 <table class="caption-top table">
 <caption>Performances de la regression logistique</caption>
 <colgroup>
-<col style="width: 34%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3408,11 +3411,11 @@ Mise en situation 1
 <h3 data-number="1.20" class="anchored" data-anchor-id="compléter-le-tableau-suivant-avec-les-performances-de-ce-deuxi-me-modèle."><span class="header-section-number">1.20</span> Compléter le tableau suivant avec les performances de ce deuxi-me modèle.</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 35%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3458,11 +3461,11 @@ Mise en situation 1
 <h3 data-number="1.24" class="anchored" data-anchor-id="noter-les-indicateurs-de-performance-de-ce-troisième-modèle-dans-le-tableau-comparatif-ci-dessous"><span class="header-section-number">1.24</span> Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 35%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3507,11 +3510,11 @@ Mise en situation 1
 <h3 data-number="1.26" class="anchored" data-anchor-id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles"><span class="header-section-number">1.26</span> Noter les indicateurs dans le tableau comparatif des modèles</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 35%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3566,11 +3569,11 @@ Mise en situation 1
 <table class="caption-top table">
 <caption>Comparaison des performances des modèles sur la base de données Grandile (modèle ajusté sur 70% de la base brute, les indicateurs sont calculés à partir des prédictions sur la base de validation).</caption>
 <colgroup>
-<col style="width: 35%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
-<col style="width: 16%">
+<col style="width: 27%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 18%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3725,11 +3728,11 @@ RMSE = \sqrt{159,97} = 12,6
 <h3 data-number="2.13" class="anchored" data-anchor-id="compléter-le-tableau-ci-dessous-avec-les-performances-des-autres-modèles"><span class="header-section-number">2.13</span> Compléter le tableau ci-dessous avec les performances des autres modèles :</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 51%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
-<col style="width: 12%">
+<col style="width: 39%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
 </colgroup>
 <thead>
 <tr class="header">
