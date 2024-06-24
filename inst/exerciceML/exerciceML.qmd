@@ -15,6 +15,29 @@ embed-resources: true
 
 ## Partie 1 : Classification supervisée
 
+```{r, echo=FALSE}
+# library(shiny)
+# 
+# ui <- fluidPage(
+#   titlePanel(""),
+#   sidebarLayout(
+#     sidebarPanel(
+#       textInput("text", "Entrez votre texte ici :")
+#     ),
+#     mainPanel(
+#       textOutput("outputText")
+#     )
+#   )
+# )
+# 
+# server <- function(input, output) {
+#   output$outputText <- renderText({
+#     input$text
+#   })
+# }
+```
+
+
 ::: callout-tip
 ## Mise en situation 1
 
@@ -26,6 +49,11 @@ embed-resources: true
 :::
 
 ### Combien d'individus dans la base de donnéees brute vins ?
+
+```{r, echo=FALSE}
+# shinyApp(ui = ui, server = server)
+```
+
 
 ### Quelle est la variable à prédire ? De quel type est-elle ?
 
