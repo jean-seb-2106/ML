@@ -13,7 +13,6 @@ editor: visual
 embed-resources: true
 ---
 
-
 ## Partie 1 : Classification supervisée
 
 ::: callout-tip
@@ -22,7 +21,9 @@ embed-resources: true
 *Vous avez été embauché par le CIVB (comité interprofessionnel des vins de Bordeaux) pour mettre en place un algorithme qui permet de prévoir la qualité du vin en fonction de sa composition chimique. Vous disposez d'une base de données brute avec des références de vins de Bordeaux, chacune ayant été évaluée par des professionnel avec une note entre 1 et 10. A partir de 6, le vin est considéré comme bon, en dessous de 6, il est considéré comme mauvais.*
 :::
 
+::: {style="background-color: yellow;"}
 *Etape 1 : Dans l'onglet "données" : cliquer pour explorer la base de données sur les vins.*
+:::
 
 ### Combien d'individus dans la base de donnéees brute vins ?
 
@@ -30,11 +31,13 @@ embed-resources: true
 
 ### Les modalités de la variable à prédire ont-elles le même poids ?
 
-### Combien y a t il de variables prédictives ? De quel type sont-elles ?
+### Combien y a t il de variables prédictives ? De quel type sont-elles ?
 
 ### Y a-t-il des données manquantes ?
 
+::: {style="background-color: yellow;"}
 *Etape 2 : Dans l'onglet "préparation" : conserver 70 % de la base brute pour l'entraînement.*
+:::
 
 ### A quoi vont servir les bases d'entraînement et de validation ?
 
@@ -44,11 +47,15 @@ embed-resources: true
 
 ### Les variables prédictives ont-elles toutes les mêmes ordres de grandeur ?
 
+::: {style="background-color: yellow;"}
 *Etape 3 : Dans l'onglet "préparation", appliquer la recette suivante sur la base d'entraînement : "centrer-réduire les quantitatives" (en anglais : step_normalize).*
+:::
 
 ### Quels sont les effets de cette "recette" sur les variables prédictives de la base d'entraînement ?
 
+::: {style="background-color: yellow;"}
 *Etape 4 : Dans l'onglet "modèle", choisir la régression logistique et ajuster le modèle sur la base d'entraînement.*
+:::
 
 ### Quelle est la différence entre une estimation et une prévision ?
 
@@ -56,7 +63,9 @@ embed-resources: true
 
 ### Quel indicateur nous donne des informations sur la qualité du modèle ?
 
+::: {style="background-color: yellow;"}
 *Etape 5 : Dans l'onglet "Validation", évaluer la performance du modèle retenu précédemment (modèle 1 : régression logistique sur la base centrée réduite).*
+:::
 
 ### Combien d'individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ?
 
@@ -76,42 +85,50 @@ Spécificité :
 
 : Performances de la regression logistique
 
+::: {style="background-color: yellow;"}
 *Etape 6 : Revenir sur l'onglet "modèle" : choisir l'arbre et ajuster votre modèle sur les données d'entraînement (modèle 2 sur la base centrée réduite).*
+:::
 
 ### Combien de variables prédictives sont utilisées par l'arbre de classification pour faire des estimations sur la base d'entraînement ?
 
 ### Quelle variable a été choisie en premier pour séparer la population en deux ? Quel est la valeur seuil ?
 
-### Combien de feuilles cet arbre produit-il ? Quelle est sa profondeur ?
+### Combien de feuilles cet arbre produit-il ? Quelle est sa profondeur ?
 
+::: {style="background-color: yellow;"}
 *Etape 7 : Dans l'onglet "Validation", évaluer les performances du modèle 2 sur la base centrée réduite.*
+:::
 
 ### Compléter le tableau suivant avec les performances de ce deuxi-me modèle.
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC |
-|---------------|--------------|---------------|---------------|---------------|
+|---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique*   |            |             |             |     |
 | *Modèle 2 : arbre de classification* |            |             |             |     |
 
 ### Si vous privilégiez l'exactitude, quel modèle est le plus performant ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?
 
+::: {style="background-color: yellow;"}
 *Etape 8 : Ajuster la forêt aléatoire sur la base d'entraînement (dans l'onglet validation) et evaluer la performance du modèle.*
+:::
 
 ### Combien d'arbres ont été construits par défaut par l'algorithme ?
 
-### De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?
+### De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?
 
 ### Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC |
-|--------------|---------------|---------------|---------------|---------------|
+|---------------|---------------|---------------|---------------|---------------|
 | *Modèle 1 : Regression logistique*   |            |             |             |     |
 | *Modèle 2 : arbre de classification* |            |             |             |     |
 | *Modèle 3 : forêt aléatoire*         |            |             |             |     |
 
+::: {style="background-color: yellow;"}
 *Etape 9 : Ajuster le KNN (modèle des plus proches voisins) sur la base d'entraînement (dans l'onglet validation) et évaluer la performance du modèle.*
+:::
 
-### Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?
+### Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?
 
 ### Noter les indicateurs dans le tableau comparatif des modèles
 
@@ -122,11 +139,13 @@ Spécificité :
 | *Modèle 3 : forêt aléatoire*         |            |             |             |     |
 | *Modèle 4 : KNN*                     |            |             |             |     |
 
-### Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?
+### Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?
 
+::: {style="background-color: yellow;"}
 *Etape 10 : Sélectionner le modèle le plus performant que vous avez retenu précemment (dans l'onglet "modèle"), et dans l'onglet "généralisation", ajuster le modèle.*
+:::
 
-### La base de test a-t-elle été utilisée pour construire le modèle final ?
+### La base de test a-t-elle été utilisée pour construire le modèle final ?
 
 ::: callout-tip
 ## Mise en situation 2
@@ -143,49 +162,61 @@ Spécificité :
 
 : Comparaison des performances des modèles sur la base de données Grandile (modèle ajusté sur 70% de la base brute, les indicateurs sont calculés à partir des prédictions sur la base de validation).
 
-### Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?
+### Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?
 
-### Quel autre critère peut entrer en jeu dans le choix d'un modèle avant de le généraliser ?
+### Quel autre critère peut entrer en jeu dans le choix d'un modèle avant de le généraliser ?
 
 ## Partie 2 : Régression supervisée
 
 ::: callout-tip
-## Mise en situation
+## Mise en situation 1
 
 *Vous cherchez à prévoir le niveau de pollution à Rennes à partir de donnnées sur les températures, nébulosité et le niveau de pollution de la veille. Le niveau de pollution se mesure par le taux d'ozone, les relevés de températures se font à plusieurs heures de la journée, tout comme la mesure de la nébulosité (durée d'ensoleillement). Dans la base de données ozone, vous disposez de plus d'un millier de relevés qui ont été effectués, à partir desquels vous devez élaborer le modèle de prévision le plus performant possible.*
 :::
 
+::: {style="background-color: yellow;"}
 *Etape 1 : Dans l'onglet "données" : cliquer pour explorer la base de données ozone.*
+:::
 
 ### Combien de relevés ont été effectués ?
 
 ### Quelle est la variable à prédire ?
 
-### Combien y a t il de variables prédictives ? De quels types sont-elles ?
+### Combien y a t il de variables prédictives ? De quels types sont-elles ?
 
 ### Y a t il des données manquantes dans la base brute ?
 
+::: {style="background-color: yellow;"}
 *Etape 2 : Dans l'onglet "préparation" : conserver 70 % de la base brute pour l'entraînement.*
+:::
 
-### Y a t il des données manquantes dans la base d'entraînement ?
+### Y a t il des données manquantes dans la base d'entraînement ?
 
+::: {style="background-color: yellow;"}
 *Etape 3 : Dans l'onglet "modèle", choisir la forêt aléatoire et ajuster le modèle sur la base d'entraînement.*
+:::
 
-### Regarder le message dans la console de R Studio. Que s'est-il passé ?
+### Regarder le message dans la console de R Studio. Que s'est-il passé ?
 
 ### Que faire quand il y a des valeurs manquantes dans vos variables prédictives ? (plusieurs possibilités)
 
+::: {style="background-color: yellow;"}
 *Etape 4 : Dans l'onglet préparation, choisir la recette "imputation avec la moyenne" que vous appliquez sur la base d'entraînement.*
+:::
 
 ### Y a t il encore des données manquantes ?
 
+::: {style="background-color: yellow;"}
 *Etape 5 : Dans l'onglet modèle, choisir à nouveau la forêt aléatoire et ajuster le modèle sur la base d'entraînement.*
+:::
 
-### Combien d'arbres de regression ont été générés par cette méthode ? De combien de variables sont-ils constitués ?
+### Combien d'arbres de regression ont été générés par cette méthode ? De combien de variables sont-ils constitués ?
 
 ### Calculer le RSS, le MSE et le RMSE à partir de l'estimation et de la vraie valeur observée des deux premiers individus du tableau seulement.
 
+::: {style="background-color: yellow;"}
 *Etape 6 : Dans l'onglet validation, évaluer les performances de ce premier modèle (forêt aléatoire) appliqué sur la base transformée (imputation des valeurs manquantes)*
+:::
 
 ### Noter les indicateurs de performance de ce premier modèle dans le tableau comparatif ci-dessous :
 
@@ -195,12 +226,14 @@ Spécificité :
 
 ### Ce modèle a t il de bonnes capacités prédictives ?
 
+::: {style="background-color: yellow;"}
 *Etape 7 : Dans les onglets modèles et validation, ajuster les autres algorithmes sur la base d'entraînement, et évaluer leurs performances.*
+:::
 
 ### Compléter le tableau ci-dessous avec les performances des autres modèles :
 
 | Modèle testé sur la base avec imputation par la moyenne | RSS | MSE | RMSE | R²  |
-|-----------------|:------------:|:------------:|:------------:|:------------:|
+|---------------|:-------------:|:-------------:|:-------------:|:-------------:|
 | *Modèle 1 : Forêt aléatoire*[^1]                        |     |     |      |     |
 | *Modèle 2 : Arbre de regression*                        |     |     |      |     |
 | *Modèle 3 : Régression linéaire*                        |     |     |      |     |
@@ -210,13 +243,19 @@ Spécificité :
 
 ### Quel algorithme est le plus performant pour prédire ?
 
+::: {style="background-color: yellow;"}
 *Etape 8 : dans l'onglet "généralisation", ajuster la forêt aléatoire sur la base d'entraînement et la base de validation.*
+:::
 
 ### Le R² se rapproche de 1. Etait-ce prévisible ?
 
-*Mise en situation 2 : En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d'information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours disposés à donner.*
+::: callout-tip
+## Mise en situation 2
+
+*En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d'information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours disposés à donner.*
 
 *A partir de la base de données grandile, votre mission est de choisir l'algorithme le plus performant pour prédire le revenu disponible d'un ménage à partir des autres informations socio-économiques.*
+:::
 
 ### Compléter le tableau pour comparer les performances des algorithmes.
 

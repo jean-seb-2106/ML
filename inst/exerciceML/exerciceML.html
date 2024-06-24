@@ -3096,7 +3096,9 @@ Mise en situation 1
 <p><em>Vous avez été embauché par le CIVB (comité interprofessionnel des vins de Bordeaux) pour mettre en place un algorithme qui permet de prévoir la qualité du vin en fonction de sa composition chimique. Vous disposez d’une base de données brute avec des références de vins de Bordeaux, chacune ayant été évaluée par des professionnel avec une note entre 1 et 10. A partir de 6, le vin est considéré comme bon, en dessous de 6, il est considéré comme mauvais.</em></p>
 </div>
 </div>
+<div style="background-color: yellow;">
 <p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données sur les vins.</em></p>
+</div>
 <section id="combien-dindividus-dans-la-base-de-donnéees-brute-vins" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="combien-dindividus-dans-la-base-de-donnéees-brute-vins"><span class="header-section-number">1.1</span> Combien d’individus dans la base de donnéees brute vins ?</h3>
 </section>
@@ -3107,11 +3109,13 @@ Mise en situation 1
 <h3 data-number="1.3" class="anchored" data-anchor-id="les-modalités-de-la-variable-à-prédire-ont-elles-le-même-poids"><span class="header-section-number">1.3</span> Les modalités de la variable à prédire ont-elles le même poids ?</h3>
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles" class="level3" data-number="1.4">
-<h3 data-number="1.4" class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles"><span class="header-section-number">1.4</span> Combien y a t il de variables prédictives ? De quel type sont-elles ?</h3>
+<h3 data-number="1.4" class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quel-type-sont-elles"><span class="header-section-number">1.4</span> Combien y a t il de variables prédictives ? De quel type sont-elles ?</h3>
 </section>
 <section id="y-a-t-il-des-données-manquantes" class="level3" data-number="1.5">
 <h3 data-number="1.5" class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes"><span class="header-section-number">1.5</span> Y a-t-il des données manquantes ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 2 : Dans l’onglet “préparation” : conserver 70 % de la base brute pour l’entraînement.</em></p>
+</div>
 </section>
 <section id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation" class="level3" data-number="1.6">
 <h3 data-number="1.6" class="anchored" data-anchor-id="a-quoi-vont-servir-les-bases-dentraînement-et-de-validation"><span class="header-section-number">1.6</span> A quoi vont servir les bases d’entraînement et de validation ?</h3>
@@ -3124,11 +3128,15 @@ Mise en situation 1
 </section>
 <section id="les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur" class="level3" data-number="1.9">
 <h3 data-number="1.9" class="anchored" data-anchor-id="les-variables-prédictives-ont-elles-toutes-les-mêmes-ordres-de-grandeur"><span class="header-section-number">1.9</span> Les variables prédictives ont-elles toutes les mêmes ordres de grandeur ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 3 : Dans l’onglet “préparation”, appliquer la recette suivante sur la base d’entraînement : “centrer-réduire les quantitatives” (en anglais : step_normalize).</em></p>
+</div>
 </section>
 <section id="quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement" class="level3" data-number="1.10">
 <h3 data-number="1.10" class="anchored" data-anchor-id="quels-sont-les-effets-de-cette-recette-sur-les-variables-prédictives-de-la-base-dentraînement"><span class="header-section-number">1.10</span> Quels sont les effets de cette “recette” sur les variables prédictives de la base d’entraînement ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 4 : Dans l’onglet “modèle”, choisir la régression logistique et ajuster le modèle sur la base d’entraînement.</em></p>
+</div>
 </section>
 <section id="quelle-est-la-différence-entre-une-estimation-et-une-prévision" class="level3" data-number="1.11">
 <h3 data-number="1.11" class="anchored" data-anchor-id="quelle-est-la-différence-entre-une-estimation-et-une-prévision"><span class="header-section-number">1.11</span> Quelle est la différence entre une estimation et une prévision ?</h3>
@@ -3138,7 +3146,9 @@ Mise en situation 1
 </section>
 <section id="quel-indicateur-nous-donne-des-informations-sur-la-qualité-du-modèle" class="level3" data-number="1.13">
 <h3 data-number="1.13" class="anchored" data-anchor-id="quel-indicateur-nous-donne-des-informations-sur-la-qualité-du-modèle"><span class="header-section-number">1.13</span> Quel indicateur nous donne des informations sur la qualité du modèle ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 5 : Dans l’onglet “Validation”, évaluer la performance du modèle retenu précédemment (modèle 1 : régression logistique sur la base centrée réduite).</em></p>
+</div>
 </section>
 <section id="combien-dindividus-sont-classés-dans-la-table-de-confusion-a-quelle-base-ces-individus-appartiennent-ils" class="level3" data-number="1.14">
 <h3 data-number="1.14" class="anchored" data-anchor-id="combien-dindividus-sont-classés-dans-la-table-de-confusion-a-quelle-base-ces-individus-appartiennent-ils"><span class="header-section-number">1.14</span> Combien d’individus sont classés dans la table de confusion ? A quelle base ces individus appartiennent-ils ?</h3>
@@ -3179,7 +3189,9 @@ Mise en situation 1
 </tr>
 </tbody>
 </table>
+<div style="background-color: yellow;">
 <p><em>Etape 6 : Revenir sur l’onglet “modèle” : choisir l’arbre et ajuster votre modèle sur les données d’entraînement (modèle 2 sur la base centrée réduite).</em></p>
+</div>
 </section>
 <section id="combien-de-variables-prédictives-sont-utilisées-par-larbre-de-classification-pour-faire-des-estimations-sur-la-base-dentraînement" class="level3" data-number="1.17">
 <h3 data-number="1.17" class="anchored" data-anchor-id="combien-de-variables-prédictives-sont-utilisées-par-larbre-de-classification-pour-faire-des-estimations-sur-la-base-dentraînement"><span class="header-section-number">1.17</span> Combien de variables prédictives sont utilisées par l’arbre de classification pour faire des estimations sur la base d’entraînement ?</h3>
@@ -3188,15 +3200,17 @@ Mise en situation 1
 <h3 data-number="1.18" class="anchored" data-anchor-id="quelle-variable-a-été-choisie-en-premier-pour-séparer-la-population-en-deux-quel-est-la-valeur-seuil"><span class="header-section-number">1.18</span> Quelle variable a été choisie en premier pour séparer la population en deux ? Quel est la valeur seuil ?</h3>
 </section>
 <section id="combien-de-feuilles-cet-arbre-produit-il-quelle-est-sa-profondeur" class="level3" data-number="1.19">
-<h3 data-number="1.19" class="anchored" data-anchor-id="combien-de-feuilles-cet-arbre-produit-il-quelle-est-sa-profondeur"><span class="header-section-number">1.19</span> Combien de feuilles cet arbre produit-il ? Quelle est sa profondeur ?</h3>
+<h3 data-number="1.19" class="anchored" data-anchor-id="combien-de-feuilles-cet-arbre-produit-il-quelle-est-sa-profondeur"><span class="header-section-number">1.19</span> Combien de feuilles cet arbre produit-il ? Quelle est sa profondeur ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 7 : Dans l’onglet “Validation”, évaluer les performances du modèle 2 sur la base centrée réduite.</em></p>
+</div>
 </section>
 <section id="compléter-le-tableau-suivant-avec-les-performances-de-ce-deuxi-me-modèle." class="level3" data-number="1.20">
 <h3 data-number="1.20" class="anchored" data-anchor-id="compléter-le-tableau-suivant-avec-les-performances-de-ce-deuxi-me-modèle."><span class="header-section-number">1.20</span> Compléter le tableau suivant avec les performances de ce deuxi-me modèle.</h3>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 20%">
-<col style="width: 18%">
+<col style="width: 20%">
 <col style="width: 20%">
 <col style="width: 20%">
 <col style="width: 20%">
@@ -3230,19 +3244,21 @@ Mise en situation 1
 </section>
 <section id="si-vous-privilégiez-lexactitude-quel-modèle-est-le-plus-performant-si-vous-privilégiez-la-spécificité-quel-modèle-faut-il-choisir" class="level3" data-number="1.21">
 <h3 data-number="1.21" class="anchored" data-anchor-id="si-vous-privilégiez-lexactitude-quel-modèle-est-le-plus-performant-si-vous-privilégiez-la-spécificité-quel-modèle-faut-il-choisir"><span class="header-section-number">1.21</span> Si vous privilégiez l’exactitude, quel modèle est le plus performant ? Si vous privilégiez la spécificité, quel modèle faut-il choisir ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 8 : Ajuster la forêt aléatoire sur la base d’entraînement (dans l’onglet validation) et evaluer la performance du modèle.</em></p>
+</div>
 </section>
 <section id="combien-darbres-ont-été-construits-par-défaut-par-lalgorithme" class="level3" data-number="1.22">
 <h3 data-number="1.22" class="anchored" data-anchor-id="combien-darbres-ont-été-construits-par-défaut-par-lalgorithme"><span class="header-section-number">1.22</span> Combien d’arbres ont été construits par défaut par l’algorithme ?</h3>
 </section>
 <section id="de-combien-de-variables-sont-constitués-chaque-arbre-de-classification-est-ce-que-ce-sont-à-chaque-fois-les-mêmes-variables" class="level3" data-number="1.23">
-<h3 data-number="1.23" class="anchored" data-anchor-id="de-combien-de-variables-sont-constitués-chaque-arbre-de-classification-est-ce-que-ce-sont-à-chaque-fois-les-mêmes-variables"><span class="header-section-number">1.23</span> De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?</h3>
+<h3 data-number="1.23" class="anchored" data-anchor-id="de-combien-de-variables-sont-constitués-chaque-arbre-de-classification-est-ce-que-ce-sont-à-chaque-fois-les-mêmes-variables"><span class="header-section-number">1.23</span> De combien de variables sont constitués chaque arbre de classification ? Est-ce que ce sont à chaque fois les mêmes variables ?</h3>
 </section>
 <section id="noter-les-indicateurs-de-performance-de-ce-troisième-modèle-dans-le-tableau-comparatif-ci-dessous" class="level3" data-number="1.24">
 <h3 data-number="1.24" class="anchored" data-anchor-id="noter-les-indicateurs-de-performance-de-ce-troisième-modèle-dans-le-tableau-comparatif-ci-dessous"><span class="header-section-number">1.24</span> Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 18%">
+<col style="width: 20%">
 <col style="width: 20%">
 <col style="width: 20%">
 <col style="width: 20%">
@@ -3281,10 +3297,12 @@ Mise en situation 1
 </tr>
 </tbody>
 </table>
+<div style="background-color: yellow;">
 <p><em>Etape 9 : Ajuster le KNN (modèle des plus proches voisins) sur la base d’entraînement (dans l’onglet validation) et évaluer la performance du modèle.</em></p>
+</div>
 </section>
 <section id="quelle-valeur-par-défaut-de-k-a-été-retenue-dans-le-modèle-des-plus-proches-voisins" class="level3" data-number="1.25">
-<h3 data-number="1.25" class="anchored" data-anchor-id="quelle-valeur-par-défaut-de-k-a-été-retenue-dans-le-modèle-des-plus-proches-voisins"><span class="header-section-number">1.25</span> Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?</h3>
+<h3 data-number="1.25" class="anchored" data-anchor-id="quelle-valeur-par-défaut-de-k-a-été-retenue-dans-le-modèle-des-plus-proches-voisins"><span class="header-section-number">1.25</span> Quelle valeur par défaut de K a été retenue dans le modèle des plus proches voisins ?</h3>
 </section>
 <section id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles" class="level3" data-number="1.26">
 <h3 data-number="1.26" class="anchored" data-anchor-id="noter-les-indicateurs-dans-le-tableau-comparatif-des-modèles"><span class="header-section-number">1.26</span> Noter les indicateurs dans le tableau comparatif des modèles</h3>
@@ -3338,11 +3356,13 @@ Mise en situation 1
 </table>
 </section>
 <section id="quel-modèle-est-le-plus-performant-selon-les-différents-indicateurs-de-performance-retenus" class="level3" data-number="1.27">
-<h3 data-number="1.27" class="anchored" data-anchor-id="quel-modèle-est-le-plus-performant-selon-les-différents-indicateurs-de-performance-retenus"><span class="header-section-number">1.27</span> Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?</h3>
+<h3 data-number="1.27" class="anchored" data-anchor-id="quel-modèle-est-le-plus-performant-selon-les-différents-indicateurs-de-performance-retenus"><span class="header-section-number">1.27</span> Quel modèle est le plus performant selon les différents indicateurs de performance retenus ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 10 : Sélectionner le modèle le plus performant que vous avez retenu précemment (dans l’onglet “modèle”), et dans l’onglet “généralisation”, ajuster le modèle.</em></p>
+</div>
 </section>
 <section id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final" class="level3" data-number="1.28">
-<h3 data-number="1.28" class="anchored" data-anchor-id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final"><span class="header-section-number">1.28</span> La base de test a-t-elle été utilisée pour construire le modèle final ?</h3>
+<h3 data-number="1.28" class="anchored" data-anchor-id="la-base-de-test-a-t-elle-été-utilisée-pour-construire-le-modèle-final"><span class="header-section-number">1.28</span> La base de test a-t-elle été utilisée pour construire le modèle final ?</h3>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -3407,10 +3427,10 @@ Mise en situation 2
 </table>
 </section>
 <section id="y-a-t-il-un-modèle-nettement-plus-performant-que-les-autres-pour-prédire-si-un-ménage-est-pauvre-à-grandile" class="level3" data-number="1.29">
-<h3 data-number="1.29" class="anchored" data-anchor-id="y-a-t-il-un-modèle-nettement-plus-performant-que-les-autres-pour-prédire-si-un-ménage-est-pauvre-à-grandile"><span class="header-section-number">1.29</span> Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?</h3>
+<h3 data-number="1.29" class="anchored" data-anchor-id="y-a-t-il-un-modèle-nettement-plus-performant-que-les-autres-pour-prédire-si-un-ménage-est-pauvre-à-grandile"><span class="header-section-number">1.29</span> Y a t il un modèle nettement plus performant que les autres pour prédire si un ménage est pauvre à Grandile ?</h3>
 </section>
 <section id="quel-autre-critère-peut-entrer-en-jeu-dans-le-choix-dun-modèle-avant-de-le-généraliser" class="level3" data-number="1.30">
-<h3 data-number="1.30" class="anchored" data-anchor-id="quel-autre-critère-peut-entrer-en-jeu-dans-le-choix-dun-modèle-avant-de-le-généraliser"><span class="header-section-number">1.30</span> Quel autre critère peut entrer en jeu dans le choix d’un modèle avant de le généraliser ?</h3>
+<h3 data-number="1.30" class="anchored" data-anchor-id="quel-autre-critère-peut-entrer-en-jeu-dans-le-choix-dun-modèle-avant-de-le-généraliser"><span class="header-section-number">1.30</span> Quel autre critère peut entrer en jeu dans le choix d’un modèle avant de le généraliser ?</h3>
 </section>
 </section>
 <section id="partie-2-régression-supervisée" class="level2" data-number="2">
@@ -3421,14 +3441,16 @@ Mise en situation 2
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Mise en situation
+Mise en situation 1
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <p><em>Vous cherchez à prévoir le niveau de pollution à Rennes à partir de donnnées sur les températures, nébulosité et le niveau de pollution de la veille. Le niveau de pollution se mesure par le taux d’ozone, les relevés de températures se font à plusieurs heures de la journée, tout comme la mesure de la nébulosité (durée d’ensoleillement). Dans la base de données ozone, vous disposez de plus d’un millier de relevés qui ont été effectués, à partir desquels vous devez élaborer le modèle de prévision le plus performant possible.</em></p>
 </div>
 </div>
+<div style="background-color: yellow;">
 <p><em>Etape 1 : Dans l’onglet “données” : cliquer pour explorer la base de données ozone.</em></p>
+</div>
 <section id="combien-de-relevés-ont-été-effectués" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="combien-de-relevés-ont-été-effectués"><span class="header-section-number">2.1</span> Combien de relevés ont été effectués ?</h3>
 </section>
@@ -3436,33 +3458,43 @@ Mise en situation
 <h3 data-number="2.2" class="anchored" data-anchor-id="quelle-est-la-variable-à-prédire"><span class="header-section-number">2.2</span> Quelle est la variable à prédire ?</h3>
 </section>
 <section id="combien-y-a-t-il-de-variables-prédictives-de-quels-types-sont-elles" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quels-types-sont-elles"><span class="header-section-number">2.3</span> Combien y a t il de variables prédictives ? De quels types sont-elles ?</h3>
+<h3 data-number="2.3" class="anchored" data-anchor-id="combien-y-a-t-il-de-variables-prédictives-de-quels-types-sont-elles"><span class="header-section-number">2.3</span> Combien y a t il de variables prédictives ? De quels types sont-elles ?</h3>
 </section>
 <section id="y-a-t-il-des-données-manquantes-dans-la-base-brute" class="level3" data-number="2.4">
 <h3 data-number="2.4" class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes-dans-la-base-brute"><span class="header-section-number">2.4</span> Y a t il des données manquantes dans la base brute ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 2 : Dans l’onglet “préparation” : conserver 70 % de la base brute pour l’entraînement.</em></p>
+</div>
 </section>
 <section id="y-a-t-il-des-données-manquantes-dans-la-base-dentraînement" class="level3" data-number="2.5">
-<h3 data-number="2.5" class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes-dans-la-base-dentraînement"><span class="header-section-number">2.5</span> Y a t il des données manquantes dans la base d’entraînement ?</h3>
+<h3 data-number="2.5" class="anchored" data-anchor-id="y-a-t-il-des-données-manquantes-dans-la-base-dentraînement"><span class="header-section-number">2.5</span> Y a t il des données manquantes dans la base d’entraînement ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 3 : Dans l’onglet “modèle”, choisir la forêt aléatoire et ajuster le modèle sur la base d’entraînement.</em></p>
+</div>
 </section>
 <section id="regarder-le-message-dans-la-console-de-r-studio.-que-sest-il-passé" class="level3" data-number="2.6">
-<h3 data-number="2.6" class="anchored" data-anchor-id="regarder-le-message-dans-la-console-de-r-studio.-que-sest-il-passé"><span class="header-section-number">2.6</span> Regarder le message dans la console de R Studio. Que s’est-il passé ?</h3>
+<h3 data-number="2.6" class="anchored" data-anchor-id="regarder-le-message-dans-la-console-de-r-studio.-que-sest-il-passé"><span class="header-section-number">2.6</span> Regarder le message dans la console de R Studio. Que s’est-il passé ?</h3>
 </section>
 <section id="que-faire-quand-il-y-a-des-valeurs-manquantes-dans-vos-variables-prédictives-plusieurs-possibilités" class="level3" data-number="2.7">
 <h3 data-number="2.7" class="anchored" data-anchor-id="que-faire-quand-il-y-a-des-valeurs-manquantes-dans-vos-variables-prédictives-plusieurs-possibilités"><span class="header-section-number">2.7</span> Que faire quand il y a des valeurs manquantes dans vos variables prédictives ? (plusieurs possibilités)</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 4 : Dans l’onglet préparation, choisir la recette “imputation avec la moyenne” que vous appliquez sur la base d’entraînement.</em></p>
+</div>
 </section>
 <section id="y-a-t-il-encore-des-données-manquantes" class="level3" data-number="2.8">
 <h3 data-number="2.8" class="anchored" data-anchor-id="y-a-t-il-encore-des-données-manquantes"><span class="header-section-number">2.8</span> Y a t il encore des données manquantes ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 5 : Dans l’onglet modèle, choisir à nouveau la forêt aléatoire et ajuster le modèle sur la base d’entraînement.</em></p>
+</div>
 </section>
 <section id="combien-darbres-de-regression-ont-été-générés-par-cette-méthode-de-combien-de-variables-sont-ils-constitués" class="level3" data-number="2.9">
-<h3 data-number="2.9" class="anchored" data-anchor-id="combien-darbres-de-regression-ont-été-générés-par-cette-méthode-de-combien-de-variables-sont-ils-constitués"><span class="header-section-number">2.9</span> Combien d’arbres de regression ont été générés par cette méthode ? De combien de variables sont-ils constitués ?</h3>
+<h3 data-number="2.9" class="anchored" data-anchor-id="combien-darbres-de-regression-ont-été-générés-par-cette-méthode-de-combien-de-variables-sont-ils-constitués"><span class="header-section-number">2.9</span> Combien d’arbres de regression ont été générés par cette méthode ? De combien de variables sont-ils constitués ?</h3>
 </section>
 <section id="calculer-le-rss-le-mse-et-le-rmse-à-partir-de-lestimation-et-de-la-vraie-valeur-observée-des-deux-premiers-individus-du-tableau-seulement." class="level3" data-number="2.10">
 <h3 data-number="2.10" class="anchored" data-anchor-id="calculer-le-rss-le-mse-et-le-rmse-à-partir-de-lestimation-et-de-la-vraie-valeur-observée-des-deux-premiers-individus-du-tableau-seulement."><span class="header-section-number">2.10</span> Calculer le RSS, le MSE et le RMSE à partir de l’estimation et de la vraie valeur observée des deux premiers individus du tableau seulement.</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 6 : Dans l’onglet validation, évaluer les performances de ce premier modèle (forêt aléatoire) appliqué sur la base transformée (imputation des valeurs manquantes)</em></p>
+</div>
 </section>
 <section id="noter-les-indicateurs-de-performance-de-ce-premier-modèle-dans-le-tableau-comparatif-ci-dessous" class="level3" data-number="2.11">
 <h3 data-number="2.11" class="anchored" data-anchor-id="noter-les-indicateurs-de-performance-de-ce-premier-modèle-dans-le-tableau-comparatif-ci-dessous"><span class="header-section-number">2.11</span> Noter les indicateurs de performance de ce premier modèle dans le tableau comparatif ci-dessous :</h3>
@@ -3489,17 +3521,19 @@ Mise en situation
 </section>
 <section id="ce-modèle-a-t-il-de-bonnes-capacités-prédictives" class="level3" data-number="2.12">
 <h3 data-number="2.12" class="anchored" data-anchor-id="ce-modèle-a-t-il-de-bonnes-capacités-prédictives"><span class="header-section-number">2.12</span> Ce modèle a t il de bonnes capacités prédictives ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 7 : Dans les onglets modèles et validation, ajuster les autres algorithmes sur la base d’entraînement, et évaluer leurs performances.</em></p>
+</div>
 </section>
 <section id="compléter-le-tableau-ci-dessous-avec-les-performances-des-autres-modèles" class="level3" data-number="2.13">
 <h3 data-number="2.13" class="anchored" data-anchor-id="compléter-le-tableau-ci-dessous-avec-les-performances-des-autres-modèles"><span class="header-section-number">2.13</span> Compléter le tableau ci-dessous avec les performances des autres modèles :</h3>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 23%">
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 19%">
-<col style="width: 19%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3544,12 +3578,26 @@ Mise en situation
 </section>
 <section id="quel-algorithme-est-le-plus-performant-pour-prédire" class="level3" data-number="2.14">
 <h3 data-number="2.14" class="anchored" data-anchor-id="quel-algorithme-est-le-plus-performant-pour-prédire"><span class="header-section-number">2.14</span> Quel algorithme est le plus performant pour prédire ?</h3>
+<div style="background-color: yellow;">
 <p><em>Etape 8 : dans l’onglet “généralisation”, ajuster la forêt aléatoire sur la base d’entraînement et la base de validation.</em></p>
+</div>
 </section>
 <section id="le-r²-se-rapproche-de-1.-etait-ce-prévisible" class="level3" data-number="2.15">
 <h3 data-number="2.15" class="anchored" data-anchor-id="le-r²-se-rapproche-de-1.-etait-ce-prévisible"><span class="header-section-number">2.15</span> Le R² se rapproche de 1. Etait-ce prévisible ?</h3>
-<p><em>Mise en situation 2 : En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d’information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours disposés à donner.</em></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Mise en situation 2
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>En tant que gouverneur de Grandile, vous souhaitez disposer du maximum d’information sur vos résidents. Notamment, vous voulez connaître leurs revenus disponibles, information que les Grandiliens ne sont pas toujours disposés à donner.</em></p>
 <p><em>A partir de la base de données grandile, votre mission est de choisir l’algorithme le plus performant pour prédire le revenu disponible d’un ménage à partir des autres informations socio-économiques.</em></p>
+</div>
+</div>
 </section>
 <section id="compléter-le-tableau-pour-comparer-les-performances-des-algorithmes." class="level3" data-number="2.16">
 <h3 data-number="2.16" class="anchored" data-anchor-id="compléter-le-tableau-pour-comparer-les-performances-des-algorithmes."><span class="header-section-number">2.16</span> Compléter le tableau pour comparer les performances des algorithmes.</h3>
