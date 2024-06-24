@@ -15,7 +15,7 @@ embed-resources: true
 
 ## Partie 1 : Classification supervisée
 
-```{r}
+```{r,echo=FALSE}
 # library(shiny)
 # 
 # ui <- fluidPage(
