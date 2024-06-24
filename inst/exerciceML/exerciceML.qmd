@@ -15,11 +15,11 @@ embed-resources: true
 
 ## Partie 1 : Classification supervisée
 
-```{r, echo=FALSE}
+```{r}
 # library(shiny)
 # 
 # ui <- fluidPage(
-#   titlePanel(""),
+#   titlePanel("Application Shiny - Saisie de texte"),
 #   sidebarLayout(
 #     sidebarPanel(
 #       textInput("text", "Entrez votre texte ici :")
