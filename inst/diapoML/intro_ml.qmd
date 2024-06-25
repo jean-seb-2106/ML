@@ -512,16 +512,6 @@ Pour tout savoir sur les arbres de régression (et de classification) :
 
 ## La forêt aléatoire : mieux qu'un arbre ! {.smaller}
 
-::: notes
-Les performances des arbres sont bien meilleures parce qu'il est plus robuste. Le fait d'entraîner un grand nombre d'arbres sur des données légèrement différentes et avec différentes variables permet d'améliorer ses performances prédictives.
-
-L'utilisateur continue de paramétrer la profondeur de l'arbre + le nombre d'arbres à entraîner + le nombre de variable pour chaque arbre.
-:::
-
-![](foret_aléatoire.png){fig-align="center"}
-
-. . .
-
 -   L'arbre de décision est un apprenant faible (faibles performances)...
 
 -   La forêt aléatoire entraîne un grand nombre instances d'arbres :
@@ -535,6 +525,22 @@ L'utilisateur continue de paramétrer la profondeur de l'arbre + le nombre d'arb
     -   pour la régression : on prend la moyenne
 
     -   pour la classification : on prend la valeur majoritaire
+
+::: notes
+Les performances des arbres sont bien meilleures parce qu'il est plus robuste. Le fait d'entraîner un grand nombre d'arbres sur des données légèrement différentes et avec différentes variables permet d'améliorer ses performances prédictives.
+
+L'utilisateur continue de paramétrer la profondeur de l'arbre + le nombre d'arbres à entraîner + le nombre de variable pour chaque arbre.
+:::
+
+## Forêt aléatoire : illustration
+
+![](foret_aléatoire.png){fig-align="center" width="780"}
+
+.
+
+::: notes
+on voit que les arbres sont différents et ne prédit pas tous la même chose. A la fin on prend soit la moyenne (pour la régression) soit un vote à la majorité (pour la classif).
+:::
 
 ## Le KNN : les plus proches voisins
 
