@@ -3,6 +3,8 @@ title: "Introduction au machine learning"
 author: "Attachés 2024"
 format: 
   revealjs:
+    logo: logo_cefil.jpg
+    slide-number: true
     incremental: true
     embed-resources: true #pour tout mettre dans un seul fichier
     scrollable: true
@@ -508,7 +510,17 @@ Pour tout savoir sur les arbres de régression (et de classification) :
 <https://blent.ai/blog/a/arbres-de-decision-en-machine-learning>
 :::
 
-## La forêt aléatoire : mieux qu'un arbre !
+## La forêt aléatoire : mieux qu'un arbre ! {.smaller}
+
+::: notes
+Les performances des arbres sont bien meilleures parce qu'il est plus robuste. Le fait d'entraîner un grand nombre d'arbres sur des données légèrement différentes et avec différentes variables permet d'améliorer ses performances prédictives.
+
+L'utilisateur continue de paramétrer la profondeur de l'arbre + le nombre d'arbres à entraîner + le nombre de variable pour chaque arbre.
+:::
+
+![](foret_aléatoire.png){fig-align="center"}
+
+. . .
 
 -   L'arbre de décision est un apprenant faible (faibles performances)...
 
@@ -524,10 +536,26 @@ Pour tout savoir sur les arbres de régression (et de classification) :
 
     -   pour la classification : on prend la valeur majoritaire
 
-::: notes
-Les performances des arbres sont bien meilleures parce qu'il est plus robuste. Le fait d'entraîner un grand nombre d'arbres sur des données légèrement différentes et avec différentes variables permet d'améliorer ses performances prédictives.
+## Le KNN : les plus proches voisins
 
-L'utilisateur continue de paramétrer la profondeur de l'arbre + le nombre d'arbres à entraîner + le nombre de variable pour chaque arbre.
+::: columns
+::: {.column width="50%"}
+![Classification supervisée](KNN_classif.png){fig-align="left"}
+:::
+
+::: {.column width="50%"}
+![Régression supervisée](KNN_regression.png){width="398"}
+:::
+:::
+
+::: notes
+-   L'utilisateur commence par paramérer le nombre de voisins (K)
+
+-   L'algorithme calcule les distances de tous les individus entre eux, et pour chaque individu, il trouve les K plus proches.
+
+-   En classification supervisée, l'algorithme attribue la classe majoritaire (les chats pour l'image de gauche).
+
+-   En régression, l'algorithme prend la moyenne des K individus les proches (K=3 pour l'image de droite).
 :::
 
 ## Les étapes de l'apprentissage supervisé : {.smaller}
@@ -705,7 +733,7 @@ kbl(pred)
 ## Comparaison des performances
 
 |        [Modèle]{.underline}        |                         [MSE]{.underline}                         |                           [RMSE]{.underline}                            |                                 [R²]{.underline}                                  |
-|:----------------------------------:|:-----------------------------------------------------------------:|:-----------------------------------------------------------------------:|:---------------------------------------------------------------------------------:|
+|:---------------:|:---------------:|:---------------:|:------------------:|
 | **Modèle 1 : Régression linéaire** |  `r sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred) %>% round(1)`  |  `r sqrt(sum((pred$Y_REVENU - pred$Y_REG)^2)/nrow(pred)) %>% round(1)`  |  `r rsq(pred,Y_REVENU,Y_REG) %>% select(.estimate) %>% as.numeric()%>% round(2)`  |
 |        **Modèle 2 : Arbre**        | `r sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred) %>% round(1)` | `r sqrt(sum((pred$Y_REVENU - pred$Y_ARBRE)^2)/nrow(pred)) %>% round(1)` | `r rsq(pred,Y_REVENU,Y_ARBRE) %>% select(.estimate) %>% as.numeric()%>% round(2)` |
 
@@ -929,7 +957,7 @@ sens_reg <- pred_valid %>%
 ```
 
 |                                  | Exactitude          | Sensibilité     | Spécificité     |
-|----------------------------------|---------------------|-----------------|-----------------|
+|-----------------------|-----------------|-----------------|-----------------|
 | Modèle 1 : régression logistique | `r accuracy_reg[3]` | `r spec_reg[3]` | `r sens_reg[3]` |
 
 ::: notes
@@ -1000,7 +1028,7 @@ sens_rf <- pred_valid %>%
 ```
 
 |                                    | Exactitude           | Spécificité      | Sensibilité      |
-|------------------------------------|----------------------|------------------|------------------|
+|-----------------------|-----------------|-----------------|-----------------|
 | Modèle 1 : régression logistique   | `r accuracy_reg[3]`  | `r spec_reg[3]`  | `r sens_reg[3]`  |
 | Modèle 2 : arbre de classification | `r accuracy_tree[3]` | `r spec_tree[3]` | `r sens_tree[3]` |
 | Modèle 3 : forêt aléatoire         | `r accuracy_rf[3]`   | `r spec_rf[3]`   | `r sens_rf[3]`   |
