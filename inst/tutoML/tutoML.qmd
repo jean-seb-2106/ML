@@ -1,0 +1,145 @@
+---
+title: "Tuto Machine leanrning sous R"
+author: "Cefil-2024"
+date: "27/06/2024"
+format: 
+  html:
+    toc: true
+    toc-depth: 4
+    number-sections: true
+    code-fold: false
+    df-print: paged
+editor: visual
+embed-resources: true
+---
+
+En complément du corrigé des exercices, voici le code R sous-jacent à Asta, afin que vous puissiez produire ou appliquer les méthodes de machine learning directement sous R.
+
+C'est le package `tidymodels` qui est utilisé dans ASTA pour faire du machine learning. Il regroupe et intègre les packages r suivants :`rsample`, `recipes`, `tune`, `parnsnip`, `yardstick`... Chacun de ces packages étant utile pour le machine learning.
+
+Par ailleurs, on utilise le package `skimr` pour explorer les fichiers.
+
+Les données de l'exercice sont intégrées au package ASTA. On distingue les deux grands types d'apprentissage automatique :
+
+-   la classification supervisée
+
+-   la régression supervisée
+
+```{r}
+#| message: false
+#| warning: false
+# install.packages("tidymodels")
+# install.packages("skimr")
+library(tidymodels)
+library(skimr)
+
+```
+
+## Classification supervisée
+
+```{r}
+#| message: false
+#| warning: false
+library(asta)
+data <- asta::vins %>% rename(target = quality)
+#data <- asta::grandile %>% rename(target = PAUVRE) %>%
+#   select(-starts_with("LIB")) %>%
+#   select(-IDENT) %>%
+#   mutate(target = as.factor(target))
+```
+
+Les deux fichiers utilisés pour faire de la classification dans `asta`. On fait quelques modifications sur ces fichiers pour faire en sorte que la variable à expliquer ait le même nom dans les deux fichiers (`target`).
+
+### Exploration de la base brute
+
+```{r}
+skim(data)
+```
+
+### Partitionnement de la base brute
+
+La base intiale est découpée en trois bases :
+
+-   base d'entraînement
+
+-   base de validation
+
+-   base de test
+
+Il est possible d'utiliser une variable de stratification (souvent la variable à expliquer) pour que les 3 bases aient suffisament d'individus du même type. Les fonctions utilisées sont issues du package `rsample`.
+
+```{r}
+#Paramétrage des parts pour chaque base. 
+part_training <- 0.6 #60% pour l'entraînement
+part_validation <- 0.2 #20% pour la validation
+
+
+#on contrôle l'aléatoire pour avoir toujours la même base.
+set.seed(1234)
+
+#le paramètre strata permet de garder la même proportion de la variable dans les trois bases.
+data_split <- initial_validation_split(data,
+                                       strata = target, 
+                                       prop = c(part_training,part_validation)
+                                       )
+
+#La dernière base est la base d'entraînement et la base de validation.
+train_data <- training(data_split) 
+test_data <- testing(data_split) 
+valid_data <- validation(data_split)
+train_valid_data <- train_data %>% bind_rows(valid_data)
+```
+
+### Modifications de la base
+
+C'est le package `recipes` qui est utilisé ici pour faire des modifications sur les bases (du preprocessing) qui peuvent être de nombreux types :
+
+-   ajout/suppresion de variables
+
+-   transformation de variable (log, exponentielle..)
+
+-   imputation des données manquantes (plusieurs méthodes)
+
+-   filtrage d'individus
+
+-   encodage (one hot par exemple..)
+
+Ces modifications sont parfois nécessaires pour que les modèles puissent marcher (par exemple, la forêt aléatoire ne peut pas s'ajuster sur une base avec des données manquantes). Mais elles peuvent aussi permettre d'améliorer la qualité du modèle.
+
+Il y a certaines transformations qui sont automatiquement appliquées aux bases de données par les modèles.
+
+Le package `recipes` permet ainsi de tester plusieurs versions de la base (plusieurs recettes appliquées à la base) sur lesquelles on ajustera un même modèle.
+
+```{r}
+
+#choisir les recettes qu'on applique à la base, avec des step
+rec <- 
+  recipe(target ~ ., data = train_valid_data) %>%
+  step_normalize(all_numeric_predictors()) 
+# %>% step_dummy(all_nominal_predictors()) %>% #: pour transformer les variables nominales en indicatrices
+# %>% update_role(flight, time_hour, new_role = "ID") %>% #: pour retirer des variables du modèle
+# %>%step_normalize(all_numeric_predictors()) #pour centrer réduire
+# %>% step_zv() #pour enlever les variables avec une seules valeur
+# %>% step_rm() #removes variables
+# %>% step_impute_mode() #imputation des valeurs manquantes avec le mode
+# %>% step_impute_mean() #imputation des valeurs manquates avec la moyenne
+# %>% step_clean_names #nettoyer le nom des variables
+
+```
+
+## Régression supervisée
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
