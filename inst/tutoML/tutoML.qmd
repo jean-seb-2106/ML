@@ -110,22 +110,86 @@ Il y a certaines transformations qui sont automatiquement appliquées aux bases 
 
 Le package `recipes` permet ainsi de tester plusieurs versions de la base (plusieurs recettes appliquées à la base) sur lesquelles on ajustera un même modèle.
 
+<https://recipes.tidymodels.org/reference/index.html#basic-functions>
+
 ```{r}
 
 #choisir les recettes qu'on applique à la base, avec des step
 rec <- 
-  recipe(target ~ ., data = train_valid_data) %>%
+  recipe(target ~ ., data = train_data) %>%
   step_normalize(all_numeric_predictors()) 
 # %>% step_dummy(all_nominal_predictors()) %>% #: pour transformer les variables nominales en indicatrices
 # %>% update_role(flight, time_hour, new_role = "ID") %>% #: pour retirer des variables du modèle
-# %>%step_normalize(all_numeric_predictors()) #pour centrer réduire
 # %>% step_zv() #pour enlever les variables avec une seules valeur
 # %>% step_rm() #removes variables
 # %>% step_impute_mode() #imputation des valeurs manquantes avec le mode
-# %>% step_impute_mean() #imputation des valeurs manquates avec la moyenne
+# %>% step_impute_mean() #imputation des valeurs manquantes avec la moyenne
 # %>% step_clean_names #nettoyer le nom des variables
-
+# %>% step_log 
+# %>% step_filter #pour filtrer la base en utilisant dplyr
+# %>% step_mutate #pour créer une nouvelle variable en utilisant dplyr
 ```
+
+### Exploration de la base d'entraînement modifiée
+
+```{r}
+recette <- prep(rec) #Je prépare la recette
+data_modifie <- bake(recette,new_data = NULL) #Je l'appplique par défaut sur la base définie dans la fonction recipe
+skim(data_modifie)
+```
+
+### Choix d'un modèle
+
+Les modèles utilisés viennent du package `parnsnip.`
+
+-   La régression logistique
+
+```{r}
+mod_lr <- 
+  logistic_reg() %>% 
+  set_engine("glm")
+```
+
+-   L'arbre de classification
+
+```{r}
+mod_tree <- 
+  decision_tree(
+    cost_complexity = 0.001, #hyper-paramètre mesurant la complexité de l'arbre
+    tree_depth = 7, #pour paramétrer la profondeur de l'arbre
+    min_n = NULL #nombre minimum d'individus dans un noeud pour être divisé
+  ) %>%
+  set_engine("rpart") %>% #méthode d'estimation
+  set_mode("classification")
+```
+
+-   la forêt aléatoire
+
+    ```{r}
+    mod_rf <- 
+      rand_forest(trees = 1000, #nombre d'arbres
+                  mtry = 3, #nombre de variables
+                  min_n = NULL) %>% #nombre minimum d'individus dans un noeud pour être divisé
+      set_engine("ranger") %>% 
+      set_mode("classification")
+    ```
+
+-   le KNN : plus proches voisins
+
+    ```{r}
+    mod_knn <- 
+      nearest_neighbor(
+        neighbors = 3 #nombre de voisins
+      ) %>% 
+      set_engine("kknn") %>% 
+      set_mode("classification")
+    ```
+
+-   le SVM (support vector machine)
+
+-   La régression ridge
+
+-   la régression lasso
 
 ## Régression supervisée
 
