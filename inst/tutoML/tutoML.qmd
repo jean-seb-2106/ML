@@ -32,9 +32,10 @@ L'application ASTA ne permet pas de paramétrer les différents modèles : ces p
 #| warning: false
 # install.packages("tidymodels")
 # install.packages("skimr")
+#install.packages("glmnet")
 library(tidymodels)
 library(skimr)
-
+library(glmnet)
 ```
 
 ## Classification supervisée
@@ -44,7 +45,7 @@ library(skimr)
 #| warning: false
 library(asta)
 data <- asta::vins %>% rename(target = quality)
-#data <- asta::grandile %>% rename(target = PAUVRE) %>%
+# data <- asta::grandile %>% rename(target = PAUVRE) %>%
 #   select(-starts_with("LIB")) %>%
 #   select(-IDENT) %>%
 #   mutate(target = as.factor(target))
@@ -72,8 +73,8 @@ Il est possible d'utiliser une variable de stratification (souvent la variable �
 
 ```{r}
 #Paramétrage des parts pour chaque base. 
-part_training <- 0.6 #60% pour l'entraînement
-part_validation <- 0.2 #20% pour la validation
+part_training <- 0.7 #70% pour l'entraînement
+part_validation <- 0.15 #15% pour la validation
 
 
 #on contrôle l'aléatoire pour avoir toujours la même base.
@@ -118,12 +119,13 @@ Le package `recipes` permet ainsi de tester plusieurs versions de la base (plusi
 
 #choisir les recettes qu'on applique à la base, avec des step
 rec <- 
-  recipe(target ~ ., data = train_data) %>%
-  step_normalize(all_numeric_predictors()) 
-# %>% step_dummy(all_nominal_predictors()) %>% #: transformer les variables nominales en indicatrices
+  recipe(target ~ ., data = train_data) %>% 
+  step_normalize(all_numeric_predictors()) #%>% 
+  # step_rm() #supprimer des variables # %>% 
+#  step_dummy(all_nominal_predictors()) %>% #: transformer les variables nominales en indicatrices
 # %>% update_role(flight, time_hour, new_role = "ID") %>% #: retirer des variables du modèle, mais les laisser en affichage
 # %>% step_zv() #pour enlever les variables avec une seule valeur
-# %>% step_rm() #supprimer des variables
+
 # %>% step_impute_mode() #imputation des valeurs manquantes avec le mode
 # %>% step_impute_mean() #imputation des valeurs manquantes avec la moyenne
 # %>% step_clean_names #nettoyer le nom des variables
@@ -202,7 +204,7 @@ mod_tree <-
 
     ```{r}
     mod_ridge <- 
-      logistic_reg(penalty = 0.001, #hyper-paramètre  
+      logistic_reg(penalty = 0.01, #hyper-paramètre  
                    mixture = 0) %>% 
       set_engine("glmnet")
 
@@ -229,7 +231,7 @@ mod_tree <-
 Un workflow dans ce cas est une recette appliquée à une base (la base d'entraînement) et un modèle.
 
 ```{r}
-mod <- mod_lr
+mod <- mod_rf
 
 wflow <-  workflow() %>% 
   add_model(mod) %>% #ajout du modèle
@@ -239,11 +241,11 @@ wflow
 
 ### Ajustement du modèle
 
-C'est à cette étape que le modèle s'ajuste sur les données d'entraînement, c'est à dire que l'algorithme trouve le modèle qui estime le mieux. La fonction fit génère une instance du modèle qui a été entraîné sur la base d'entraînement.
+C'est à cette étape que le modèle s'ajuste sur les données d'entraînement, c'est à dire que l'algorithme trouve le modèle qui estime le mieux. La fonction `fit` génère une instance du modèle qui a été entraîné sur la base d'entraînement.
 
 ```{r}
 fit <- wflow %>% fit(data=train_data)
-fit
+extract_fit_parsnip(fit)
 ```
 
 On peut visualiser les estimations de ce modèle sur la base d'entraînement. A chaque classe de la variable target est associée une probabilité : si elle est supérieure à 0,5, alors c'est cette modalité qui est estimée par le modèle.
@@ -291,8 +293,50 @@ sensitivity <- pred_valid %>%
   round(2)
 ```
 
-| Accuracy     | Spécificité     | Sensibilité     |
-|--------------|-----------------|-----------------|
-| `r accuracy` | `r specificity` | `r sensitivity` |
+| Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
+|-------------------|-------------------------------|--------------|-----------------|-----------------|
+| `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
+
+On peut aussi calculer l'AUC et dessiner la courbe ROC.
+
+```{r}
+pred1 <- names(pred_valid)[3]
+roc_plot_valid <- pred_valid %>% 
+  roc_curve(truth = target,all_of(pred1)) %>% 
+  autoplot()
+roc_plot_valid
+```
+
+### Ajustement du modèle final
+
+Le modèle final (celui qui a la meilleure performance) est ajusté sur la base d'entraînement et la base de validation. C'est cette instance de modèle qui sera utilisé pour faire des prédictions sur des individus qui n'ont jamais été vus par le modèle.
+
+```{r}
+fit_final <-
+  wflow %>% fit(train_valid_data)
+pred_final <- augment(fit_final,test_data)
+
+accuracy <- pred_final %>% 
+  accuracy(truth = target, .pred_class) %>% 
+  select(.estimate) %>% 
+  as.numeric() %>% 
+  round(2)
+
+specificity <- pred_final %>% 
+  specificity(truth = target, .pred_class) %>% 
+  select(.estimate) %>% 
+  as.numeric() %>% 
+  round(2)
+
+sensitivity <- pred_final %>% 
+  sensitivity(truth = target, .pred_class) %>% 
+  select(.estimate) %>% 
+  as.numeric() %>% 
+  round(2)
+```
+
+| Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
+|-------------------|-------------------------------|--------------|-----------------|-----------------|
+| `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 ## Régression supervisée
