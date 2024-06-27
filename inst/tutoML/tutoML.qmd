@@ -1,5 +1,5 @@
 ---
-title: "Tuto Machine leanrning sous R"
+title: "Tuto Machine learning sous R"
 author: "Cefil-2024"
 date: "27/06/2024"
 format: 
@@ -23,7 +23,9 @@ Les données de l'exercice sont intégrées au package ASTA. On distingue les de
 
 -   la classification supervisée
 
--   la régression supervisée
+-   la régression supervisée.
+
+L'application ASTA ne permet pas de paramétrer les différents modèles : ces paramètres sont définis par défaut dans l'application. Elle ne permet pas non plus de faire de la validation croisée (qui est d'usage en machine learning) ni d'optimiser chaque modèle pour trouver les meilleurs hyper-paramètres.
 
 ```{r}
 #| message: false
@@ -118,19 +120,19 @@ Le package `recipes` permet ainsi de tester plusieurs versions de la base (plusi
 rec <- 
   recipe(target ~ ., data = train_data) %>%
   step_normalize(all_numeric_predictors()) 
-# %>% step_dummy(all_nominal_predictors()) %>% #: pour transformer les variables nominales en indicatrices
-# %>% update_role(flight, time_hour, new_role = "ID") %>% #: pour retirer des variables du modèle
-# %>% step_zv() #pour enlever les variables avec une seules valeur
-# %>% step_rm() #removes variables
+# %>% step_dummy(all_nominal_predictors()) %>% #: transformer les variables nominales en indicatrices
+# %>% update_role(flight, time_hour, new_role = "ID") %>% #: retirer des variables du modèle, mais les laisser en affichage
+# %>% step_zv() #pour enlever les variables avec une seule valeur
+# %>% step_rm() #supprimer des variables
 # %>% step_impute_mode() #imputation des valeurs manquantes avec le mode
 # %>% step_impute_mean() #imputation des valeurs manquantes avec la moyenne
 # %>% step_clean_names #nettoyer le nom des variables
-# %>% step_log 
+# %>% step_log #ajouter une variable de type logarithme
 # %>% step_filter #pour filtrer la base en utilisant dplyr
 # %>% step_mutate #pour créer une nouvelle variable en utilisant dplyr
 ```
 
-### Exploration de la base d'entraînement modifiée
+Cette base modifiée peut-être visualisée à l'aide des fonctions contenues dans le package `recipes`.
 
 ```{r}
 recette <- prep(rec) #Je prépare la recette
@@ -185,25 +187,112 @@ mod_tree <-
       set_mode("classification")
     ```
 
--   le SVM (support vector machine)
+-   le SVM (support vector machine)[^1]
 
--   La régression ridge
+    ```{r}
+    mod_svm <- 
+      svm_rbf(mode = "classification", 
+                         cost = 10, 
+                         rbf_sigma = 0.1, 
+                         margin = 1) %>%
+      set_engine("kernlab")
+    ```
 
--   la régression lasso
+-   La régression ridge[^2]
+
+    ```{r}
+    mod_ridge <- 
+      logistic_reg(penalty = 0.001, #hyper-paramètre  
+                   mixture = 0) %>% 
+      set_engine("glmnet")
+
+    ```
+
+-   la régression lasso[^3]
+
+    ```{r}
+    mod_lasso <- 
+      logistic_reg(penalty = 0.001, #hyper-paramètre
+                   mixture = 1) %>% 
+      set_engine("glmnet")
+
+    ```
+
+[^1]: modèle non proposé dans ASTA
+
+[^2]: Modèle qui n'est pas proposé dans ASTA
+
+[^3]: modèle non proposé dans ASTA
+
+### Création d'un workflow
+
+Un workflow dans ce cas est une recette appliquée à une base (la base d'entraînement) et un modèle.
+
+```{r}
+mod <- mod_lr
+
+wflow <-  workflow() %>% 
+  add_model(mod) %>% #ajout du modèle
+  add_recipe(rec) #ajout de la recette (transfo de la base initiale)
+wflow
+```
+
+### Ajustement du modèle
+
+C'est à cette étape que le modèle s'ajuste sur les données d'entraînement, c'est à dire que l'algorithme trouve le modèle qui estime le mieux. La fonction fit génère une instance du modèle qui a été entraîné sur la base d'entraînement.
+
+```{r}
+fit <- wflow %>% fit(data=train_data)
+fit
+```
+
+On peut visualiser les estimations de ce modèle sur la base d'entraînement. A chaque classe de la variable target est associée une probabilité : si elle est supérieure à 0,5, alors c'est cette modalité qui est estimée par le modèle.
+
+```{r}
+augment(fit,train_data) %>% select(target,starts_with(".pred")) %>% head(10)
+```
+
+### Performance du modèle
+
+L'instance du modèle généré à l'étape précédente est appliquée à la base de validation, qui n'a pas servi à ajuster le modèle. Autrement dit, ce sont des données que le modèle n'a jamais vu et qui vont permettre d'évaluer les capacités prédictives de notre modèle.
+
+```{r}
+pred_valid <- augment(fit, valid_data) %>% select(target,starts_with(".pred"))
+pred_valid
+```
+
+A partir de ce tableau de prédiction sur la base de validation, je peux construire un tableau de confusion, qui classe chaque individu de la base de validation dans une des 4 cases du tableau : VP (vrai positif), FP (faux positif), VN (vrai négatif), FN (faux négatif).
+
+```{r}
+pred_valid %>%
+  conf_mat(target, .pred_class) %>%
+  autoplot(type="heatmap")
+```
+
+A partir de ce tableau de confusion, on peut définir des indicateurs de performance et la courbe ROC. Les fonctions permettant de calculer les performances sont dans le package `yardstick`.
+
+```{r}
+accuracy <- pred_valid %>% 
+  accuracy(truth = target, .pred_class) %>% 
+  select(.estimate) %>% 
+  as.numeric() %>% 
+  round(2)
+
+specificity <- pred_valid %>% 
+  specificity(truth = target, .pred_class) %>% 
+  select(.estimate) %>% 
+  as.numeric() %>% 
+  round(2)
+
+sensitivity <- pred_valid %>% 
+  sensitivity(truth = target, .pred_class) %>% 
+  select(.estimate) %>% 
+  as.numeric() %>% 
+  round(2)
+```
+
+| Accuracy     | Spécificité     | Sensibilité     |
+|--------------|-----------------|-----------------|
+| `r accuracy` | `r specificity` | `r sensitivity` |
 
 ## Régression supervisée
-
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
-
-```{r}
-1 + 1
-```
-
-You can add options to executable code like this
-
-```{r}
-#| echo: false
-2 * 2
-```
-
-The `echo: false` option disables the printing of code (only output is displayed).
