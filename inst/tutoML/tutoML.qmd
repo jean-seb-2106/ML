@@ -74,7 +74,7 @@ Il est possible d'utiliser une variable de stratification (souvent la variable �
 ```{r}
 #Paramétrage des parts pour chaque base. 
 part_training <- 0.7 #70% pour l'entraînement
-part_validation <- 0.15 #15% pour la validation
+part_validation <- (1-part_training)/2 #15% pour la validation
 
 
 #on contrôle l'aléatoire pour avoir toujours la même base.
@@ -95,6 +95,7 @@ train_valid_data <- train_data %>% bind_rows(valid_data)
 
 ### Modifications de la base
 
+::: callout-tip
 C'est le package `recipes` qui est utilisé ici pour faire des modifications sur les bases (du preprocessing) qui peuvent être de nombreux types :
 
 -   ajout/suppresion de variables
@@ -114,6 +115,7 @@ Il y a certaines transformations qui sont automatiquement appliquées aux bases 
 Le package `recipes` permet ainsi de tester plusieurs versions de la base (plusieurs recettes appliquées à la base) sur lesquelles on ajustera un même modèle.
 
 <https://recipes.tidymodels.org/reference/index.html#basic-functions>
+:::
 
 ```{r}
 
@@ -144,7 +146,13 @@ skim(data_modifie)
 
 ### Choix d'un modèle
 
-Les modèles utilisés viennent du package `parnsnip.`
+::: callout-tip
+## Paramètres
+
+Les modèles utilisés viennent du package `parnsnip`. Il faut préciser le nom du modèle, puis le moteur qui va servir à estimer les paramètres (`set_engine`) et les éventuels paramètres et hyper-paramètres à régler.
+
+Pour certains modèles, il faut préciser qu'il s'agit d'un problème de classification (`set_mode`)
+:::
 
 -   La régression logistique
 
@@ -228,7 +236,11 @@ mod_tree <-
 
 ### Création d'un workflow
 
-Un workflow dans ce cas est une recette appliquée à une base (la base d'entraînement) et un modèle.
+::: callout-tip
+## Paramètres
+
+Un workflow est une recette appliquée à une base et à un modèle. C'est le package `workflow` qui permet de créer un workflow.
+:::
 
 ```{r}
 mod <- mod_rf
@@ -294,7 +306,7 @@ sensitivity <- pred_valid %>%
 ```
 
 | Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
-|-------------------|-------------------------------|--------------|-----------------|-----------------|
+|---------------|---------------|---------------|---------------|---------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 On peut aussi calculer l'AUC et dessiner la courbe ROC.
@@ -336,7 +348,214 @@ sensitivity <- pred_final %>%
 ```
 
 | Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
-|-------------------|-------------------------------|--------------|-----------------|-----------------|
+|---------------|---------------|---------------|---------------|---------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 ## Régression supervisée
+
+Les deux fichiers utilisés sont :
+
+-   le fichier ozone (on cherche à prédire le taux d'ozone)
+
+-   le fichier Grandile (on cherche à prédir le taux de pauvreté)
+
+```{r}
+
+data <- ozone %>%
+  mutate(target = maxO3) %>%
+  select(-maxO3)
+
+
+# data <- grandile  %>%
+#   select(-starts_with("LIB")) %>%
+#   mutate(target = REV_DISPONIBLE) %>%
+#   select(-IDENT,-REV_DISPONIBLE)
+```
+
+### Exploration de la base brute
+
+```{r}
+skim(data)
+```
+
+### Partitionnement de la base brute
+
+La base intiale est découpée en trois bases :
+
+-   base d'entraînement
+
+-   base de validation
+
+-   base de test
+
+::: callout-tip
+## Paramètres
+
+Les fonctions permettant de partitionner la base de départ sont issues de `rsample`. La fonction initial_validation_split divise la base de départ en 3.
+:::
+
+```{r}
+part_training <- 0.7
+part_validation <- (1-part_training)/2 
+
+set.seed(1234) #pour permettre la reproductibilité des résultats
+data_split <- initial_validation_split(data,prop = c(part_training,part_validation)) 
+
+train_data <- training(data_split) #le fichier d'entraînement
+test_data <- testing(data_split) #le fichier de test
+valid_data <- validation(data_split)
+train_valid_data <- train_data %>% bind_rows(valid_data)
+```
+
+### Modifications de la base
+
+Il est rare que la base brute puisse directement être traitée par les modèles. Elle nécessite une phase (souvent longue) de nettoyage, de recodage, de discrétisation...
+
+Cette première phase permet de préparer la modélisation. Il est important de noter que les nouvelles données qu'on cherchera à prédire avec le modèle auront ce même format brut, et qu'elle subiront donc les mêmes modifications avant de rentrer dans le modèle.
+
+::: callout-tip
+## Paramètres
+
+Le package `recipes` permet d'appliquer des recettes sur la base brute, c'est à dire des suites de traitement à appliquer à cette base. Cette étape s'appelle aussi le preprocessing, ou feature eigeneering.
+:::
+
+```{r}
+rec <- recipe(target ~ ., data = train_data) %>% 
+  step_impute_mean(c(Ne18,Ne15)) #imputation valeurs manquantes
+```
+
+Une fois que la recette est enregistrée (liste des traitements à appliquer à la base brute), on peut afficher la base de données avec les verbes `prep` et `bake`.
+
+```{r}
+recette <- prep(rec) #Je prépare la recette
+data_modifie <- bake(recette,new_data = NULL) #Je l'appplique par défaut sur la base définie dans la fonction recipe
+skim(data_modifie)
+```
+
+## Choix d'un modèle
+
+::: callout-tip
+## Paramètres
+
+::: callout-tip
+Les modèles utilisés viennent du package `parnsnip`. Il faut préciser le nom du modèle, puis le moteur qui va servir à estimer les paramètres (`set_engine`) et les éventuels paramètres et hyper-paramètres à régler.
+:::
+:::
+
+-   La régression linéaire
+
+```{r}
+mod_lr <- linear_reg() %>% 
+  set_engine("lm") 
+```
+
+-   L'arbre de décision
+
+```{r}
+mod_tree <- 
+  mod_tree <- 
+  decision_tree(
+    cost_complexity = 0.001,
+    tree_depth = 7,
+    min_n = NULL
+  ) %>%
+  set_engine("rpart") %>%
+  set_mode("regression")
+```
+
+-   La forêt aléatoire
+
+```{r}
+mod_rf <- rand_forest() %>%
+  set_engine("ranger") %>%
+  set_mode("regression")
+```
+
+-   Le SVM (support vector machine)
+
+```{r}
+mod_svm <- svm_linear() %>%
+  set_mode("regression") %>%
+  set_engine("LiblineaR")
+```
+
+-   Le KNN
+
+```{r}
+
+#Modèle KNN
+mod_knn <- 
+  nearest_neighbor(
+    neighbors = 3
+  ) %>% 
+  set_engine("kknn") %>% 
+  set_mode("regression")
+
+```
+
+## Création d'un workflow
+
+::: callout-tip
+## Paramètres
+
+Un workflow est une recette appliquée à une base et à un modèle. C'est le package `workflow` qui permet de créer un workflow.
+:::
+
+```{r}
+mod <- mod_lr
+
+wflow <- workflow() %>% 
+  add_recipe(rec) %>% 
+  add_model(mod_lr)
+wflow
+```
+
+## Ajustement du modèle
+
+On peut maintenant faire tourner l'alogorithme choisi pour ajuster le modèle sur les données d'entraînement auxquelles on a appliqué une recette (le workflow).
+
+```{r}
+fit <- wflow %>% fit(data=train_data)
+extract_fit_parsnip(fit)
+```
+
+On peut visualiser les estimations de ce modèle sur la base d'entraînement. A chaque classe de la variable target est associée une probabilité : si elle est supérieure à 0,5, alors c'est cette modalité qui est estimée par le modèle.
+
+```{r}
+pred_train <- augment(fit,train_data) %>% select(target,.pred) %>% round(1)
+pred_train %>% head(10)
+```
+
+## Performance du modèle
+
+L'instance du modèle généré à l'étape précédente est appliquée à la base de validation, qui n'a pas servi à ajuster le modèle. Autrement dit, ce sont des données que le modèle n'a jamais vu et qui vont permettre d'évaluer les capacités prédictives de notre modèle. Cette étape permet de s'assurer qu'il n'y a pas de surraprentissage.
+
+```{r}
+pred_valid <- augment(fit,valid_data) %>% select(target,.pred) %>% round(1)
+pred_valid %>% head(10)
+```
+
+A partir de ce tableau de prédiction sur la base de validation, je peux calculer des indicateurs qui mesurent la distance entre la valeur réelle et la valeur prédite par une instance du modèle retenu.
+
+::: callout-tip
+## Paramètres
+
+Le package `yardstick` calcule automatiquement les indicateurs de performances, avec des fonctions pré-enregistrées.
+:::
+
+```{r}
+#risque quadratique
+rss <- sum((pred_valid$.pred - pred_valid$target)^2)
+
+mse <- rss/nrow(pred_valid)
+
+rmse <- sqrt(mse)
+# rmse(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
+
+#coefficient de détermination
+rsq <- rsq(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric()
+```
+
+| Modèle            | Recette                       | MSE     | RMSE     | R²      |
+|---------------|---------------|---------------|---------------|---------------|
+| `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r mse` | `r rmse` | `r rsq` |
