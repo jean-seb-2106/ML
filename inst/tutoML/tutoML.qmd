@@ -304,7 +304,7 @@ sensitivity <- pred_valid %>%
 ```
 
 | Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
-|-------------------|-------------------------------|--------------|-----------------|-----------------|
+|--------------|------------------|--------------|--------------|--------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 On peut aussi calculer l'AUC et dessiner la courbe ROC.
@@ -346,7 +346,7 @@ sensitivity <- pred_final %>%
 ```
 
 | Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
-|-------------------|-------------------------------|--------------|-----------------|-----------------|
+|--------------|------------------|--------------|--------------|--------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 ## Régression supervisée
@@ -553,11 +553,11 @@ rmse <- sqrt(mse) %>% round(1)
 # rmse(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
 
 #coefficient de détermination
-rsq <- rsq(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
+rsq <- rsq(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(4)
 ```
 
 | Modèle            | Recette                       | MSE     | RMSE     | R²      |
-|-------------------|-------------------------------|---------|----------|---------|
+|-------------|----------------------|-------------|-------------|-------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r mse` | `r rmse` | `r rsq` |
 
 Dans cet exemple, on a testé les performances de la régression linéaire sur toutes les variables. Il faut bien sûr comparer ces performances avec d'autres modèles pour prendre le meilleur.
@@ -585,9 +585,9 @@ rmse <- sqrt(mse) %>% round(1)
 # rmse(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
 
 #coefficient de détermination
-rsq <- rsq(pred_testing,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
+rsq <- rsq(pred_testing,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(4)
 ```
 
 | Modèle            | Recette                       | MSE     | RMSE     | R²      |
-|-------------------|-------------------------------|---------|----------|---------|
+|-------------|----------------------|-------------|-------------|-------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r mse` | `r rmse` | `r rsq` |
