@@ -15,9 +15,7 @@ embed-resources: true
 
 En complément du corrigé des exercices, voici le code R sous-jacent à Asta, afin que vous puissiez produire ou appliquer les méthodes de machine learning directement sous R.
 
-C'est le package `tidymodels` qui est utilisé dans ASTA pour faire du machine learning. Il regroupe et intègre les packages r suivants :`rsample`, `recipes`, `tune`, `parnsnip`, `yardstick`... Chacun de ces packages étant utile pour le machine learning.
-
-Par ailleurs, on utilise le package `skimr` pour explorer les fichiers.
+C'est le package `tidymodels` qui est utilisé dans ASTA pour faire du machine learning. Il regroupe et intègre les packages r suivants :`rsample`, `recipes`, `tune`, `parnsnip`, `yardstick`... Chacun de ces packages étant utile pour le machine learning. Par ailleurs, on utilise le package `skimr` pour explorer les fichiers.
 
 Les données de l'exercice sont intégrées au package ASTA. On distingue les deux grands types d'apprentissage automatique :
 
@@ -25,7 +23,9 @@ Les données de l'exercice sont intégrées au package ASTA. On distingue les de
 
 -   la régression supervisée.
 
-L'application ASTA ne permet pas de paramétrer les différents modèles : ces paramètres sont définis par défaut dans l'application. Elle ne permet pas non plus de faire de la validation croisée (qui est d'usage en machine learning) ni d'optimiser chaque modèle pour trouver les meilleurs hyper-paramètres.
+::: callout-warning
+L'application ASTA ne permet pas de paramétrer les différents modèles : ces paramètres sont définis par défaut dans l'application. Elle ne permet pas non plus de faire de la validation croisée (qui est d'usage en machine learning) ni d'optimiser chaque modèle pour trouver les meilleurs hyper-paramètres. Ces points ne seront donc pas abordés dans ce tutoriel, mais il est possible de faire ça avec `tidymodels`.
+:::
 
 ```{r}
 #| message: false
@@ -40,6 +40,8 @@ library(glmnet)
 
 ## Classification supervisée
 
+Les deux fichiers utilisés pour faire de la classification dans `asta` sont le fichier `vin` (le vin est-il bon ou mauvais ?) et le fichier `grandile` (les ménages sont-ils pauvres ?). On fait quelques modifications sur ces fichiers pour faire en sorte que la variable à expliquer ait le même nom dans les deux fichiers (`target`).
+
 ```{r}
 #| message: false
 #| warning: false
@@ -50,8 +52,6 @@ data <- asta::vins %>% rename(target = quality)
 #   select(-IDENT) %>%
 #   mutate(target = as.factor(target))
 ```
-
-Les deux fichiers utilisés pour faire de la classification dans `asta`. On fait quelques modifications sur ces fichiers pour faire en sorte que la variable à expliquer ait le même nom dans les deux fichiers (`target`).
 
 ### Exploration de la base brute
 
@@ -123,20 +123,10 @@ Le package `recipes` permet ainsi de tester plusieurs versions de la base (plusi
 rec <- 
   recipe(target ~ ., data = train_data) %>% 
   step_normalize(all_numeric_predictors()) #%>% 
-  # step_rm() #supprimer des variables # %>% 
-#  step_dummy(all_nominal_predictors()) %>% #: transformer les variables nominales en indicatrices
-# %>% update_role(flight, time_hour, new_role = "ID") %>% #: retirer des variables du modèle, mais les laisser en affichage
-# %>% step_zv() #pour enlever les variables avec une seule valeur
 
-# %>% step_impute_mode() #imputation des valeurs manquantes avec le mode
-# %>% step_impute_mean() #imputation des valeurs manquantes avec la moyenne
-# %>% step_clean_names #nettoyer le nom des variables
-# %>% step_log #ajouter une variable de type logarithme
-# %>% step_filter #pour filtrer la base en utilisant dplyr
-# %>% step_mutate #pour créer une nouvelle variable en utilisant dplyr
 ```
 
-Cette base modifiée peut-être visualisée à l'aide des fonctions contenues dans le package `recipes`.
+Cette base modifiée peut-être visualisée à l'aide des fonctions contenues dans le package `recipes`. Dans cet exemple, on a choisi de centrer-réduire toutes les variables numériques avec `step_normalize`.
 
 ```{r}
 recette <- prep(rec) #Je prépare la recette
@@ -145,6 +135,8 @@ skim(data_modifie)
 ```
 
 ### Choix d'un modèle
+
+Il s'agit maintenant de tester un certain nombre de modèles qui sont des cadres d'apprentissage, et qui seront entraînés dans la phase suivante. Il en existe un grand nombre.
 
 ::: callout-tip
 ## Paramètres
@@ -175,7 +167,7 @@ mod_tree <-
   set_mode("classification")
 ```
 
--   la forêt aléatoire
+-   La forêt aléatoire
 
     ```{r}
     mod_rf <- 
@@ -186,7 +178,7 @@ mod_tree <-
       set_mode("classification")
     ```
 
--   le KNN : plus proches voisins
+-   Le KNN : plus proches voisins
 
     ```{r}
     mod_knn <- 
@@ -197,7 +189,7 @@ mod_tree <-
       set_mode("classification")
     ```
 
--   le SVM (support vector machine)[^1]
+-   Le SVM (support vector machine)[^1]
 
     ```{r}
     mod_svm <- 
@@ -270,6 +262,12 @@ augment(fit,train_data) %>% select(target,starts_with(".pred")) %>% head(10)
 
 L'instance du modèle généré à l'étape précédente est appliquée à la base de validation, qui n'a pas servi à ajuster le modèle. Autrement dit, ce sont des données que le modèle n'a jamais vu et qui vont permettre d'évaluer les capacités prédictives de notre modèle.
 
+::: callout-note
+En pratique, on ne fait pas de la validation simple comme ici mais de la validation croisée, qui permet de réduire le biais d'échantillonage au moment de la partition de la base brute.
+
+C'est la fonction `vfold_cv` du package rsample qui permet de paramétrer la validation croisée. Et la fonction `fit_resamples` du package `tune` permet de faire les estimations en utilisant la validation croisée.
+:::
+
 ```{r}
 pred_valid <- augment(fit, valid_data) %>% select(target,starts_with(".pred"))
 pred_valid
@@ -306,7 +304,7 @@ sensitivity <- pred_valid %>%
 ```
 
 | Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
-|---------------|---------------|---------------|---------------|---------------|
+|-------------------|-------------------------------|--------------|-----------------|-----------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 On peut aussi calculer l'AUC et dessiner la courbe ROC.
@@ -348,7 +346,7 @@ sensitivity <- pred_final %>%
 ```
 
 | Modèle            | Recette                       | Accuracy     | Spécificité     | Sensibilité     |
-|---------------|---------------|---------------|---------------|---------------|
+|-------------------|-------------------------------|--------------|-----------------|-----------------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r accuracy` | `r specificity` | `r sensitivity` |
 
 ## Régression supervisée
@@ -377,6 +375,8 @@ data <- ozone %>%
 ```{r}
 skim(data)
 ```
+
+Dans la base de données brute d'ozone, on constate qu'il y a deux valeurs manquantes sur la variable Ne18. Il faudra en tenir compte dans les phases suivantes.
 
 ### Partitionnement de la base brute
 
@@ -419,9 +419,11 @@ Cette première phase permet de préparer la modélisation. Il est important de 
 Le package `recipes` permet d'appliquer des recettes sur la base brute, c'est à dire des suites de traitement à appliquer à cette base. Cette étape s'appelle aussi le preprocessing, ou feature eigeneering.
 :::
 
+Avec la base de données `ozone`, on choisit de faire de l'imputation de valeurs manquantes par la moyenne (`step_impute_mean`). On aurait pu aussi filtrer les valeurs manquantes ou utiliser une autre techique d'imputation (médiane, plus proches voisins...).
+
 ```{r}
 rec <- recipe(target ~ ., data = train_data) %>% 
-  step_impute_mean(c(Ne18,Ne15)) #imputation valeurs manquantes
+  step_impute_mean(all_numeric_predictors()) #imputation valeurs manquantes
 ```
 
 Une fois que la recette est enregistrée (liste des traitements à appliquer à la base brute), on peut afficher la base de données avec les verbes `prep` et `bake`.
@@ -432,14 +434,12 @@ data_modifie <- bake(recette,new_data = NULL) #Je l'appplique par défaut sur la
 skim(data_modifie)
 ```
 
-## Choix d'un modèle
+### Choix d'un modèle
 
 ::: callout-tip
 ## Paramètres
 
-::: callout-tip
 Les modèles utilisés viennent du package `parnsnip`. Il faut préciser le nom du modèle, puis le moteur qui va servir à estimer les paramètres (`set_engine`) et les éventuels paramètres et hyper-paramètres à régler.
-:::
 :::
 
 -   La régression linéaire
@@ -493,7 +493,7 @@ mod_knn <-
 
 ```
 
-## Création d'un workflow
+### Création d'un workflow
 
 ::: callout-tip
 ## Paramètres
@@ -510,7 +510,7 @@ wflow <- workflow() %>%
 wflow
 ```
 
-## Ajustement du modèle
+### Ajustement du modèle
 
 On peut maintenant faire tourner l'alogorithme choisi pour ajuster le modèle sur les données d'entraînement auxquelles on a appliqué une recette (le workflow).
 
@@ -519,14 +519,14 @@ fit <- wflow %>% fit(data=train_data)
 extract_fit_parsnip(fit)
 ```
 
-On peut visualiser les estimations de ce modèle sur la base d'entraînement. A chaque classe de la variable target est associée une probabilité : si elle est supérieure à 0,5, alors c'est cette modalité qui est estimée par le modèle.
+On peut visualiser les estimations de ce modèle sur la base d'entraînement. Moins les écarts entre les estimations et les vraies valeurs sont élevés, meilleur est le modèle.
 
 ```{r}
 pred_train <- augment(fit,train_data) %>% select(target,.pred) %>% round(1)
 pred_train %>% head(10)
 ```
 
-## Performance du modèle
+### Performance du modèle
 
 L'instance du modèle généré à l'étape précédente est appliquée à la base de validation, qui n'a pas servi à ajuster le modèle. Autrement dit, ce sont des données que le modèle n'a jamais vu et qui vont permettre d'évaluer les capacités prédictives de notre modèle. Cette étape permet de s'assurer qu'il n'y a pas de surraprentissage.
 
@@ -545,17 +545,49 @@ Le package `yardstick` calcule automatiquement les indicateurs de performances, 
 
 ```{r}
 #risque quadratique
-rss <- sum((pred_valid$.pred - pred_valid$target)^2)
+rss <- sum((pred_valid$.pred - pred_valid$target)^2) %>% round(1)
 
-mse <- rss/nrow(pred_valid)
+mse <- rss/nrow(pred_valid) %>% round(1)
 
-rmse <- sqrt(mse)
+rmse <- sqrt(mse) %>% round(1)
 # rmse(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
 
 #coefficient de détermination
-rsq <- rsq(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric()
+rsq <- rsq(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
 ```
 
 | Modèle            | Recette                       | MSE     | RMSE     | R²      |
-|---------------|---------------|---------------|---------------|---------------|
+|-------------------|-------------------------------|---------|----------|---------|
+| `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r mse` | `r rmse` | `r rsq` |
+
+Dans cet exemple, on a testé les performances de la régression linéaire sur toutes les variables. Il faut bien sûr comparer ces performances avec d'autres modèles pour prendre le meilleur.
+
+### Ajustement du modèle final
+
+Le modèle final (celui qui a été retenu à la phase précédente) est ajusté sur la base d'entraînement et la base de validation.
+
+```{r}
+fit_final <- 
+  wflow %>% 
+  fit(train_valid_data)
+
+```
+
+On utilise cette nouvelle instance pour prédire sur la base de test, c'est à dire sur la base qui n'a pas été utilisée pour choisir le modèle et les hyper-paramètres.
+
+```{r}
+pred_testing <- augment(fit_final, test_data) %>% select(target,.pred)
+rss <- sum((pred_testing$.pred - pred_testing$target)^2) %>% round(1)
+
+mse <- rss/nrow(pred_testing) %>% round(1)
+
+rmse <- sqrt(mse) %>% round(1)
+# rmse(pred_valid,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
+
+#coefficient de détermination
+rsq <- rsq(pred_testing,target,.pred) %>% select(.estimate) %>% as.numeric() %>% round(2)
+```
+
+| Modèle            | Recette                       | MSE     | RMSE     | R²      |
+|-------------------|-------------------------------|---------|----------|---------|
 | `r class(mod)[1]` | `r class(recette$steps[[1]])` | `r mse` | `r rmse` | `r rsq` |
