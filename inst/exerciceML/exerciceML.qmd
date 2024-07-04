@@ -104,7 +104,7 @@ Spécificité :
 ### Compléter le tableau suivant avec les performances de ce première modèle.
 
 | Modèle testé                       | Exactitude | Sensibilité | Spécificité | AUC |
-|--------------------------|------------|------------|------------|------------|
+|------------------------------------|------------|-------------|-------------|-----|
 | *Modèle 1 : Regression logistique* |            |             |             |     |
 
 : Performances de la regression logistique
@@ -126,7 +126,7 @@ Spécificité :
 ### Compléter le tableau suivant avec les performances de ce deuxi-me modèle.
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC |
-|--------------------------|------------|------------|------------|------------|
+|--------------------------------------|------------|-------------|-------------|-----|
 | *Modèle 1 : Regression logistique*   |            |             |             |     |
 | *Modèle 2 : arbre de classification* |            |             |             |     |
 
@@ -143,7 +143,7 @@ Spécificité :
 ### Noter les indicateurs de performance de ce troisième modèle dans le tableau comparatif ci-dessous :
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC |
-|--------------------------|------------|------------|------------|------------|
+|--------------------------------------|------------|-------------|-------------|-----|
 | *Modèle 1 : Regression logistique*   |            |             |             |     |
 | *Modèle 2 : arbre de classification* |            |             |             |     |
 | *Modèle 3 : forêt aléatoire*         |            |             |             |     |
@@ -157,7 +157,7 @@ Spécificité :
 ### Noter les indicateurs dans le tableau comparatif des modèles
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC |
-|--------------------------|------------|------------|------------|------------|
+|--------------------------------------|------------|-------------|-------------|-----|
 | *Modèle 1 : Regression logistique*   |            |             |             |     |
 | *Modèle 2 : arbre de classification* |            |             |             |     |
 | *Modèle 3 : forêt aléatoire*         |            |             |             |     |
@@ -178,7 +178,7 @@ Spécificité :
 :::
 
 | Modèle testé                         | Exactitude | Sensibilité | Spécificité | AUC  |
-|--------------------------|------------|------------|------------|------------|
+|--------------------------------------|------------|-------------|-------------|------|
 | *Modèle 1 : Regression logistique*   | 99 %       | 100 %       | 98 %        | 1    |
 | *Modèle 2 : arbre de classification* | 99 %       | 100 %       | 94 %        | 0,98 |
 | *Modèle 3 : forêt aléatoire*         | 99 %       | 100 %       | 98 %        | 1    |
@@ -257,7 +257,7 @@ Spécificité :
 ### Compléter le tableau ci-dessous avec les performances des autres modèles :
 
 | Modèle testé sur la base avec imputation par la moyenne | RSS | MSE | RMSE | R²  |
-|----------------------------------------|:------:|:------:|:------:|:------:|
+|---------------------------------------------------------|:---:|:---:|:----:|:---:|
 | *Modèle 1 : Forêt aléatoire*[^1]                        |     |     |      |     |
 | *Modèle 2 : Arbre de regression*                        |     |     |      |     |
 | *Modèle 3 : Régression linéaire*                        |     |     |      |     |
