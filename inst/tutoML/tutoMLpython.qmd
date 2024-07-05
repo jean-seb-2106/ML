@@ -1,0 +1,110 @@
+---
+title: "tutoMLpython"
+format: html
+editor: visual
+jupyter: python3
+embed-resources: true
+---
+
+## Packages à charger
+
+Le tutoriel ci-dessous provient du site internet suivant : <https://moncoachdata.com/blog/apprendre-machine-learning-avec-python/>
+
+Les packages dont nous avons besoin sont les suivants. Il est de bon usage de ne charger que les fonctions utiles.
+
+```{python}
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+from sklearn.ensemble import RandomForestRegressor 
+```
+
+## Lecture du fichier
+
+On importe le fichier et on affiche les noms des colonnes.
+
+```{python}
+games = pd.read_csv("games.csv")
+print(games.columns)
+```
+
+On peut aussi afficher sa structure : nombre de lignes et colonnes.
+
+```{python}
+#| echo: false
+print(games.shape)
+```
+
+On peut étudier la variable sur les notes moyennes des joueurs.
+
+```{python}
+plt.hist(games["average_rating"])
+plt.show()
+```
+
+```{python}
+#afficher la première ligne du tableau des jeux notés 0
+print(games[games["average_rating"] == 0].iloc[0])
+
+#afficher la première ligne du tableau des jeux supérieures à 0
+print(games[games["average_rating"] > 0].iloc[0])
+```
+
+```{python}
+#on supprimer les jeux sans commentaires
+games = games[games["users_rated"] > 0]
+games.shape
+```
+
+On supprimer de manière générale les lignes qui ont au moins une donné manquante.
+
+```{python}
+games = games.dropna(axis=0)
+games.shape
+```
+
+On peut vérifier l'incidence sur la variable étudiée avec un graphique : le nouveau graphique apparaît dans une autre couleur.
+
+```{python}
+plt.hist(games["average_rating"])
+plt.show()
+```
+
+```{python}
+from sklearn.cluster import KMeans
+
+#je veux avoir 5 groupes et je fixe l'aléatoire 
+kmeans_model = KMeans(n_clusters=5, random_state=1)
+
+#je garde les colonnes numériques
+bonnes_colonnes = games._get_numeric_data()
+print(bonnes_colonnes)
+
+#j'ajuste le modèle sur la base avec les colonnes numériques
+kmeans_model.fit(bonnes_colonnes)
+
+#labels des clusters construits
+labels = kmeans_model.labels_
+labels.shape
+```
+
+Ensuite je réduis la dimension du jeu de tableau avec une ACP.
+
+```{python}
+from sklearn.decomposition import PCA
+# Créer un modèle PCA.
+pca_2 = PCA(2)
+# adapter le modèle PCA aux colonnes numériques précédentes.
+plot_columns = pca_2.fit_transform(bonnes_colonnes)
+plot_columns.shape
+# Faire un graphique à nuage de points pour chaque type de jeux de société, à partir des clusters.
+plt.scatter(x=plot_columns[:,0], y=plot_columns[:,1], c=labels)
+# Afficher le graphique.
+plt.show()
+```
+
+```{python}
+games.corr
+```
